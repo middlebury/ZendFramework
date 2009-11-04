@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Dojo
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: VerticalSliderTest.php 11973 2008-10-15 16:00:56Z matthew $
+ * @version    $Id: VerticalSliderTest.php 18613 2009-10-16 20:44:47Z matthew $
  */
 
 // Call Zend_Dojo_View_Helper_VerticalSliderTest::main() if this source file is executed directly.
@@ -42,10 +42,13 @@ require_once 'Zend/Dojo/View/Helper/Dojo.php';
 /**
  * Test class for Zend_Dojo_View_Helper_VerticalSlider.
  *
+ * @category   Zend
  * @package    Zend_Dojo
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @group      Zend_Dojo
+ * @group      Zend_Dojo_View
  */
 class Zend_Dojo_View_Helper_VerticalSliderTest extends PHPUnit_Framework_TestCase 
 {
@@ -204,7 +207,7 @@ class Zend_Dojo_View_Helper_VerticalSliderTest extends PHPUnit_Framework_TestCas
     {
         $html = $this->getElement();
         $this->assertRegexp('/<div[^>]*(dojoType="dijit.form.VerticalRule")/', $html, $html);
-        $this->assertRegexp('/<div[^>]*(dojoType="dijit.form.VerticalRuleLabels")/', $html, $html);
+        $this->assertRegexp('/<ol[^>]*(dojoType="dijit.form.VerticalRuleLabels")/', $html, $html);
         $this->assertContains('leftDecoration', $html);
         $this->assertContains('rightDecoration', $html);
     }

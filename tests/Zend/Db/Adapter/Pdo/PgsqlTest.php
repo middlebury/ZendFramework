@@ -15,14 +15,24 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id $
  */
 
 require_once 'Zend/Db/Adapter/Pdo/TestCommon.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
+/**
+ * @category   Zend
+ * @package    Zend_Db
+ * @subpackage UnitTests
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @group      Zend_Db
+ * @group      Zend_Db_Adapter
+ */
 class Zend_Db_Adapter_Pdo_PgsqlTest extends Zend_Db_Adapter_Pdo_TestCommon
 {
 
@@ -172,4 +182,17 @@ class Zend_Db_Adapter_Pdo_PgsqlTest extends Zend_Db_Adapter_Pdo_TestCommon
         return 'Pdo_Pgsql';
     }
 
+    /**
+     * @group ZF-3972
+     */
+    public function testCharacterVarying()
+    {
+        $this->_util->createTable('zf_pgsql_charvary',
+                                  array('pg_id' => 'character varying(4) NOT NULL',
+                                        'pg_info' => "character varying(1) NOT NULL DEFAULT 'A'::character varying"));
+        $description = $this->_db->describeTable('zf_pgsql_charvary');
+        $this->_util->dropTable('zf_pgsql_charvary');
+        $this->assertEquals(null , $description['pg_id']['DEFAULT']);
+        $this->assertEquals('A', $description['pg_info']['DEFAULT']);
+    }
 }

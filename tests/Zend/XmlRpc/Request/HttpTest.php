@@ -1,20 +1,45 @@
 <?php
+/**
+ * Zend Framework
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://framework.zend.com/license/new-bsd
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@zend.com so we can send you a copy immediately.
+ *
+ * @category   Zend
+ * @package    Zend_XmlRpc
+ * @subpackage UnitTests
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version $Id: HttpTest.php 18443 2009-09-30 13:35:47Z lars $
+ */
+
 // Call Zend_XmlRpc_Request_HttpTest::main() if this source file is executed directly.
 if (!defined("PHPUnit_MAIN_METHOD")) {
     define("PHPUnit_MAIN_METHOD", "Zend_XmlRpc_Request_HttpTest::main");
 }
 
 require_once dirname(__FILE__) . '/../../../TestHelper.php';
+require_once 'Zend/AllTests/StreamWrapper/PhpInput.php';
 require_once 'Zend/XmlRpc/Request/Http.php';
 
 /**
  * Test case for Zend_XmlRpc_Request_Http
  *
- * @package Zend_XmlRpc
+ * @category   Zend
+ * @package    Zend_XmlRpc
  * @subpackage UnitTests
- * @version $Id: HttpTest.php 11973 2008-10-15 16:00:56Z matthew $
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @group      Zend_XmlRpc
  */
-class Zend_XmlRpc_Request_HttpTest extends PHPUnit_Framework_TestCase 
+class Zend_XmlRpc_Request_HttpTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -30,7 +55,7 @@ class Zend_XmlRpc_Request_HttpTest extends PHPUnit_Framework_TestCase
     /**
      * Setup environment
      */
-    public function setUp() 
+    public function setUp()
     {
         $this->xml =<<<EOX
 <?xml version="1.0" encoding="UTF-8"?>
@@ -76,15 +101,17 @@ EOX;
         $_SERVER['HTTP_HOST']           = 'localhost';
         $_SERVER['HTTP_CONTENT_TYPE']   = 'text/xml';
         $_SERVER['HTTP_CONTENT_LENGTH'] = strlen($this->xml) + 1;
+        Zend_AllTests_StreamWrapper_PhpInput::mockInput($this->xml);
     }
 
     /**
      * Teardown environment
      */
-    public function tearDown() 
+    public function tearDown()
     {
         $_SERVER = $this->server;
         unset($this->request);
+        Zend_AllTests_StreamWrapper_PhpInput::restoreDefault();
     }
 
     public function testGetRawRequest()
@@ -135,6 +162,24 @@ EOT;
         }
         $this->assertEquals('foo', $request->method);
         $this->assertEquals(array('bar', 'baz'), $request->params);
+    }
+
+    public function testHttpRequestReadsFromPhpInput()
+    {
+        $this->assertNull(Zend_AllTests_StreamWrapper_PhpInput::argumentsPassedTo('stream_open'));
+        $request = new Zend_XmlRpc_Request_Http();
+        list($path, $mode,) = Zend_AllTests_StreamWrapper_PhpInput::argumentsPassedTo('stream_open');
+        $this->assertSame('php://input', $path);
+        $this->assertSame('rb', $mode);
+        $this->assertSame($this->xml, $request->getRawRequest());
+    }
+
+    public function testHttpRequestGeneratesFaultIfReadFromPhpInputFails()
+    {
+        Zend_AllTests_StreamWrapper_PhpInput::methodWillReturn('stream_open', false);
+        $request = new Zend_XmlRpc_Request_Http();
+        $this->assertTrue($request->isFault());
+        $this->assertSame(630, $request->getFault()->getCode());
     }
 }
 

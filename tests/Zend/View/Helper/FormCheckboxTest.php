@@ -1,4 +1,25 @@
 <?php
+/**
+ * Zend Framework
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://framework.zend.com/license/new-bsd
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@zend.com so we can send you a copy immediately.
+ *
+ * @category   Zend
+ * @package    Zend_View
+ * @subpackage UnitTests
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: FormCheckboxTest.php 18589 2009-10-16 17:22:40Z matthew $
+ */
+
 // Call Zend_View_Helper_FormCheckboxTest::main() if this source file is executed directly.
 if (!defined("PHPUnit_MAIN_METHOD")) {
     define("PHPUnit_MAIN_METHOD", "Zend_View_Helper_FormCheckboxTest::main");
@@ -15,7 +36,13 @@ require_once 'Zend/Registry.php';
  *
  * Tests formCheckbox helper
  *
- * @uses PHPUnit_Framework_TestCase
+ * @category   Zend
+ * @package    Zend_View
+ * @subpackage UnitTests
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @group      Zend_View
+ * @group      Zend_View_Helper
  */
 class Zend_View_Helper_FormCheckboxTest extends PHPUnit_Framework_TestCase
 {
@@ -247,6 +274,15 @@ class Zend_View_Helper_FormCheckboxTest extends PHPUnit_Framework_TestCase
         $test = $this->helper->formCheckbox('foo', 'bar');
         $this->assertContains(' />', $test);
     }
+    
+   /**
+    * @see ZF-6467
+    */
+   public function testShouldNotShowHiddenFieldIfDisableIsTrue()
+   {
+       $test = $this->helper->formCheckbox('foo', 'bar', array('disable' => true));
+       $this->assertNotContains('type="hidden"', $test);
+   }
 }
 
 // Call Zend_View_Helper_FormCheckboxTest::main() if this source file is executed directly.

@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Dojo
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: RadioButtonTest.php 11973 2008-10-15 16:00:56Z matthew $
+ * @version    $Id: RadioButtonTest.php 18607 2009-10-16 20:35:37Z matthew $
  */
 
 // Call Zend_Dojo_Form_Element_RadioButtonTest::main() if this source file is executed directly.
@@ -40,12 +40,15 @@ require_once 'Zend/Registry.php';
 require_once 'Zend/Dojo/View/Helper/Dojo.php';
 
 /**
- * Test class for Zend_Dojo_Form_Element_Dijit.
+ * Test class for Zend_Dojo_Form_Element_RadioButton.
  *
+ * @category   Zend
  * @package    Zend_Dojo
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @group      Zend_Dojo
+ * @group      Zend_Dojo_Form
  */
 class Zend_Dojo_Form_Element_RadioButtonTest extends PHPUnit_Framework_TestCase 
 {
@@ -144,17 +147,24 @@ class Zend_Dojo_Form_Element_RadioButtonTest extends PHPUnit_Framework_TestCase
 
     public function testOptionsShouldBeTranslatable()
     {
+        require_once 'Zend/Translate.php';
         $translations = array(
             'Foo' => 'This is Foo',
             'Bar' => 'This is Bar',
             'Baz' => 'This is Baz',
         );
-        require_once 'Zend/Translate.php';
         $translate = new Zend_Translate('array', $translations, 'en');
         $this->element->setTranslator($translate);
+
+        $this->element->setMultiOptions(array(
+            'foo' => 'Foo',
+            'bar' => 'Bar',
+            'baz' => 'Baz',
+        ));
+
         $html = $this->element->render();
         foreach ($translations as $string) {
-            $this->assertContains($string, $html);
+            $this->assertContains($string, $html, $html);
         }
     }
 

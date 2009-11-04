@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Dojo
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ComboBoxTest.php 11973 2008-10-15 16:00:56Z matthew $
+ * @version    $Id: ComboBoxTest.php 18549 2009-10-15 17:00:16Z matthew $
  */
 
 // Call Zend_Dojo_Form_Element_ComboBoxTest::main() if this source file is executed directly.
@@ -40,12 +40,15 @@ require_once 'Zend/Registry.php';
 require_once 'Zend/Dojo/View/Helper/Dojo.php';
 
 /**
- * Test class for Zend_Dojo_Form_Element_Dijit.
+ * Test class for Zend_Dojo_Form_Element_ComboBox.
  *
+ * @category   Zend
  * @package    Zend_Dojo
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @group      Zend_Dojo
+ * @group      Zend_Dojo_Form
  */
 class Zend_Dojo_Form_Element_ComboBoxTest extends PHPUnit_Framework_TestCase 
 {
@@ -165,6 +168,26 @@ class Zend_Dojo_Form_Element_ComboBoxTest extends PHPUnit_Framework_TestCase
     {
         $html = $this->element->render();
         $this->assertContains('dojoType="dijit.form.ComboBox"', $html);
+    }
+
+    /**
+     * @group ZF-7134
+     */
+    public function testComboBoxInSubFormShouldCreateJsonStoreBasedOnQualifiedId()
+    {
+        Zend_Dojo_View_Helper_Dojo::setUseProgrammatic();
+        $this->element->setStoreId('foo')
+                      ->setStoreType('dojo.data.ItemFileReadStore')
+                      ->setStoreParams(array(
+                          'url' => '/foo',
+                        ));
+
+        include_once 'Zend/Form/SubForm.php';
+        $subform = new Zend_Form_SubForm(array('name' => 'bar'));
+        $subform->addElement($this->element);
+        $html = $this->element->render();
+        $dojo = $this->view->dojo()->__toString();
+        $this->assertContains('dijit.byId("bar-foo")', $dojo, $dojo);
     }
 }
 

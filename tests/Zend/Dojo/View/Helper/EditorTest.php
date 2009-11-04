@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Dojo
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: EditorTest.php 12004 2008-10-18 14:29:41Z mikaelkael $
+ * @version    $Id: EditorTest.php 18596 2009-10-16 17:53:38Z matthew $
  */
 
 // Call Zend_Dojo_View_Helper_EditorTest::main() if this source file is executed directly.
@@ -42,10 +42,13 @@ require_once 'Zend/Dojo/View/Helper/Dojo.php';
 /**
  * Test class for Zend_Dojo_View_Helper_Editor.
  *
+ * @category   Zend
  * @package    Zend_Dojo
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @group      Zend_Dojo
+ * @group      Zend_Dojo_View
  */
 class Zend_Dojo_View_Helper_EditorTest extends PHPUnit_Framework_TestCase 
 {
@@ -175,6 +178,23 @@ class Zend_Dojo_View_Helper_EditorTest extends PHPUnit_Framework_TestCase
     {
         $this->helper->editor('foo');
         $this->assertFalse($this->view->dojo()->registerDojoStylesheet());
+    }
+
+    /**
+     * @group ZF-4461
+     */
+    public function testHelperShouldRegisterPluginModulesWithDojo()
+    {
+        $plugins = array(
+            'createLink' => 'LinkDialog', 
+            'fontName' => 'FontChoice', 
+        );
+        $html = $this->helper->editor('foo', '', array('plugins' => array_keys($plugins)));
+
+        $dojo = $this->view->dojo()->__toString();
+        foreach (array_values($plugins) as $plugin) {
+            $this->assertContains('dojo.require("dijit._editor.plugins.' . $plugin . '")', $dojo, $dojo);
+        }
     }
 }
 

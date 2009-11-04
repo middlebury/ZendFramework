@@ -29,8 +29,10 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 require_once "Zend/Registry.php";
 require_once "Zend/View.php";
 require_once "Zend/Form/Element.php";
+require_once "Zend/Form/SubForm.php";
 require_once "Zend/Json.php";
 require_once "ZendX/JQuery.php";
+require_once "ZendX/JQuery/Form.php";
 require_once "ZendX/JQuery/View/Helper/JQuery.php";
 
 require_once "ZendX/JQuery/Form/Element/Spinner.php";
@@ -114,7 +116,37 @@ class ZendX_JQuery_Form_ElementTest extends PHPUnit_Framework_TestCase
 
         try {
             $spinner->render();
+            $this->fail();
+        } catch(ZendX_JQuery_Form_Exception $e) {
+            // success here
         } catch(Exception $e) {
+            $this->fail();
+        }
+    }
+
+    /**
+     * @group ZF-5125
+     */
+    public function testJQueryElementHasToImplementMarkerInterface()
+    {
+        $view = new Zend_View();
+
+        $spinner = new ZendX_JQuery_Form_Element_Spinner("spinner1");
+        $spinner->setDecorators(array('ViewHelper'));
+        $spinner->setView($view);
+
+        try {
+            $spinner->render();
+            $this->fail();
+        } catch(ZendX_JQuery_Form_Exception $e) {
+            // success here
+        }
+
+        $spinner->setDecorators(array('UiWidgetElement'));
+        try {
+            $spinner->render();
+            // success here
+        } catch(ZendX_JQuery_Form_Exception $e) {
             $this->fail();
         }
     }
@@ -147,6 +179,57 @@ class ZendX_JQuery_Form_ElementTest extends PHPUnit_Framework_TestCase
             array('$("#Lastname").autocomplete({"data":["John Doe"]});'),
             $view->jQuery()->getOnLoadActions()
         );
+    }
+
+    /**
+     * @group ZF-5043
+     */
+    public function testFormWithoutIdButSubformsProducesArrayNotationWhichWontWork()
+    {
+        $view = new Zend_View();
+        $form = new ZendX_JQuery_Form();
+
+        $datePicker = new ZendX_JQuery_Form_Element_DatePicker("dp1");
+
+        $subform = new Zend_Form_SubForm();
+        $subform->addElement($datePicker);
+
+        $form->addSubForm($subform, "sf1");
+        $form->setIsArray(true);
+
+        $form   = $form->render($view);
+        $jquery = $view->jQuery()->__toString();
+        $this->assertContains('sf1[dp1]', $form);
+        $this->assertNotContains('$("#sf1[dp1]")', $jquery);
+    }
+    
+    /**
+     * @group ZF-6979
+     */
+    public function testDatePickerWithDescriptionDecorator()
+    {
+        $view = new Zend_View();
+
+        $datePicker = new ZendX_JQuery_Form_Element_DatePicker("dp1");
+        $datePicker->addDecorator(new Zend_Form_Decorator_Description());
+        $datePicker->setDescription("foo");
+
+        $html = $datePicker->render($view);
+
+        $this->assertContains('<p class="description">foo</p>', $html);
+    }
+
+    public function testGetDefaultDecorators()
+    {
+        $widget = new ZendX_JQuery_Form_Element_DatePicker("dp1");;
+        $decorators = $widget->getDecorators();
+        $this->assertEquals(5, count($decorators));
+
+        $this->assertType('ZendX_JQuery_Form_Decorator_UiWidgetElement', $decorators['ZendX_JQuery_Form_Decorator_UiWidgetElement']);
+        $this->assertType('Zend_Form_Decorator_Errors',                  $decorators['Zend_Form_Decorator_Errors']);
+        $this->assertType('Zend_Form_Decorator_Description',             $decorators['Zend_Form_Decorator_Description']);
+        $this->assertType('Zend_Form_Decorator_HtmlTag',                 $decorators['Zend_Form_Decorator_HtmlTag']);
+        $this->assertType('Zend_Form_Decorator_Label',                   $decorators['Zend_Form_Decorator_Label']);
     }
 }
 

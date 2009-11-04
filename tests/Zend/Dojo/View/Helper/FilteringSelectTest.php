@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Dojo
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: FilteringSelectTest.php 11973 2008-10-15 16:00:56Z matthew $
+ * @version    $Id: FilteringSelectTest.php 18611 2009-10-16 20:41:48Z matthew $
  */
 
 // Call Zend_Dojo_View_Helper_FilteringSelectTest::main() if this source file is executed directly.
@@ -42,10 +42,13 @@ require_once 'Zend/Dojo/View/Helper/Dojo.php';
 /**
  * Test class for Zend_Dojo_View_Helper_FilteringSelect.
  *
+ * @category   Zend
  * @package    Zend_Dojo
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @group      Zend_Dojo
+ * @group      Zend_Dojo_View
  */
 class Zend_Dojo_View_Helper_FilteringSelectTest extends PHPUnit_Framework_TestCase 
 {
@@ -163,9 +166,9 @@ class Zend_Dojo_View_Helper_FilteringSelectTest extends PHPUnit_Framework_TestCa
         $this->assertNotNull($this->view->dojo()->getDijit('elementId'));
 
         $found = false;
-        $scripts = $this->view->dojo()->getJavascript();
+        $scripts = $this->view->dojo()->getOnLoadActions();
         foreach ($scripts as $js) {
-            if (strstr($js, 'var stateStore;')) {
+            if (strstr($js, 'var stateStore')) {
                 $found = true;
                 break;
             }

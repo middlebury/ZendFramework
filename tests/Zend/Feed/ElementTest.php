@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Zend Framework
  *
@@ -16,11 +15,10 @@
  * @category   Zend
  * @package    Zend_Feed
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ElementTest.php 11973 2008-10-15 16:00:56Z matthew $
+ * @version    $Id: ElementTest.php 18568 2009-10-16 11:59:55Z sgehrig $
  */
-
 
 /**
  * Test helper
@@ -32,13 +30,13 @@ require_once dirname(__FILE__) . '/../../TestHelper.php';
  */
 require_once 'Zend/Feed/Entry/Atom.php';
 
-
 /**
  * @category   Zend
  * @package    Zend_Feed
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @group      Zend_Feed
  */
 class Zend_Feed_ElementTest extends PHPUnit_Framework_TestCase
 {
@@ -87,6 +85,86 @@ class Zend_Feed_ElementTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($entry->summary() instanceof Zend_Feed_Element, 'method access should not return an Zend_Feed_Element instance');
         $this->assertTrue(is_string($entry->summary()), 'method access should return a string');
         $this->assertFalse(is_string($entry->summary), '__get access should not return a string');
+    }
+
+    public function testSetNamespacedAttributes()
+    {
+        $value = 'value';
+
+        $e = new Zend_Feed_Entry_Atom();
+        $e->test['attr']            = $value;
+        $e->test['namespace1:attr'] = $value;
+        $e->test['namespace2:attr'] = $value;
+
+        $this->assertEquals($value, $e->test['attr']);
+        $this->assertEquals($value, $e->test['namespace1:attr']);
+        $this->assertEquals($value, $e->test['namespace2:attr']);
+    }
+
+    public function testUnsetNamespacedAttributes()
+    {
+        $value = 'value';
+
+        $e = new Zend_Feed_Entry_Atom();
+        $e->test['attr']            = $value;
+        $e->test['namespace1:attr'] = $value;
+        $e->test['namespace2:attr'] = $value;
+
+        $this->assertEquals($value, $e->test['attr']);
+        $this->assertEquals($value, $e->test['namespace1:attr']);
+        $this->assertEquals($value, $e->test['namespace2:attr']);
+
+        unset($e->test['attr']);
+        unset($e->test['namespace1:attr']);
+        unset($e->test['namespace2:attr']);
+
+        $this->assertEquals('', $e->test['attr']);
+        $this->assertEquals('', $e->test['namespace1:attr']);
+        $this->assertEquals('', $e->test['namespace1:attr']);
+    }
+
+    /**
+     * @group ZF-2606
+     */
+    public function testValuesWithXmlSpecialChars()
+    {
+        $testAmp = '&';
+        $testLt  = '<';
+        $testGt  = '>';
+
+        $e = new Zend_Feed_Entry_Atom();
+        $e->testAmp           = $testAmp;
+        $e->{'namespace1:lt'} = $testLt;
+        $e->{'namespace1:gt'} = $testGt;
+
+        $this->assertEquals($testAmp, $e->testAmp());
+        $this->assertEquals($testLt, $e->{'namespace1:lt'}());
+        $this->assertEquals($testGt, $e->{'namespace1:gt'}());
+    }
+
+    /**
+     * @group ZF-2606
+     */
+    public function testAttributesWithXmlSpecialChars()
+    {
+        $testAmp   = '&';
+        $testLt    = '<';
+        $testGt    = '>';
+        $testQuot  = '"';
+        $testSquot = "'";
+
+        $e = new Zend_Feed_Entry_Atom();
+        $e->test['amp']              = $testAmp;
+        $e->test['namespace1:lt']    = $testLt;
+        $e->test['namespace1:gt']    = $testGt;
+        $e->test['namespace1:quot']  = $testQuot;
+        $e->test['namespace1:squot'] = $testSquot;
+
+        $this->assertEquals($testAmp, $e->test['amp']);
+        $this->assertEquals($testLt, $e->test['namespace1:lt']);
+        $this->assertEquals($testGt, $e->test['namespace1:gt']);
+        $this->assertEquals($testQuot, $e->test['namespace1:quot']);
+        $this->assertEquals($testSquot, $e->test['namespace1:squot']);
     }
 
 }
