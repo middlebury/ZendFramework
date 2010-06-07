@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Json_Server
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ServiceTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: ServiceTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_Json_Server_Smd_ServiceTest::main() if this source file is executed directly.
@@ -37,12 +37,12 @@ require_once 'Zend/Json.php';
  * @category   Zend
  * @package    Zend_Json_Server
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Json
  * @group      Zend_Json_Server
  */
-class Zend_Json_Server_Smd_ServiceTest extends PHPUnit_Framework_TestCase 
+class Zend_Json_Server_Smd_ServiceTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -242,7 +242,7 @@ class Zend_Json_Server_Smd_ServiceTest extends PHPUnit_Framework_TestCase
     public function testShouldBeAbleToAddArbitraryParamOptions()
     {
         $this->service->addParam(
-            'integer', 
+            'integer',
             array(
                 'name'        => 'foo',
                 'optional'    => false,

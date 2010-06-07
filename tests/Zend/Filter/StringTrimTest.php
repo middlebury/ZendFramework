@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Filter
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: StringTrimTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: StringTrimTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -34,7 +34,7 @@ require_once 'Zend/Filter/StringTrim.php';
  * @category   Zend
  * @package    Zend_Filter
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Filter
  */
@@ -113,4 +113,11 @@ class Zend_Filter_StringTrimTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals('Зенд', $this->_filter->filter('Зенд'));
     }
-}
+
+    /**
+     * @ZF-7902
+     */
+    public function testZF7902()
+    {
+        $this->assertEquals('/', $this->_filter->filter('/'));
+    }}

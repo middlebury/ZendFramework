@@ -15,16 +15,16 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: testRedirections.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: testRedirections.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 if (! isset($_GET['redirection'])) $_GET['redirection'] = 0;
 $_GET['redirection']++;
-$https = isset($_SERVER['HTTPS']);
+$https = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off';
 
-if ($_GET['redirection'] < 4) {
+if (!isset($_GET['redirection']) || $_GET['redirection'] < 4) {
     $target = 'http' . ($https ? 's://' : '://')  . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
     header('Location: ' . $target . '?redirection=' . $_GET['redirection']);
 } else {

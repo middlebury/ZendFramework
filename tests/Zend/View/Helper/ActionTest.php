@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ActionTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: ActionTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_View_Helper_ActionTest::main() if this source file is executed directly.
@@ -48,12 +48,12 @@ require_once 'Zend/View.php';
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_View
  * @group      Zend_View_Helper
  */
-class Zend_View_Helper_ActionTest extends PHPUnit_Framework_TestCase 
+class Zend_View_Helper_ActionTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -279,7 +279,7 @@ class Zend_View_Helper_ActionTest extends PHPUnit_Framework_TestCase
         $this->assertContains('Foo Nest', $title);
         $this->assertContains('Nested Stuff', $title);
     }
-    
+
     /**
      * @issue ZF-2716
      */
@@ -289,18 +289,18 @@ class Zend_View_Helper_ActionTest extends PHPUnit_Framework_TestCase
         $partial = new Zend_View_Helper_Partial();
         $this->view->setScriptPath(dirname(__FILE__) . '/_files/modules/default/views/scripts/');
         $partial->setView($this->view);
-        
+
         Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer')->view = $this->view;
-        
+
         $partial->partial('partialActionCall.phtml');
-        
+
         $this->assertSame($this->view, Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer')->view);
 
     }
-    
+
     /**
      * Future ViewRenderer State issues should be included in this test.
-     * 
+     *
      * @issue ZF-2846
      */
     public function testActionReturnsViewRendererToOriginalState()
@@ -312,20 +312,20 @@ class Zend_View_Helper_ActionTest extends PHPUnit_Framework_TestCase
 
         // make sure noRender is false
         $this->assertFalse($viewRenderer->getNoRender());
-        
+
         $value = $this->helper->action('bar', 'action-foo');
-        
+
         $viewRendererPostAction = Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer');
-        
+
         // ViewRenderer noRender should still be false
         $this->assertFalse($viewRendererPostAction->getNoRender());
         $this->assertSame($viewRenderer, $viewRendererPostAction);
     }
-    
+
     /**
      * Multiple call state issue
-     * 
-     * 
+     *
+     *
      * @group ZF-3456
      */
     public function testActionCalledWithinActionResetsResponseState()

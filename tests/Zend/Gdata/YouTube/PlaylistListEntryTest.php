@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_Gdata_YouTube
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id $
  */
@@ -32,7 +32,7 @@ require_once 'Zend/Gdata/YouTube.php';
  * @category   Zend
  * @package    Zend_Gdata_YouTube
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Gdata
  * @group      Zend_Gdata_YouTube
@@ -95,7 +95,7 @@ class Zend_Gdata_YouTube_PlaylistListEntryTest extends PHPUnit_Framework_TestCas
         $this->assertEquals('application/atom+xml', $playlistListEntry->getLink('related')->type);
         $this->assertEquals('googledevelopers', $playlistListEntry->author[0]->name->text);
         $this->assertEquals('http://gdata.youtube.com/feeds/api/users/googledevelopers', $playlistListEntry->author[0]->uri->text);
-        
+
         $this->assertEquals('8E2186857EE27746', $playlistListEntry->getPlaylistId()->text);
         $this->assertEquals('1', $playlistListEntry->getCountHint()->text);
 
@@ -221,7 +221,7 @@ class Zend_Gdata_YouTube_PlaylistListEntryTest extends PHPUnit_Framework_TestCas
         $this->assertTrue($exceptionCaught, 'Calling getCountHint on a v1 ' .
             'playlistListEntry should throw an exception');
     }
-    
+
     public function testGettingPlaylistIdOnV1EntryShouldThrowException() {
         $exceptionCaught = false;
         $this->entry->transferFromXML($this->entryText);
@@ -233,7 +233,7 @@ class Zend_Gdata_YouTube_PlaylistListEntryTest extends PHPUnit_Framework_TestCas
         $this->assertTrue($exceptionCaught, 'Calling getPlaylistId on a v1 ' .
             'playlistListEntry should throw an exception');
     }
-    
+
     public function testGetPlaylistVideoFeedUrlWorksInV2() {
         $this->entry->transferFromXML($this->v2entryText);
         $this->entry->setMajorProtocolVersion(2);

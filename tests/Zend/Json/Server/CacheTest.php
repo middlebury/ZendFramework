@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Json_Server
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ArrayAccessTest.php 16225 2009-06-21 20:34:55Z thomas $
+ * @version    $Id: CacheTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_Json_Server_CacheTest::main() if this source file is executed directly.
@@ -36,12 +36,12 @@ require_once 'Zend/Json/Server.php';
  * @category   Zend
  * @package    Zend_Json_Server
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Json
  * @group      Zend_Json_Server
  */
-class Zend_Json_Server_CacheTest extends PHPUnit_Framework_TestCase 
+class Zend_Json_Server_CacheTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -128,10 +128,10 @@ class Zend_Json_Server_CacheTest_Foo
 {
     /**
      * Bar
-     * 
-     * @param  bool $one 
-     * @param  string $two 
-     * @param  mixed $three 
+     *
+     * @param  bool $one
+     * @param  string $two
+     * @param  mixed $three
      * @return array
      */
     public function bar($one, $two = 'two', $three = null)
@@ -141,7 +141,7 @@ class Zend_Json_Server_CacheTest_Foo
 
     /**
      * Baz
-     * 
+     *
      * @return void
      */
     public function baz()

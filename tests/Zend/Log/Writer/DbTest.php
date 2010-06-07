@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DbTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: DbTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /** PHPUnit_Framework_TestCase */
@@ -30,7 +30,7 @@ require_once 'Zend/Log/Writer/Db.php';
  * @category   Zend
  * @package    Zend_Log
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Log
  */
@@ -108,6 +108,20 @@ class Zend_Log_Writer_DbTest extends PHPUnit_Framework_TestCase
             $this->assertType('Zend_Log_Exception', $e);
             $this->assertEquals('Database adapter is null', $e->getMessage());
         }
+    }
+    
+    public function testFactory()
+    {
+        $cfg = array('log' => array('memory' => array(
+            'writerName'   => "Db",
+            'writerParams' => array(
+                'db'    => $this->db,
+                'table' => $this->tableName,
+            ),
+        )));
+
+        $logger = Zend_Log::factory($cfg['log']);
+        $this->assertTrue($logger instanceof Zend_Log);
     }
 }
 

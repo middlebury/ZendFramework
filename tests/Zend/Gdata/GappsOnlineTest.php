@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_Gdata_Gapps
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id $
  */
@@ -32,7 +32,7 @@ require_once 'Zend/Http/Client.php';
  * @category   Zend
  * @package    Zend_Gdata_Gapps
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Gdata
  * @group      Zend_Gdata_Gapps
@@ -118,14 +118,14 @@ class Zend_Gdata_GappsOnlineTest extends PHPUnit_Framework_TestCase
         $this->assertNull($deletedUser);
     }
 
-    // Test to make sure that users with unicode characters can be created 
+    // Test to make sure that users with unicode characters can be created
     // okay.
     public function testUsersSupportUnicode() {
         // Create a user
         $user = $this->gdata->createUser($this->id, 'テスト', 'ユーザー',
             sha1(self::PASSWORD), self::PASSWORD_HASH);
         $this->autoDelete($user);
-        
+
         // Make sure the user is the same as returned by the server
         $this->assertEquals('テスト', $user->name->givenName);
         $this->assertEquals('ユーザー', $user->name->familyName);

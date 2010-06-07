@@ -15,19 +15,16 @@
  * @category   Zend
  * @package    Zend_Crypt
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AllTests.php 16225 2009-06-21 20:34:55Z thomas $
+ * @version    $Id: AllTests.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
+
+require_once dirname(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR . 'TestHelper.php';
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'Zend_Crypt_Math_AllTests::main');
 }
-
-require_once dirname(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR . 'TestHelper.php';
-
-require_once 'PHPUnit/Framework/TestSuite.php';
-require_once 'PHPUnit/TextUI/TestRunner.php';
 
 require_once 'BigInteger/BcmathTest.php';
 require_once 'BigInteger/GmpTest.php';
@@ -36,7 +33,7 @@ require_once 'BigInteger/GmpTest.php';
  * @category   Zend
  * @package    Zend_Crypt
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Crypt
  */
@@ -49,7 +46,7 @@ class Zend_Crypt_Math_AllTests
 
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('Zend Framework - Zend_Math');
+        $suite = new PHPUnit_Framework_TestSuite('Zend Framework - Zend_Crypt_Math');
 
         $suite->addTestSuite('Zend_Crypt_Math_BigInteger_BcmathTest');
         $suite->addTestSuite('Zend_Crypt_Math_BigInteger_GmpTest');

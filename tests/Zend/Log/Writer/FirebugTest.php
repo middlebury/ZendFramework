@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: FirebugTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: FirebugTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /** PHPUnit_Framework_TestCase */
@@ -48,7 +48,7 @@ require_once 'Zend/Controller/Response/Http.php';
  * @category   Zend
  * @package    Zend_Log
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Log
  */
@@ -98,7 +98,7 @@ class Zend_Log_Writer_FirebugTest extends PHPUnit_Framework_TestCase
         $this->_writer->setEnabled(true);
 
         $this->_logger = new Zend_Log($this->_writer);
-        
+
         Zend_Wildfire_Plugin_FirePhp::getInstance()->setOption('includeLineNumbers', false);
     }
 
@@ -134,12 +134,12 @@ class Zend_Log_Writer_FirebugTest extends PHPUnit_Framework_TestCase
         $firephp = Zend_Wildfire_Plugin_FirePhp::getInstance();
         $channel = Zend_Wildfire_Channel_HttpHeaders::getInstance();
         $protocol = $channel->getProtocol(Zend_Wildfire_Plugin_FirePhp::PROTOCOL_URI);
-      
+
         $this->_logger->log('Test Message 1', Zend_Log::INFO);
-      
+
         $formatter = new Zend_Log_Writer_FirebugTest_Formatter();
         $this->_writer->setFormatter($formatter);
-        
+
         $this->_logger->setEventItem('testLabel','Test Label');
 
         $this->_logger->log('Test Message 2', Zend_Log::INFO);
@@ -148,19 +148,19 @@ class Zend_Log_Writer_FirebugTest extends PHPUnit_Framework_TestCase
 
         $message = $messages[Zend_Wildfire_Plugin_FirePhp::STRUCTURE_URI_FIREBUGCONSOLE]
                             [Zend_Wildfire_Plugin_FirePhp::PLUGIN_URI]
-                            [0];        
+                            [0];
 
         $this->assertEquals($message,
                             '[{"Type":"INFO"},"Test Message 1"]');
-      
+
         $message = $messages[Zend_Wildfire_Plugin_FirePhp::STRUCTURE_URI_FIREBUGCONSOLE]
                             [Zend_Wildfire_Plugin_FirePhp::PLUGIN_URI]
-                            [1];        
+                            [1];
 
         $this->assertEquals($message,
                             '[{"Type":"INFO"},"Test Label : Test Message 2"]');
     }
-    
+
     /**
      * @group ZF-4952
      */
@@ -284,6 +284,16 @@ class Zend_Log_Writer_FirebugTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(serialize($qued_messages),
                             serialize($messages));
+    }
+    
+    public function testFactory()
+    {
+        $cfg = array('log' => array('memory' => array(
+            'writerName' => "Firebug"
+        )));
+
+        $logger = Zend_Log::factory($cfg['log']);
+        $this->assertTrue($logger instanceof Zend_Log);
     }
 }
 

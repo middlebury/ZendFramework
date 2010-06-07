@@ -15,9 +15,9 @@
  *
  * @category   Zend
  * @package    UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: TestConfiguration.php.dist 18709 2009-10-26 13:33:53Z matthew $
+ * @version    $Id: TestConfiguration.php.dist 20569 2010-01-24 14:41:44Z mabe $
  */
 
 /**
@@ -157,7 +157,7 @@ define('TESTS_ZEND_DB_ADAPTER_DB2_DATABASE', 'sample');
 
 /**
  * Zend_Db_Adapter_Sqlsrv
- * Note: Make sure that you create the "test" database and set a 
+ * Note: Make sure that you create the "test" database and set a
  * username and password
  *
  */
@@ -523,11 +523,11 @@ define('TESTS_ZEND_MAIL_SMTP_AUTH', false);
  *     dbname: "queue"
  * }
  *
- * The PlatformJobQueue adapter expects two parameters, the host and password. 
+ * The PlatformJobQueue adapter expects two parameters, the host and password.
  * The HOST string should include both the host and port (typically 10003):
  *     127.0.0.1:10003
- * When running tests against PlatformJobQueue, it's best to do so where 
- * Platform is installed on localhost and has maximum workers set to 20 
+ * When running tests against PlatformJobQueue, it's best to do so where
+ * Platform is installed on localhost and has maximum workers set to 20
  * (default is 5); do so with this zend.ini setting:
  *     zend_jq.max_num_of_request_workers=20
  *
@@ -541,6 +541,20 @@ define('TESTS_ZEND_QUEUE_MEMCACHEQ_HOST', false);
 define('TESTS_ZEND_QUEUE_MEMCACHEQ_PORT', false);
 define('TESTS_ZEND_QUEUE_PLATFORMJQ_HOST', false);
 define('TESTS_ZEND_QUEUE_PLATFORMJQ_PASS', false);
+
+/**
+ * Zend_Serializer adapter tests
+ * 
+ * TESTS_ZEND_SERIALIZER_ADAPTER_WDDX_ENABLED:
+ *   - enable wddx adapter tests
+ *   - needs wddx and SimpleXml php extension installed
+ *
+ * TESTS_ZEND_SERIALIZER_ADAPTER_IGBINARY_ENABLED:
+ *   - enable igbinary adapter tests
+ *   - needs igbinary php extension installed
+ */
+define('TESTS_ZEND_SERIALIZER_ADAPTER_WDDX_ENABLED', false);
+define('TESTS_ZEND_SERIALIZER_ADAPTER_IGBINARY_ENABLED', false);
 
 /**
  * Zend_Service_Amazon online tests
@@ -560,6 +574,27 @@ define('TESTS_ZEND_SERVICE_DELICIOUS_ENABLED', false);
  */
 define('TESTS_ZEND_SERVICE_FLICKR_ONLINE_ENABLED', false);
 define('TESTS_ZEND_SERVICE_FLICKR_ONLINE_APIKEY', 'Enter API key here');
+
+/**
+ * Zend_Service_LiveDocx configuration
+ *
+ * Define username and password in order to run unit tests for LiveDocX web
+ * services.
+ *
+ * phpunit/phpunit will typically work.
+ */
+define('TESTS_ZEND_SERVICE_LIVEDOCX_USERNAME', false);
+define('TESTS_ZEND_SERVICE_LIVEDOCX_PASSWORD', false);
+
+/**
+ * Zend_Service_ReCaptcha tests
+ */
+define('TESTS_ZEND_SERVICE_RECAPTCHA_ENABLED', false);
+define('TESTS_ZEND_SERVICE_RECAPTCHA_ONLINE_ENABLED', false);
+define('TESTS_ZEND_SERVICE_RECAPTCHA_PUBLIC_KEY', 'public key');
+define('TESTS_ZEND_SERVICE_RECAPTCHA_PRIVATE_KEY', 'private key');
+define('TESTS_ZEND_SERVICE_RECAPTCHA_MAILHIDE_PUBLIC_KEY', 'public mailhide key');
+define('TESTS_ZEND_SERVICE_RECAPTCHA_MAILHIDE_PRIVATE_KEY', 'private mailhide key');
 
 /**
  * Zend_Service_Simpy tests
@@ -598,22 +633,74 @@ define('TESTS_ZEND_SERVICE_TWITTER_ONLINE_ENABLED', false);
 define('TESTS_ZEND_SERVICE_TWITTER_USER', 'zftestuser');
 define('TESTS_ZEND_SERVICE_TWITTER_PASS', 'zftestuser');
 
+/**
+ * Zend_Service_WindowsAzure  tests
+ */
+
+/**
+ * Proxy settings
+ */
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_STORAGE_USEPROXY',                false);
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_STORAGE_PROXY',                   '');
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_STORAGE_PROXY_PORT',              '8080');
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_STORAGE_PROXY_CREDENTIALS',       '');
+
+/**
+ * Azure hosts
+ */
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_BLOB_HOST_DEV',                   '127.0.0.1:10000');
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_QUEUE_HOST_DEV',                  '127.0.0.1:10001');
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_TABLE_HOST_DEV',                  '127.0.0.1:10002');
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_BLOB_HOST_PROD',                  'blob.core.windows.net');
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_QUEUE_HOST_PROD',                 'queue.core.windows.net');
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_TABLE_HOST_PROD',                 'table.core.windows.net');
+
+/**
+ * Credentials
+ */
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_STORAGE_ACCOUNT_DEV',             'devstoreaccount1');
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_STORAGE_KEY_DEV',                 'Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==');
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_STORAGE_ACCOUNT_PROD',            'phpazure');
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_STORAGE_KEY_PROD',                'I+ebYPcIDB6BsmfAe6pJSpOw8oXA6jMBZv1BEZcSPRqTpldt44refCl65YpKJqcBOiD21Lxsj8d6Ah8Oc2/gKA==');
+
+/**
+ * Blob storage tests
+ */
+// Enable this tests only when you have a working account
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_BLOB_RUNTESTS',                   false);
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_BLOB_RUNONPROD',                  false);
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_BLOB_RUNLARGEBLOB',               true);
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_BLOB_CONTAINER_PREFIX',           'phpazuretestblob');
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_BLOBSTREAM_CONTAINER_PREFIX',     'phpazureteststream');
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_BLOBSA_CONTAINER_PREFIX',         'phpazuretestshared');
+
+/**
+ * Table storage tests
+ */
+// Enable this tests only when you have a working account
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_TABLE_RUNTESTS',                  false);
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_TABLE_RUNONPROD',                 false);
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_TABLE_TABLENAME_PREFIX',          'phpazuretesttable');
+
+/**
+ * Queue storage tests
+ */
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_QUEUE_RUNTESTS',                  false);
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_QUEUE_RUNONPROD',                 false);
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_QUEUE_PREFIX',                    'phpazuretestqueue');
+
+/**
+ * SessionHandler tests
+ */
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_SESSIONHANDLER_RUNTESTS',         false);
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_SESSIONHANDLER_RUNONPROD',        false);
+define('TESTS_ZEND_SERVICE_WINDOWSAZURE_SESSIONHANDLER_TABLENAME_PREFIX', 'phpazuretestsession');
 
 /**
  * Zend_Service_Yahoo online tests
  */
 define('TESTS_ZEND_SERVICE_YAHOO_ONLINE_ENABLED', false);
 define('TESTS_ZEND_SERVICE_YAHOO_ONLINE_APPID', 'Enter APPID here');
-
-/**
- * Zend_Service_ReCaptcha tests
- */
-define('TESTS_ZEND_SERVICE_RECAPTCHA_ENABLED', false);
-define('TESTS_ZEND_SERVICE_RECAPTCHA_ONLINE_ENABLED', false);
-define('TESTS_ZEND_SERVICE_RECAPTCHA_PUBLIC_KEY', 'public key');
-define('TESTS_ZEND_SERVICE_RECAPTCHA_PRIVATE_KEY', 'private key');
-define('TESTS_ZEND_SERVICE_RECAPTCHA_MAILHIDE_PUBLIC_KEY', 'public mailhide key');
-define('TESTS_ZEND_SERVICE_RECAPTCHA_MAILHIDE_PRIVATE_KEY', 'private mailhide key');
 
 /**
  * Zend_Soap_AutoDiscover scenario tests for complex objects and wsdl generation
@@ -629,9 +716,20 @@ define('TESTS_ZEND_SERVICE_RECAPTCHA_MAILHIDE_PRIVATE_KEY', 'private mailhide ke
 define('TESTS_ZEND_SOAP_AUTODISCOVER_ONLINE_SERVER_BASEURI', false);
 
 /**
+ * Zend_Uri tests
+ *
+ * Setting CRASH_TEST_ENABLED to true will enable some tests that may
+ * potentially crash PHP on some systems, due to very deep-nesting regular
+ * expressions.
+ *
+ * Only do this if you know what you are doing!
+ */
+define('TESTS_ZEND_URI_CRASH_TEST_ENABLED', false);
+
+/**
  * Zend_Validate tests
  *
- * Set ONLINE_ENABLED if you wish to run validators that require network 
+ * Set ONLINE_ENABLED if you wish to run validators that require network
  * connectivity.
  */
 define('TESTS_ZEND_VALIDATE_ONLINE_ENABLED', false);

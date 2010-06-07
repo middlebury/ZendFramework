@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Service_StrikeIron
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: StrikeIronTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: StrikeIronTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -34,13 +34,13 @@ require_once 'Zend/Service/StrikeIron.php';
  * @category   Zend
  * @package    Zend_Service_StrikeIron
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Service
  * @group      Zend_Service_StrikeIron
  */
-class Zend_Service_StrikeIron_StrikeIronTest extends PHPUnit_Framework_TestCase 
-{    
+class Zend_Service_StrikeIron_StrikeIronTest extends PHPUnit_Framework_TestCase
+{
     public function setUp()
     {
         // stub out SOAPClient instance
@@ -59,7 +59,7 @@ class Zend_Service_StrikeIron_StrikeIronTest extends PHPUnit_Framework_TestCase
             $this->assertRegExp('/not found/i', $e->getMessage());
         }
     }
-    
+
     public function testFactoryReturnsServiceByStrikeIronClass()
     {
         $base = $this->strikeIron->getService(array('class' => 'Base'));
@@ -81,22 +81,22 @@ class Zend_Service_StrikeIron_StrikeIronTest extends PHPUnit_Framework_TestCase
         $base = $this->strikeIron->getService(array('wsdl' => $wsdl));
         $this->assertEquals($wsdl, $base->getWsdl());
     }
-    
+
     public function testFactoryPassesOptionsFromConstructor()
     {
         $class = 'Zend_Service_StrikeIron_StrikeIronTest_StubbedBase';
         $stub = $this->strikeIron->getService(array('class' => $class));
-        $this->assertEquals($this->options, $stub->options);        
+        $this->assertEquals($this->options, $stub->options);
     }
-    
+
     public function testFactoryMergesItsOptionsWithConstructorOptions()
     {
-        $options = array('class' => 'Zend_Service_StrikeIron_StrikeIronTest_StubbedBase', 
+        $options = array('class' => 'Zend_Service_StrikeIron_StrikeIronTest_StubbedBase',
                          'foo'   => 'bar');
-                         
+
         $mergedOptions = array_merge($options, $this->options);
         unset($mergedOptions['class']);
-        
+
         $stub = $this->strikeIron->getService($options);
         $this->assertEquals($mergedOptions, $stub->options);
     }
@@ -105,11 +105,11 @@ class Zend_Service_StrikeIron_StrikeIronTest extends PHPUnit_Framework_TestCase
 
 /**
  * Stub for Zend_Service_StrikeIron_Base
- * 
+ *
  * @category   Zend
  * @package    Zend_Service_StrikeIron
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Service_StrikeIron_StrikeIronTest_StubbedBase

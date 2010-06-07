@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Rest
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ControllerTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: ControllerTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /** Test helper */
@@ -44,7 +44,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @category   Zend
  * @package    Zend_Rest
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Rest_TestController extends Zend_Rest_Controller
@@ -76,13 +76,13 @@ class Zend_Rest_TestController extends Zend_Rest_Controller
     {
         $this->testValue = 'deleteAction';
     }
-    
+
 }
 /**
  * @category   Zend
  * @package    Zend_Rest
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Rest
  */

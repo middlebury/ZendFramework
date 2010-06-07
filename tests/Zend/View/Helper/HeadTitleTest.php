@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: HeadTitleTest.php 18590 2009-10-16 17:22:50Z matthew $
+ * @version    $Id: HeadTitleTest.php 22089 2010-05-04 11:49:03Z padraic $
  */
 
 // Call Zend_View_Helper_HeadTitleTest::main() if this source file is executed directly.
@@ -42,7 +42,7 @@ require_once 'Zend/Registry.php';
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_View
  * @group      Zend_View_Helper
@@ -221,14 +221,22 @@ class Zend_View_Helper_HeadTitleTest extends PHPUnit_Framework_TestCase
         $this->helper->headTitle('Message_1');
         $this->assertEquals('<title>Message 1 (en)</title>', $this->helper->toString());
     }
-    
+
    /**
     * @see ZF-8036
     */
     public function testHeadTitleZero()
     {
-    	$this->helper->headTitle('0');
-    	$this->assertEquals('<title>0</title>', $this->helper->toString());
+        $this->helper->headTitle('0');
+        $this->assertEquals('<title>0</title>', $this->helper->toString());
+    }
+
+    public function testCanPrependTitlesUsingDefaultAttachOrder()
+    {
+        $this->helper->setDefaultAttachOrder('PREPEND');
+        $placeholder = $this->helper->headTitle('Foo');
+        $placeholder = $this->helper->headTitle('Bar');
+        $this->assertContains('BarFoo', $placeholder->toString());
     }
 }
 

@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ModuleTest.php 18550 2009-10-15 17:24:29Z matthew $
+ * @version    $Id: ModuleTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /** Test helper */
@@ -41,7 +41,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Controller
  * @group      Zend_Controller_Router
@@ -261,7 +261,7 @@ class Zend_Controller_Router_Route_ModuleTest extends PHPUnit_Framework_TestCase
     public function testAssembleNoActionWithParams()
     {
         $params = array(
-            'foo'		 => 'bar',
+            'foo'         => 'bar',
             'module'     => 'mod',
             'controller' => 'ctrl'
         );
@@ -391,18 +391,18 @@ class Zend_Controller_Router_Route_ModuleTest extends PHPUnit_Framework_TestCase
     {
         $values = $this->route->match('con/act');
 
-    	$url = $this->route->assemble(array('controller' => 'foo', 'action' => 'bar'), true);
+        $url = $this->route->assemble(array('controller' => 'foo', 'action' => 'bar'), true);
 
-		$this->assertSame('foo/bar', $url);
+        $this->assertSame('foo/bar', $url);
     }
 
     public function testAssembleDefaultModuleZF1415()
     {
         $values = $this->route->match('con/act');
 
-    	$url = $this->route->assemble(array('controller' => 'foo', 'action' => 'bar'), false);
+        $url = $this->route->assemble(array('controller' => 'foo', 'action' => 'bar'), false);
 
-		$this->assertSame('foo/bar', $url);
+        $this->assertSame('foo/bar', $url);
     }
 
     public function testAssembleDefaultModuleZF1415_2()
@@ -459,11 +459,11 @@ class Zend_Controller_Router_Route_ModuleTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('bar', $token['foo'][0]);
         $this->assertEquals('baz', $token['foo'][1]);
     }
-    
+
     public function testGetInstanceMatching()
     {
         $this->route = Zend_Controller_Router_Route_Module::getInstance(new Zend_Config(array()));
-        
+
         $this->_request->setModuleKey('m');
         $this->_request->setControllerKey('c');
         $this->_request->setActionKey('a');

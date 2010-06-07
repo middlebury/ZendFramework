@@ -15,32 +15,29 @@
  * @category   Zend
  * @package    Zend_Auth
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AllTests.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: AllTests.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
-/**
- * Test helper
- */
-require_once dirname(__FILE__) . '/../../../../TestHelper.php';
+require_once dirname(dirname(dirname(dirname(dirname(__FILE__))))) . DIRECTORY_SEPARATOR . 'TestHelper.php';
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'Zend_Auth_Adapter_Ldap_AllTests::main');
 }
 
-PHPUnit_Util_Filter::addFileToFilter(__FILE__);
-
-/**
- * @see Zend_Auth_Adapter_Ldap_OfflineTest
- */
 require_once 'Zend/Auth/Adapter/Ldap/OfflineTest.php';
+
+if (defined('TESTS_ZEND_AUTH_ADAPTER_LDAP_ONLINE_ENABLED')
+    && constant('TESTS_ZEND_AUTH_ADAPTER_LDAP_ONLINE_ENABLED')) {
+    require_once 'Zend/Auth/Adapter/Ldap/OnlineTest.php';
+}
 
 /**
  * @category   Zend
  * @package    Zend_Ldap
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Auth
  */
@@ -59,10 +56,6 @@ class Zend_Auth_Adapter_Ldap_AllTests
 
         if (defined('TESTS_ZEND_AUTH_ADAPTER_LDAP_ONLINE_ENABLED')
             && constant('TESTS_ZEND_AUTH_ADAPTER_LDAP_ONLINE_ENABLED')) {
-            /**
-             * @see Zend_Auth_Adapter_Ldap_OnlineTest
-             */
-            require_once 'Zend/Auth/Adapter/Ldap/OnlineTest.php';
             $suite->addTestSuite('Zend_Auth_Adapter_Ldap_OnlineTest');
         } else {
             $suite->addTest(new Zend_Auth_Adapter_Ldap_SkipOnlineTests());
@@ -76,7 +69,7 @@ class Zend_Auth_Adapter_Ldap_AllTests
  * @category   Zend
  * @package    Zend_Ldap
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Auth
  */

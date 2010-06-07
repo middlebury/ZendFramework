@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: MessageTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: MessageTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -44,7 +44,7 @@ require_once 'PHPUnit/Framework/TestCase.php';
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Mail
  */
@@ -399,25 +399,25 @@ class Zend_Mail_MessageTest extends PHPUnit_Framework_TestCase
     public function testGetHeaderFieldSingle()
     {
         $message = new Zend_Mail_Message(array('file' => $this->_file));
-        $this->assertEquals($message->getHeaderField('subject'), 'multipart');        
+        $this->assertEquals($message->getHeaderField('subject'), 'multipart');
     }
 
     public function testGetHeaderFieldDefault()
     {
         $message = new Zend_Mail_Message(array('file' => $this->_file));
-        $this->assertEquals($message->getHeaderField('content-type'), 'multipart/alternative');        
+        $this->assertEquals($message->getHeaderField('content-type'), 'multipart/alternative');
     }
 
     public function testGetHeaderFieldNamed()
     {
         $message = new Zend_Mail_Message(array('file' => $this->_file));
-        $this->assertEquals($message->getHeaderField('content-type', 'boundary'), 'crazy-multipart');        
+        $this->assertEquals($message->getHeaderField('content-type', 'boundary'), 'crazy-multipart');
     }
 
     public function testGetHeaderFieldMissing()
     {
         $message = new Zend_Mail_Message(array('file' => $this->_file));
-        $this->assertNull($message->getHeaderField('content-type', 'foo'));        
+        $this->assertNull($message->getHeaderField('content-type', 'foo'));
     }
 
     public function testGetHeaderFieldInvalid()
@@ -430,7 +430,7 @@ class Zend_Mail_MessageTest extends PHPUnit_Framework_TestCase
         }
         $this->fail('No exception thrown while requesting invalid field name');
     }
-    
+
     public function testCaseInsensitiveMultipart()
     {
         $message = new Zend_Mail_Message(array('raw' => "coNTent-TYpe: muLTIpaRT/x-empty\r\n\r\n"));

@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Reflection
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: PropertyTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -34,7 +34,7 @@ require_once 'Zend/Reflection/Property.php';
  * @category   Zend
  * @package    Zend_Reflection
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Reflection
  * @group      Zend_Reflection_Property
@@ -43,7 +43,7 @@ class Zend_Reflection_PropertyTest extends PHPUnit_Framework_TestCase
 {
 
     static protected $_sampleClassFileRequired = false;
-    
+
     public function setup()
     {
         if (self::$_sampleClassFileRequired === false) {
@@ -52,13 +52,13 @@ class Zend_Reflection_PropertyTest extends PHPUnit_Framework_TestCase
             self::$_sampleClassFileRequired = true;
         }
     }
-    
+
     public function testDeclaringClassReturn()
     {
         $property = new Zend_Reflection_Property('Zend_Reflection_TestSampleClass2', '_prop1');
         $this->assertEquals(get_class($property->getDeclaringClass()), 'Zend_Reflection_Class');
     }
-    
-    
+
+
 }
 

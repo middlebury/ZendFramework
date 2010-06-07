@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: PriorityTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: PriorityTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /** PHPUnit_Framework_TestCase */
@@ -33,7 +33,7 @@ require_once 'Zend/Log/Filter/Priority.php';
  * @category   Zend
  * @package    Zend_Log
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Log
  */
@@ -43,7 +43,7 @@ class Zend_Log_Filter_PriorityTest extends PHPUnit_Framework_TestCase
     {
         // accept at or below priority 2
         $filter = new Zend_Log_Filter_Priority(2);
-        
+
         $this->assertTrue($filter->accept(array('priority' => 2)));
         $this->assertTrue($filter->accept(array('priority' => 1)));
         $this->assertFalse($filter->accept(array('priority' => 3)));
@@ -69,5 +69,30 @@ class Zend_Log_Filter_PriorityTest extends PHPUnit_Framework_TestCase
             $this->assertRegExp('/must be an integer/i', $e->getMessage());
         }
     }
+    
+    public function testFactory()
+    {
+        $cfg = array('log' => array('memory' => array(
+            'writerName' => "Mock", 
+            'filterName' => "Priority", 
+            'filterParams' => array(
+                'priority' => "Zend_Log::CRIT", 
+                'operator' => "<="
+             ),        
+        )));
 
+        $logger = Zend_Log::factory($cfg['log']);
+        $this->assertTrue($logger instanceof Zend_Log);
+        
+        try {
+            $logger = Zend_Log::factory(array('Null' => array(
+                'writerName'   => 'Mock',
+                'filterName'   => 'Priority',
+                'filterParams' => array(),
+            )));            
+        } catch(Exception $e) {
+            $this->assertType('Zend_Log_Exception', $e);
+            $this->assertRegExp('/must be an integer/', $e->getMessage());
+        }
+    }
 }

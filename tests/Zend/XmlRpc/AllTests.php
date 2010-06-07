@@ -15,15 +15,16 @@
  * @category   Zend
  * @package    Zend_XmlRpc
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AllTests.php 17786 2009-08-23 22:26:33Z lars $
+ * @version    $Id: AllTests.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
+
+require_once dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'TestHelper.php';
+
 if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'Zend_XmlRpc_AllTests::main');
 }
-
-require_once dirname(__FILE__) . '/../../TestHelper.php';
 
 require_once 'Zend/XmlRpc/ValueTest.php';
 require_once 'Zend/XmlRpc/RequestTest.php';
@@ -32,6 +33,7 @@ require_once 'Zend/XmlRpc/ResponseTest.php';
 require_once 'Zend/XmlRpc/FaultTest.php';
 require_once 'Zend/XmlRpc/ClientTest.php';
 require_once 'Zend/XmlRpc/ServerTest.php';
+require_once 'Zend/XmlRpc/GeneratorTest.php';
 require_once 'Zend/XmlRpc/Server/CacheTest.php';
 require_once 'Zend/XmlRpc/Server/FaultTest.php';
 
@@ -39,7 +41,7 @@ require_once 'Zend/XmlRpc/Server/FaultTest.php';
  * @category   Zend
  * @package    Zend_XmlRpc
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_XmlRpc
  */
@@ -61,6 +63,7 @@ class Zend_XmlRpc_AllTests
         $suite->addTestSuite('Zend_XmlRpc_FaultTest');
         $suite->addTestSuite('Zend_XmlRpc_ClientTest');
         $suite->addTestSuite('Zend_XmlRpc_ServerTest');
+        $suite->addTestSuite('Zend_XmlRpc_GeneratorTest');
         $suite->addTestSuite('Zend_XmlRpc_Server_CacheTest');
         $suite->addTestSuite('Zend_XmlRpc_Server_FaultTest');
 

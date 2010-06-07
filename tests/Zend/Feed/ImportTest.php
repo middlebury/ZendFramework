@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Feed
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ImportTest.php 18291 2009-09-18 21:00:51Z padraic $
+ * @version    $Id: ImportTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -49,7 +49,7 @@ require_once 'Zend/Http/Client.php';
  * @category   Zend
  * @package    Zend_Feed
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Feed
  */
@@ -67,7 +67,7 @@ class Zend_Feed_ImportTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-    	$this->_adapter = new Zend_Http_Client_Adapter_Test();
+        $this->_adapter = new Zend_Http_Client_Adapter_Test();
         Zend_Feed::setHttpClient(new Zend_Http_Client(null, array('adapter' => $this->_adapter)));
         $this->_client = Zend_Feed::getHttpClient();
         $this->_feedDir = dirname(__FILE__) . '/_files';
@@ -218,6 +218,17 @@ class Zend_Feed_ImportTest extends PHPUnit_Framework_TestCase
     {
         $feed = Zend_Feed::importArray($this->_getFullArray(), 'rss');
         $this->assertType('Zend_Feed_Rss', $feed);
+    }
+    
+    /**
+     * Test the import of a RSS feed from an array
+     * @group ZF-5833
+     */
+    public function testRssImportSetsIsPermaLinkAsFalseIfGuidNotAUri()
+    {
+        $feed = Zend_Feed::importArray($this->_getFullArray(), 'rss');
+        $entry = $feed->current();
+        $this->assertEquals('false', $entry->guid['isPermaLink']);
     }
 
     /**

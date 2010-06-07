@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Form
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: SubmitTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: SubmitTest.php 20266 2010-01-13 20:15:33Z matthew $
  */
 
 // Call Zend_Form_Element_SubmitTest::main() if this source file is executed directly.
@@ -30,6 +30,8 @@ require_once "PHPUnit/Framework/TestCase.php";
 require_once "PHPUnit/Framework/TestSuite.php";
 
 require_once 'Zend/Form/Element/Submit.php';
+require_once 'Zend/Form.php';
+require_once 'Zend/Registry.php';
 require_once 'Zend/Translate.php';
 require_once 'Zend/Translate/Adapter/Array.php';
 
@@ -39,7 +41,7 @@ require_once 'Zend/Translate/Adapter/Array.php';
  * @category   Zend
  * @package    Zend_Form
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Form
  */
@@ -66,6 +68,8 @@ class Zend_Form_Element_SubmitTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        Zend_Registry::_unsetInstance();
+        Zend_Form::setDefaultTranslator(null);
         $this->element = new Zend_Form_Element_Submit('foo');
     }
 
@@ -179,6 +183,25 @@ class Zend_Form_Element_SubmitTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->element->isChecked());
     }
 
+    /**
+     * Tests that the isChecked method works as expected when using a translator.
+     * @group ZF-4073
+     */
+    public function testIsCheckedReturnsExpectedValueWhenUsingTranslator()
+    {
+        $translations = array('label' => 'translation');
+        $translate = new Zend_Translate('array', $translations);
+
+        $submit = new Zend_Form_Element_Submit('foo', 'label');
+        $submit->setTranslator($translate);
+        $submit->setValue($translations['label']);
+        
+        $this->assertTrue($submit->isChecked());
+
+        $submit->setValue('label');
+        $this->assertFalse($submit->isChecked());
+    }
+
     /*
      * Tests if title attribute (tooltip) is translated if the default decorators are loaded.
      * These decorators should load the Tooltip decorator as the first decorator.
@@ -206,6 +229,11 @@ class Zend_Form_Element_SubmitTest extends PHPUnit_Framework_TestCase
         $this->assertContains('title', $html);
         $this->assertContains('bar', $html);
         $this->assertNotContains('baz', $html);
+    }
+    
+    public function testSetDefaultIgnoredToTrueWhenNotDefined()
+    {
+        $this->assertTrue($this->element->getIgnore());
     }
 
     /**

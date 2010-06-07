@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Layout
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: PluginTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: PluginTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_LayoutTest::main() if this source file is executed directly.
@@ -42,11 +42,11 @@ require_once 'Zend/Controller/Response/Cli.php';
  * @category   Zend
  * @package    Zend_Layout
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Layout
  */
-class Zend_Layout_PluginTest extends PHPUnit_Framework_TestCase 
+class Zend_Layout_PluginTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -193,6 +193,36 @@ class Zend_Layout_PluginTest extends PHPUnit_Framework_TestCase
                ->setLayout('plugin.phtml')
                ->disableInflector()
                ->disableLayout();
+
+        $plugin = $front->getPlugin('Zend_Layout_Controller_Plugin_Layout');
+        $plugin->setResponse($response);
+        $plugin->postDispatch($request);
+
+        $body = $response->getBody();
+        $this->assertContains('Application content', $body);
+        $this->assertNotContains('Site Layout', $body);
+    }
+
+    /**
+     * @group ZF-8041
+     */
+    public function testPostDispatchDoesNotRenderLayoutWhenResponseRedirected()
+    {
+        $front    = Zend_Controller_Front::getInstance();
+        $request  = new Zend_Controller_Request_Simple();
+        $response = new Zend_Controller_Response_Cli();
+
+        $request->setDispatched(true);
+        $response->setHttpResponseCode(302);
+        $response->setBody('Application content');
+        $front->setRequest($request)
+              ->setResponse($response);
+
+        $layout = Zend_Layout::startMvc();
+        $layout->setLayoutPath(dirname(__FILE__) . '/_files/layouts')
+               ->setLayout('plugin.phtml')
+               ->setMvcSuccessfulActionOnly(false)
+               ->disableInflector();
 
         $plugin = $front->getPlugin('Zend_Layout_Controller_Plugin_Layout');
         $plugin->setResponse($response);

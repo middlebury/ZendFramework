@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Feed
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ElementTest.php 18568 2009-10-16 11:59:55Z sgehrig $
+ * @version    $Id: ElementTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -34,7 +34,7 @@ require_once 'Zend/Feed/Entry/Atom.php';
  * @category   Zend
  * @package    Zend_Feed
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Feed
  */
@@ -67,16 +67,16 @@ class Zend_Feed_ElementTest extends PHPUnit_Framework_TestCase
     public function testStrings()
     {
         $xml = "<entry>
-	<title> Using C++ Intrinsic Functions for Pipelined Text Processing</title>
-	<id>http://www.oreillynet.com/pub/wlg/8356</id>
-	<link rel='alternate' href='http://www.oreillynet.com/pub/wlg/8356'/>
-	<summary type='xhtml'>
-	<div xmlns='http://www.w3.org/1999/xhtml'>
-	A good C++ programming technique that has almost no published material available on the WWW relates to using the special pipeline instructions in modern CPUs for faster text processing. Here's example code using C++ intrinsic functions to give a fourfold speed increase for a UTF-8 to UTF-16 converter compared to the original C/C++ code.
-	</div>
-	</summary>
-	<author><name>Rick Jelliffe</name></author>
-	<updated>2005-11-07T08:15:57-08:00</updated>
+    <title> Using C++ Intrinsic Functions for Pipelined Text Processing</title>
+    <id>http://www.oreillynet.com/pub/wlg/8356</id>
+    <link rel='alternate' href='http://www.oreillynet.com/pub/wlg/8356'/>
+    <summary type='xhtml'>
+    <div xmlns='http://www.w3.org/1999/xhtml'>
+    A good C++ programming technique that has almost no published material available on the WWW relates to using the special pipeline instructions in modern CPUs for faster text processing. Here's example code using C++ intrinsic functions to give a fourfold speed increase for a UTF-8 to UTF-16 converter compared to the original C/C++ code.
+    </div>
+    </summary>
+    <author><name>Rick Jelliffe</name></author>
+    <updated>2005-11-07T08:15:57-08:00</updated>
 </entry>";
 
         $entry = new Zend_Feed_Entry_Atom('uri', $xml);

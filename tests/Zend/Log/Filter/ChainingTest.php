@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ChainingTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: ChainingTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /** PHPUnit_Framework_TestCase */
@@ -30,7 +30,7 @@ require_once 'Zend/Log.php';
  * @category   Zend
  * @package    Zend_Log
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Log
  */
@@ -42,17 +42,17 @@ class Zend_Log_Filter_ChainingTest extends PHPUnit_Framework_TestCase
         $this->logger = new Zend_Log();
         $this->logger->addWriter(new Zend_Log_Writer_Stream($this->log));
     }
-    
+
     public function tearDown()
     {
         fclose($this->log);
     }
-    
+
     public function testFilterAllWriters()
     {
         // filter out anything above a WARNing for all writers
         $this->logger->addFilter(Zend_Log::WARN);
-    
+
         $this->logger->info($ignored = 'info-message-ignored');
         $this->logger->warn($logged  = 'warn-message-logged');
 
@@ -62,7 +62,7 @@ class Zend_Log_Filter_ChainingTest extends PHPUnit_Framework_TestCase
         $this->assertNotContains($ignored, $logdata);
         $this->assertContains($logged, $logdata);
     }
-    
+
     public function testFilterOnSpecificWriter()
     {
         $log2 = fopen('php://memory', 'w');
@@ -70,7 +70,7 @@ class Zend_Log_Filter_ChainingTest extends PHPUnit_Framework_TestCase
         $writer2->addFilter(Zend_Log::ERR);
 
         $this->logger->addWriter($writer2);
-    
+
         $this->logger->warn($warn = 'warn-message');
         $this->logger->err($err = 'err-message');
 
@@ -78,7 +78,7 @@ class Zend_Log_Filter_ChainingTest extends PHPUnit_Framework_TestCase
         $logdata = stream_get_contents($this->log);
         $this->assertContains($warn, $logdata);
         $this->assertContains($err, $logdata);
-        
+
         rewind($log2);
         $logdata = stream_get_contents($log2);
         $this->assertContains($err, $logdata);

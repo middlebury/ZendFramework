@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Form
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: HashTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: HashTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_Form_Element_HashTest::main() if this source file is executed directly.
@@ -35,7 +35,7 @@ require_once 'Zend/Form/Element/Hash.php';
  * @category   Zend
  * @package    Zend_Form
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Form
  */
@@ -196,6 +196,16 @@ class Zend_Form_Element_HashTest extends PHPUnit_Framework_TestCase
     {
         $html = $this->element->render($this->getView());
         $this->assertRegexp('/<input[^>]*?type="hidden"/', $html, $html);
+    }
+
+    /**
+     * @group ZF-7404
+     */
+    public function testShouldRenderHashTokenIfRenderedThroughMagicCall()
+    {
+        $this->element->setView($this->getView());
+        $html = $this->element->renderViewHelper();
+        $this->assertContains($this->element->getHash(), $html, 'Html is: ' . $html);
     }
 
     /**

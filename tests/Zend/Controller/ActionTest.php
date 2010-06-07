@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ActionTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: ActionTest.php 21143 2010-02-23 07:17:41Z ralph $
  */
 
 // Call Zend_Controller_ActionTest::main() if this source file is executed directly.
@@ -39,12 +39,12 @@ require_once 'Zend/Controller/Response/Cli.php';
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Controller
  * @group      Zend_Controller_Action
  */
-class Zend_Controller_ActionTest extends PHPUnit_Framework_TestCase 
+class Zend_Controller_ActionTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -62,6 +62,11 @@ class Zend_Controller_ActionTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        Zend_Controller_Action_HelperBroker::resetHelpers();
+        $front = Zend_Controller_Front::getInstance();
+        $front->resetInstance();
+        $front->setControllerDirectory('.', 'default');
+
         $this->_controller = new Zend_Controller_ActionTest_TestController(
             new Zend_Controller_Request_Http(),
             new Zend_Controller_Response_Cli(),
@@ -70,8 +75,7 @@ class Zend_Controller_ActionTest extends PHPUnit_Framework_TestCase
                 'bar' => 'baz'
             )
         );
-        Zend_Controller_Front::getInstance()->resetInstance();
-        Zend_Controller_Action_HelperBroker::resetHelpers();
+
         $redirector = $this->_controller->getHelper('redirector');
         $redirector->setExit(false);
     }
@@ -199,7 +203,7 @@ class Zend_Controller_ActionTest extends PHPUnit_Framework_TestCase
             $this->fail('Should not be able to call bar as action');
         } catch (Exception $e) {
             //success!
-        } 
+        }
     }
 
     public function testRun3()
@@ -226,6 +230,20 @@ class Zend_Controller_ActionTest extends PHPUnit_Framework_TestCase
         $params = $this->_controller->getParams();
         $this->assertTrue(isset($params['foo']));
         $this->assertEquals('bar', $params['foo']);
+    }
+    
+    /**
+     * @group ZF-5163
+     */
+    public function testGetParamForZeroValues()
+    {
+        $this->_controller->setParam('foo', 'bar');
+        $this->_controller->setParam('bar', 0);
+        $this->_controller->setParam('baz', null);
+        
+        $this->assertEquals('bar', $this->_controller->getParam('foo', -1));
+        $this->assertEquals(0, $this->_controller->getParam('bar', -1));
+        $this->assertEquals(-1, $this->_controller->getParam('baz', -1));
     }
 
     public function testGetParams()
@@ -272,7 +290,7 @@ class Zend_Controller_ActionTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($view instanceof Zend_View);
         $scriptPath = $view->getScriptPaths();
         $this->assertTrue(is_array($scriptPath));
-        $this->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'scripts' . DIRECTORY_SEPARATOR, $scriptPath[0]);
+        $this->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'scripts/', $scriptPath[0]);
     }
 
     public function testRender()
@@ -542,6 +560,11 @@ class Zend_Controller_ActionTest_TestController extends Zend_Controller_Action
     {
         $this->_setParam($key, $value);
         return $this;
+    }
+    
+    public function getParam($key, $default)
+    {
+        return $this->_getParam($key, $default);
     }
 
     public function redirect($url, $code = 302, $prependBase = true)

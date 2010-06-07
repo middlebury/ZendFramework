@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Rest
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ResultTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: ResultTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -36,12 +36,12 @@ require_once 'PHPUnit/Framework/TestCase.php';
  * @category   Zend
  * @package    Zend_Rest
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Rest
  * @group      Zend_Rest_Result
  */
-class Zend_Rest_ResultTest extends PHPUnit_Framework_TestCase 
+class Zend_Rest_ResultTest extends PHPUnit_Framework_TestCase
 {
     static $path;
 
@@ -49,35 +49,35 @@ class Zend_Rest_ResultTest extends PHPUnit_Framework_TestCase
     {
         self::$path = dirname(__FILE__).'/responses/';
     }
-    
+
     public function testResponseSuccess()
     {
         $xml = file_get_contents(self::$path ."returnString.xml");
         $client = new Zend_Rest_Client_Result($xml);
         $this->assertTrue($client->isSuccess());
     }
-    
+
     public function testResponseIsError()
     {
         $xml = file_get_contents(self::$path ."returnError.xml");
         $client = new Zend_Rest_Client_Result($xml);
         $this->assertTrue($client->isError());
     }
-    
+
     public function testResponseString()
     {
         $xml = file_get_contents(self::$path ."returnString.xml");
         $client = new Zend_Rest_Client_Result($xml);
         $this->assertEquals("string", $client->__toString());
     }
-    
+
     public function testResponseInt()
     {
         $xml = file_get_contents(self::$path ."returnInt.xml");
         $client = new Zend_Rest_Client_Result($xml);
         $this->assertEquals("123", $client->__toString());
     }
-    
+
     public function testResponseArray()
     {
         $xml = file_get_contents(self::$path ."returnArray.xml");
@@ -88,7 +88,7 @@ class Zend_Rest_ResultTest extends PHPUnit_Framework_TestCase
         }
         $this->assertEquals(array("foo" => "bar", "baz" => "1", "key_1" => "0", "bat" => "123", "status" => "success"), $result_array);
     }
-    
+
     public function testResponseObject()
     {
         $xml = file_get_contents(self::$path ."returnObject.xml");
@@ -100,28 +100,28 @@ class Zend_Rest_ResultTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $client->qux());
         $this->assertEquals("success", $client->status());
     }
-    
+
     public function testResponseTrue()
     {
         $xml = file_get_contents(self::$path ."returnTrue.xml");
         $client = new Zend_Rest_Client_Result($xml);
         $this->assertTrue((bool)$client->response);
     }
-    
+
     public function testResponseFalse()
     {
         $xml = file_get_contents(self::$path ."returnFalse.xml");
         $client = new Zend_Rest_Client_Result($xml);
         $this->assertFalse((bool) $client->response());
     }
-    
+
     public function testResponseVoid()
     {
         $xml = file_get_contents(self::$path . "returnVoid.xml");
         $client = new Zend_Rest_Client_Result($xml);
         $this->assertEquals(null, $client->response());
     }
-    
+
     public function testResponseException()
     {
         $xml = file_get_contents(self::$path . "returnError.xml");

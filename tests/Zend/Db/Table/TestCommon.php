@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: TestCommon.php 17818 2009-08-25 23:11:06Z ralph $
+ * @version    $Id: TestCommon.php 21079 2010-02-18 18:15:49Z tech13 $
  */
 
 
@@ -43,7 +43,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__);
  * @category   Zend
  * @package    Zend_Db
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Db_Table_TestCommon extends Zend_Db_Table_TestSetup
@@ -212,7 +212,7 @@ abstract class Zend_Db_Table_TestCommon extends Zend_Db_Table_TestSetup
     public function testTableImplicitName()
     {
         include_once '_files/My/ZendDbTable/TableSpecial.php';
-        
+
         // TableSpecial.php contains class bugs_products too.
         $table = new zfbugs_products(array('db' => $this->_db));
         $info = $table->info();
@@ -638,9 +638,9 @@ abstract class Zend_Db_Table_TestCommon extends Zend_Db_Table_TestSetup
             'Expecting object of type Zend_Db_Table_Rowset_Abstract, got '.get_class($rowset));
         $this->assertEquals(3, count($rowset));
     }
-    
+
     /**
-     * 
+     *
      * @group ZF-5775
      */
     public function testTableFindWithEmptyArray()
@@ -651,7 +651,7 @@ abstract class Zend_Db_Table_TestCommon extends Zend_Db_Table_TestSetup
             'Expecting object of type Zend_Db_Table_Rowset_Abstract, got '.get_class($rowset));
         $this->assertEquals(0, count($rowset));
     }
-    
+
     public function testTableInsert()
     {
         $table = $this->_table['bugs'];
@@ -691,7 +691,7 @@ abstract class Zend_Db_Table_TestCommon extends Zend_Db_Table_TestSetup
         );
 
         $profilerEnabled = $this->_db->getProfiler()->getEnabled();
-        $this->_db->getProfiler()->setEnabled(true);
+        $this->_db->getProfiler()->setEnabled(true)->setFilterQueryType(Zend_Db_Profiler::INSERT);
         $insertResult = $table->insert($row);
         $this->_db->getProfiler()->setEnabled($profilerEnabled);
 
@@ -1226,7 +1226,7 @@ abstract class Zend_Db_Table_TestCommon extends Zend_Db_Table_TestSetup
     public function testTableLoadsCustomRowClass()
     {
         $this->_useMyIncludePath();
-        
+
         if (class_exists('My_ZendDbTable_Row_TestMyRow')) {
             $this->markTestSkipped("Cannot test loading the custom Row class because it is already loaded");
             return;
@@ -1245,7 +1245,7 @@ abstract class Zend_Db_Table_TestCommon extends Zend_Db_Table_TestSetup
             'Expected TestMyRow class not to be loaded (#2)');
         $this->assertFalse(class_exists('My_ZendDbTable_Rowset_TestMyRowset', false),
             'Expected TestMyRowset class not to be loaded (#2)');
-        
+
         // creating a rowset makes the table load the rowset class
         // and the rowset constructor loads the row class.
         $bugs = $bugsTable->fetchAll();
@@ -1304,9 +1304,9 @@ abstract class Zend_Db_Table_TestCommon extends Zend_Db_Table_TestSetup
         try {
             $bugsTable = $this->_getTable('My_ZendDbTable_TableBugs');
             $primary = $bugsTable->info(Zend_Db_Table_Abstract::PRIMARY);
-            $this->fail('Expected to catch Zend_Db_Table_Exception');
-        } catch (Zend_Exception $e) {
-            $this->assertType('Zend_Db_Table_Exception', $e);
+            $this->fail('Expected to catch PHPUnit_Framework_Error');
+        } catch (PHPUnit_Framework_Error $e) {
+            $this->assertEquals(E_USER_NOTICE, $e->getCode(), 'Error type not E_USER_NOTICE');
             $this->assertEquals('Failed saving metadata to metadataCache', $e->getMessage());
         }
 
@@ -1512,7 +1512,7 @@ abstract class Zend_Db_Table_TestCommon extends Zend_Db_Table_TestSetup
         $table = $this->_table['products'];
         $this->assertType('string', serialize($table));
     }
-    
+
     /**
      * @group ZF-1343
      */
@@ -1531,13 +1531,13 @@ abstract class Zend_Db_Table_TestCommon extends Zend_Db_Table_TestSetup
     public function testTableConcreteInstantiation()
     {
         Zend_Db_Table::setDefaultAdapter($this->_db);
-        
+
         $table = new Zend_Db_Table('zfbugs');
         $rowset = $table->find(1);
         $this->assertEquals(1, count($rowset));
-        
+
         Zend_Db_Table::setDefaultAdapter();
-        
+
         $table = new Zend_Db_Table(array(
             'name' => 'zfbugs',
             'db' => $this->_db
@@ -1545,10 +1545,10 @@ abstract class Zend_Db_Table_TestCommon extends Zend_Db_Table_TestSetup
         $rowset = $table->find(1);
         $this->assertEquals(1, count($rowset));
     }
-    
-    
-    
-    
+
+
+
+
     /**
      * Returns a clean Zend_Cache_Core with File backend
      *
@@ -1613,7 +1613,29 @@ abstract class Zend_Db_Table_TestCommon extends Zend_Db_Table_TestSetup
 
         return $cacheFrontend;
     }
-    
-    
 
+    /**
+     * @group ZF-5674
+     */
+    public function testTableAndIdentityWithVeryLongName()
+    {
+        Zend_Db_Table::setDefaultAdapter($this->_db);
+        // create test table using no identifier quoting
+        $this->_util->createTable('thisisaveryverylongtablename', array(
+            'thisisalongtablenameidentity' => 'IDENTITY',
+            'stuff' => 'VARCHAR(32)'
+        ));
+        $tableName = $this->_util->getTableName('thisisaveryverylongtablename');
+        $table = new Zend_Db_Table('thisisaveryverylongtablename');
+        $row = $table->createRow($this->_getRowForTableAndIdentityWithVeryLongName());
+        $row->save();
+        $rowset = $table->find(1);
+        $this->assertEquals(1, count($rowset));
+        $this->_util->dropTable('thisisaveryverylongtablename');
+    }
+
+    protected function _getRowForTableAndIdentityWithVeryLongName()
+    {
+        return array('stuff' => 'information');
+    }
 }

@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Dojo
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: NumberTextBoxTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: NumberTextBoxTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_Dojo_View_Helper_NumberTextBoxTest::main() if this source file is executed directly.
@@ -45,12 +45,12 @@ require_once 'Zend/Dojo/View/Helper/Dojo.php';
  * @category   Zend
  * @package    Zend_Dojo
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Dojo
  * @group      Zend_Dojo_View
  */
-class Zend_Dojo_View_Helper_NumberTextBoxTest extends PHPUnit_Framework_TestCase 
+class Zend_Dojo_View_Helper_NumberTextBoxTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -100,10 +100,10 @@ class Zend_Dojo_View_Helper_NumberTextBoxTest extends PHPUnit_Framework_TestCase
     public function getElement()
     {
         return $this->helper->numberTextBox(
-            'elementId', 
-            '2008-07-07', 
+            'elementId',
+            '2008-07-07',
             array(
-                'required'    => true, 
+                'required'    => true,
                 'constraints' => '{min:-20000,max:20000,places:0}',
             ),
             array()

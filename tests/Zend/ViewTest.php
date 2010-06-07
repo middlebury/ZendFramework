@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id $
  */
@@ -48,7 +48,7 @@ require_once 'Zend/Loader.php';
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_View
  */
@@ -139,7 +139,7 @@ class Zend_ViewTest extends PHPUnit_Framework_TestCase
 
         $reflector = $view->getAllPaths();
         $paths     = $this->_filterPath($reflector[$pathType]);
-        
+
         // test default helper path
         $this->assertType('array', $paths);
         if ('script' == $pathType) {
@@ -152,11 +152,11 @@ class Zend_ViewTest extends PHPUnit_Framework_TestCase
 
             if ($testReadability) {
                 $path = current($paths[$prefix]);
-                
+
                 if (substr(PHP_OS, 0, 3) != 'WIN') {
-                	$this->assertTrue(Zend_Loader::isReadable($path));
+                    $this->assertTrue(Zend_Loader::isReadable($path));
                 } else {
-                	$this->assertTrue(is_dir($path));
+                    $this->assertTrue(is_dir($path));
                 }
             }
         }
@@ -285,7 +285,7 @@ class Zend_ViewTest extends PHPUnit_Framework_TestCase
         try {
             // attempt to load the helper StubEmpty, whose file exists but
             // does not contain the expected class within
-            $view->stubEmpty();	
+            $view->stubEmpty();
             // @todo  fail if no exception?
         } catch (Zend_Exception $e) {
             $this->assertContains("not found", $e->getMessage());
@@ -451,14 +451,15 @@ class Zend_ViewTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test set/getEncoding()
+     * @group ZF-8715
      */
     public function testSetGetEncoding()
     {
         $view = new Zend_View();
-        $this->assertEquals('ISO-8859-1', $view->getEncoding());
-
-        $view->setEncoding('UTF-8');
         $this->assertEquals('UTF-8', $view->getEncoding());
+
+        $view->setEncoding('ISO-8859-1');
+        $this->assertEquals('ISO-8859-1', $view->getEncoding());
     }
 
     public function testEmptyPropertiesReturnAppropriately()
@@ -661,7 +662,6 @@ class Zend_ViewTest extends PHPUnit_Framework_TestCase
         ob_start();
         echo $view->render('testZf995.phtml');
         $content = ob_get_flush();
-        ob_end_clean();
         $this->assertTrue(empty($content));
     }
 
@@ -671,7 +671,7 @@ class Zend_ViewTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('bar', $view->foo);
         $paths = $view->getScriptPaths();
         $this->assertEquals(1, count($paths));
-        $this->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR . '_templates' . DIRECTORY_SEPARATOR, $paths[0]);
+        $this->assertEquals(dirname(__FILE__) . '/View/_templates/', $paths[0]);
     }
 
     public function testHelperViewAccessor()
@@ -825,10 +825,10 @@ class Zend_ViewTest extends PHPUnit_Framework_TestCase
     public function testGetScriptPath()
     {
         $view = new Zend_View();
-        $base = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR . '_templates';
+        $base = dirname(__FILE__) . '/View/_templates';
         $view->setScriptPath($base);
         $path = $view->getScriptPath('test.phtml');
-        $this->assertEquals($base . DIRECTORY_SEPARATOR . 'test.phtml', $path);
+        $this->assertEquals($base . '/test.phtml', $path);
     }
 
     public function testGetHelper()
@@ -928,7 +928,7 @@ class Zend_ViewTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame($helper1, $helper2);
     }
-    
+
     /**
      * @issue ZF-2742
      */
@@ -950,8 +950,8 @@ class Zend_ViewTest extends PHPUnit_Framework_TestCase
         } catch (Exception $e) {
             $this->assertContains('only takes strings', $e->getMessage());
         }
-        
-        
+
+
         try {
             $helper = $view->getHelper('Datetime');
         } catch (Exception $e) {
@@ -964,7 +964,7 @@ class Zend_ViewTest extends PHPUnit_Framework_TestCase
         $this->view = new Zend_View();
         $this->assertFalse($this->view->useStreamWrapper());
     }
-    
+
     public function testUseStreamWrapperStateShouldBeConfigurable()
     {
         $this->testUseStreamWrapperFlagShouldDefaultToFalse();
@@ -1074,13 +1074,76 @@ class Zend_ViewTest extends PHPUnit_Framework_TestCase
         $paths = $view->getFilterPaths();
         $this->assertTrue(array_key_exists('My_View_', $paths), var_export($paths, 1));
     }
+    
+    /**
+     * @group ZF-8177
+     */
+    public function testRegisterHelperShouldRegisterHelperWithView()
+    {
+    	require_once dirname(__FILE__) . '/View/_stubs/HelperDir1/Stub1.php';
+    	
+    	$view = new Zend_View();
+    	$helper = new Foo_View_Helper_Stub1();
+    	$view->registerHelper($helper, 'stub1');
+    	
+    	$this->assertEquals($view->getHelper('stub1'), $helper);
+    	$this->assertEquals($view->stub1(), 'foo');
+    }
+
+    /**
+     * @group ZF-8177
+     * @expectedException Zend_View_Exception
+     */
+    public function testRegisterHelperShouldThrowExceptionIfNotProvidedAnObject()
+    {
+        $view = new Zend_View();
+        $view->registerHelper('Foo', 'foo');
+    }
+
+    /**
+     * @group ZF-8177
+     * @expectedException Zend_View_Exception
+     */
+    public function testRegisterHelperShouldThrowExceptionIfProvidedANonHelperObject()
+    {
+        $view   = new Zend_View();
+        $helper = new stdClass;
+        $view->registerHelper($helper, 'foo');
+    }
+
+    /**
+     * @group ZF-8177
+     */
+    public function testRegisterHelperShouldRegisterViewObjectWithHelper()
+    {
+    	require_once 'Zend/View/Helper/Doctype.php';
+    	$view = new Zend_View();
+    	$helper = new Zend_View_Helper_Doctype();
+    	$view->registerHelper($helper, 'doctype');
+        $this->assertSame($view, $helper->view);
+    }
+
+    /**
+     * @group ZF-9000
+     */
+    public function testAddingStreamSchemeAsScriptPathShouldNotReverseSlashesOnWindows()
+    {
+        if (false === strstr(strtolower(PHP_OS), 'windows')) {
+            $this->markTestSkipped('Windows-only test');
+        }
+    	$view = new Zend_View();
+        $path = rtrim('file://' . str_replace('\\', '/', realpath(dirname(__FILE__))), '/') . '/';
+        $view->addScriptPath($path);
+        $paths = $view->getScriptPaths();
+        $this->assertContains($path, $paths, var_export($paths, 1));
+    }
 }
 
 /**
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_ViewTest_Extension extends Zend_View

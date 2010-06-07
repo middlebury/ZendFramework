@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: HtmlPageTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: HtmlPageTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_View_Helper_HtmlPageTest::main() if this source file is executed directly.
@@ -34,12 +34,12 @@ require_once 'Zend/View/Helper/HtmlPage.php';
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_View
  * @group      Zend_View_Helper
  */
-class Zend_View_Helper_HtmlPageTest extends PHPUnit_Framework_TestCase 
+class Zend_View_Helper_HtmlPageTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Zend_View_Helper_HtmlPage
@@ -85,7 +85,7 @@ class Zend_View_Helper_HtmlPageTest extends PHPUnit_Framework_TestCase
         $objectStartElement = '<object data="/path/to/page.html"'
                             . ' type="text/html"'
                             . ' classid="clsid:25336920-03F9-11CF-8FD0-00AA00686F13">';
-        
+
         $this->assertContains($objectStartElement, $htmlPage);
         $this->assertContains('</object>', $htmlPage);
     }

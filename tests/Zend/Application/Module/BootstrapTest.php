@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Application
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: BootstrapTest.php 17802 2009-08-24 21:15:12Z matthew $
+ * @version    $Id: BootstrapTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
@@ -38,7 +38,7 @@ require_once 'Zend/Loader/Autoloader.php';
  * @category   Zend
  * @package    Zend_Application
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Application
  */
@@ -90,6 +90,7 @@ class Zend_Application_Module_BootstrapTest extends PHPUnit_Framework_TestCase
         $bootstrap = new ZfModule_Bootstrap($this->application);
         $module = $bootstrap->getModuleName();
         $loader = $bootstrap->getResourceLoader();
+        $this->assertNotNull($loader, "resource loader is unexpectedly NULL");
         $this->assertEquals($module, $loader->getNamespace());
     }
 

@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: FrontTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: FrontTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_Controller_FrontTest::main() if this source file is executed directly.
@@ -49,7 +49,7 @@ require_once 'Zend/Controller/Action/Helper/ViewRenderer.php';
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Controller
  * @group      Zend_Controller_Front
@@ -79,7 +79,7 @@ class Zend_Controller_FrontTest extends PHPUnit_Framework_TestCase
         $this->_controller->setControllerDirectory(dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files')
                           ->setParam('noErrorHandler', true)
                           ->setParam('noViewRenderer', true)
-                          ->returnResponse(true) 
+                          ->returnResponse(true)
                           ->throwExceptions(false);
         Zend_Controller_Action_HelperBroker::resetHelpers();
     }
@@ -433,7 +433,7 @@ class Zend_Controller_FrontTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test that a set base URL is pushed to the request during the dispatch 
+     * Test that a set base URL is pushed to the request during the dispatch
      * process
      */
     public function testBaseUrlPushedToRequest()
@@ -606,7 +606,7 @@ class Zend_Controller_FrontTest extends PHPUnit_Framework_TestCase
         $this->assertNotEquals($controllerDirs, $test);
         $this->assertFalse(array_key_exists('foo', $test));
     }
-    
+
     public function testAddModuleDirectoryThrowsExceptionForInvalidDirectory()
     {
         $moduleDir = 'doesntexist';
@@ -649,7 +649,7 @@ class Zend_Controller_FrontTest extends PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->_controller->hasPlugin('Zend_Controller_Plugin_ErrorHandler'));
         $request = new Zend_Controller_Request_Http('http://example.com/index/index');
-        $this->_controller->setParam('noErrorHandler', false) 
+        $this->_controller->setParam('noErrorHandler', false)
                           ->setResponse(new Zend_Controller_Response_Cli());
         $response = $this->_controller->dispatch($request);
 
@@ -660,7 +660,7 @@ class Zend_Controller_FrontTest extends PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->_controller->hasPlugin('Zend_Controller_Plugin_ErrorHandler'));
         $request = new Zend_Controller_Request_Http('http://example.com/index/index');
-        $this->_controller->setParam('noErrorHandler', true) 
+        $this->_controller->setParam('noErrorHandler', true)
                           ->setResponse(new Zend_Controller_Response_Cli());
         $response = $this->_controller->dispatch($request);
 

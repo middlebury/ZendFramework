@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Dojo
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DojoTest.php 18609 2009-10-16 20:37:36Z matthew $
+ * @version    $Id: DojoTest.php 21705 2010-03-31 17:38:19Z matthew $
  */
 
 // Call Zend_Dojo_View_Helper_DojoTest::main() if this source file is executed directly.
@@ -45,12 +45,12 @@ require_once 'Zend/View.php';
  * @category   Zend
  * @package    Zend_Dojo
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Dojo
  * @group      Zend_Dojo_View
  */
-class Zend_Dojo_View_Helper_DojoTest extends PHPUnit_Framework_TestCase 
+class Zend_Dojo_View_Helper_DojoTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -223,7 +223,7 @@ class Zend_Dojo_View_Helper_DojoTest extends PHPUnit_Framework_TestCase
     public function testShouldUseLatestVersionWhenUsingCdnByDefault()
     {
         $this->helper->enable();
-        $this->assertEquals('1.3.2', $this->helper->getCdnVersion());
+        $this->assertEquals('1.4.1', $this->helper->getCdnVersion());
     }
 
     public function testShouldAllowSpecifyingDojoVersionWhenUtilizingCdn()
@@ -642,7 +642,7 @@ function() {
         $this->assertContains($json, $html, $html);
 
         $found = false;
-        foreach ($this->helper->getOnLoadActions() as $action) {
+        foreach ($this->helper->_getZendLoadActions() as $action) {
             if (strstr($action, 'dojo.mixin')) {
                 $found = true;
                 break;
@@ -847,6 +847,59 @@ function() {
         $this->view->textBox('foo', 'bar');
         $test = $this->helper->__toString();
         $this->assertRegexp('/zendDijits.*?(zend\.custom)/s', $test, 'Generated markup: ' . $test);
+    }
+
+    public function testDojoViewHelperContainerAddOptionsPassesOnAllStringOptions() {
+        $helper = $this->helper;
+        $options = array(
+            'requireModules' => 'ZfTestRequiredModule',
+            'laYers' => '_added_layer_',
+            'cdnBase' => 'ZF-RLZ',
+            'cdnVersion' => '1.9.5',
+            'cdnDojoPath' => '_cdn_dojo_path_',
+            'localPath' => '/srv/ZF/dojo/',
+            'stylesheetmodules' => 'test.stylesheet.module',
+            'stylesheets' => 'someStyleSheet',
+            'registerdojostylesheet' => true
+        );
+
+        $helper->setOptions($options);
+
+        $this->assertEquals(array('ZfTestRequiredModule'), $helper->getModules());
+        $this->assertEquals(array('_added_layer_'), $helper->getLayers());
+        $this->assertEquals('ZF-RLZ', $helper->getCdnBase());
+        $this->assertEquals('1.9.5', $helper->getCdnVersion());
+        $this->assertEquals('_cdn_dojo_path_', $helper->getCdnDojoPath());
+        $this->assertEquals('/srv/ZF/dojo/', $helper->getLocalPath());
+        $this->assertEquals(array('test.stylesheet.module'), $helper->getStyleSheetModules());
+        $this->assertEquals(array('someStyleSheet'), $helper->getStylesheets());
+        $this->assertTrue($helper->registerDojoStylesheet());
+    }
+
+    public function testDojoViewHelperContainerAddOptionsPassesOnAllArrayOptions() {
+        $helper = $this->helper;
+        $modulePaths = array('module1' => 'path1', 'module2' => 'path2');
+        $layers = array('layer_two','layer_three');
+        $djConfig = array('foo1' => 'bar1', 'foo2' => 'bar2');
+        $stylesheetMods = array('test.one.style', 'test.two.style');
+        $stylesheets = array('style1', 'style2');
+        $options = array(
+            'modulePaths'   => $modulePaths,
+            'layers'        => $layers,
+            'djConfig'      => $djConfig,
+            'styleShEEtModules' => $stylesheetMods,
+            'stylesheets'   => $stylesheets,
+            'registerdojostylesheet' => false
+        );
+
+        $helper->setOptions($options);
+
+        $this->assertEquals($modulePaths, $helper->getModulePaths());
+        $this->assertEquals($layers, $helper->getLayers());
+        $this->assertEquals($djConfig, $helper->getDjConfig());
+        $this->assertEquals($stylesheetMods, $helper->getStyleSheetModules());
+        $this->assertEquals($stylesheets, $helper->getStylesheets());
+        $this->assertFalse($helper->registerDojoStylesheet());
     }
 
     public function setupDojo()

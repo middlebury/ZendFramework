@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Search23Test.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: Search23Test.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -34,13 +34,13 @@ require_once 'PHPUnit/Framework/TestCase.php';
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Search_Lucene
  */
 class Zend_Search_Lucene_Search23Test extends PHPUnit_Framework_TestCase
 {
-	public function testQueryParser()
+    public function testQueryParser()
     {
         $wildcardMinPrefix = Zend_Search_Lucene_Search_Query_Wildcard::getMinPrefixLength();
         Zend_Search_Lucene_Search_Query_Wildcard::setMinPrefixLength(0);
@@ -48,7 +48,7 @@ class Zend_Search_Lucene_Search23Test extends PHPUnit_Framework_TestCase
         $defaultPrefixLength = Zend_Search_Lucene_Search_Query_Fuzzy::getDefaultPrefixLength();
         Zend_Search_Lucene_Search_Query_Fuzzy::setDefaultPrefixLength(0);
 
-    	$queries = array('title:"The Right Way" AND text:go',
+        $queries = array('title:"The Right Way" AND text:go',
                          'title:"Do it right" AND right',
                          'title:Do it right',
                          'te?t',
@@ -470,10 +470,10 @@ class Zend_Search_Lucene_Search23Test extends PHPUnit_Framework_TestCase
 
     public function testQueryHit()
     {
-    	// Restore default search field if it wasn't done by previous test because of failure
+        // Restore default search field if it wasn't done by previous test because of failure
         Zend_Search_Lucene::setDefaultSearchField(null);
 
-    	$index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_index23Sample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_index23Sample/_files');
 
         $hits = $index->find('submitting AND wishlists');
         $hit = $hits[0];
@@ -517,6 +517,39 @@ class Zend_Search_Lucene_Search23Test extends PHPUnit_Framework_TestCase
                                    array(0, 0.247795, 'IndexSource/contributing.documentation.html'),
                                    array(8, 0.212395, 'IndexSource/contributing.html'),
                                    array(2, 0.176996, 'IndexSource/contributing.patches.html'));
+
+        foreach ($hits as $resId => $hit) {
+            $this->assertEquals($hit->id, $expectedResultset[$resId][0]);
+            $this->assertTrue( abs($hit->score - $expectedResultset[$resId][1]) < 0.000001 );
+            $this->assertEquals($hit->path, $expectedResultset[$resId][2]);
+        }
+    }
+
+    public function testSortingResultByScore()
+    {
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_index23Sample/_files');
+
+        $hits = $index->find('"reporting bugs"', 'score', SORT_NUMERIC, SORT_ASC,
+                                                 'path',  SORT_STRING,  SORT_ASC);
+        $this->assertEquals(count($hits), 4);
+        $expectedResultset = array(array(2, 0.176996, 'IndexSource/contributing.patches.html'),
+                                   array(7, 0.212395, 'IndexSource/contributing.bugs.html'),
+                                   array(8, 0.212395, 'IndexSource/contributing.html'),
+                                   array(0, 0.247795, 'IndexSource/contributing.documentation.html'));
+
+        foreach ($hits as $resId => $hit) {
+            $this->assertEquals($hit->id, $expectedResultset[$resId][0]);
+            $this->assertTrue( abs($hit->score - $expectedResultset[$resId][1]) < 0.000001 );
+            $this->assertEquals($hit->path, $expectedResultset[$resId][2]);
+        }
+
+        $hits = $index->find('"reporting bugs"', 'score', SORT_NUMERIC, SORT_ASC,
+                                                 'path',  SORT_STRING,  SORT_DESC);
+        $this->assertEquals(count($hits), 4);
+        $expectedResultset = array(array(2, 0.176996, 'IndexSource/contributing.patches.html'),
+                                   array(8, 0.212395, 'IndexSource/contributing.html'),
+                                   array(7, 0.212395, 'IndexSource/contributing.bugs.html'),
+                                   array(0, 0.247795, 'IndexSource/contributing.documentation.html'));
 
         foreach ($hits as $resId => $hit) {
             $this->assertEquals($hit->id, $expectedResultset[$resId][0]);

@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: HttpTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: HttpTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -37,7 +37,7 @@ require_once 'Zend/Controller/Response/Exception.php';
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Controller
  * @group      Zend_Controller_Response
@@ -124,6 +124,20 @@ class Zend_Controller_Response_HttpTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, count($headers));
     }
 
+	/**
+	 * @group ZF-6038
+	 */
+    public function testClearHeader()
+    {
+        $this->_response->setHeader('Connection', 'keep-alive');
+        $original_headers = $this->_response->getHeaders();
+
+        $this->_response->clearHeader('Connection');
+        $updated_headers  = $this->_response->getHeaders();
+        
+        $this->assertFalse($original_headers == $updated_headers);
+    }
+
     public function testSetRawHeader()
     {
         $this->_response->setRawHeader('HTTP/1.0 404 Not Found');
@@ -140,6 +154,21 @@ class Zend_Controller_Response_HttpTest extends PHPUnit_Framework_TestCase
         $this->_response->clearRawHeaders();
         $headers = $this->_response->getRawHeaders();
         $this->assertTrue(empty($headers));
+    }
+
+	/**
+	 * @group ZF-6038
+	 */
+    public function testClearRawHeader()
+    {
+        $this->_response->setRawHeader('HTTP/1.0 404 Not Found');
+        $this->_response->setRawHeader('HTTP/1.0 401 Unauthorized');
+        $originalHeadersRaw = $this->_response->getRawHeaders();
+
+        $this->_response->clearRawHeader('HTTP/1.0 404 Not Found');
+        $updatedHeadersRaw  = $this->_response->getRawHeaders();
+        
+        $this->assertFalse($originalHeadersRaw == $updatedHeadersRaw);
     }
 
     public function testClearAllHeaders()
@@ -210,10 +239,10 @@ class Zend_Controller_Response_HttpTest extends PHPUnit_Framework_TestCase
 
         $expected = 'Content; and more content.';
         $result = $this->_response->__toString();
-        
+
         $this->assertSame($expected, $result);
         return;
-        
+
         // header checking will not work
 
         if (!$skipHeadersTest) {
@@ -296,7 +325,7 @@ class Zend_Controller_Response_HttpTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestSkipped();
         return;
-        
+
         $this->_response->headersSentThrowsException = true;
         try {
             $this->_response->canSendHeaders(true);

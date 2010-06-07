@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Tool
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: IncludePathLoaderTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 require_once dirname(__FILE__) . '/../../../../TestHelper.php';
@@ -31,9 +31,9 @@ require_once 'Zend/Tool/Framework/Provider/Repository.php';
  * @category   Zend
  * @package    Zend_Tool
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * 
+ *
  * @group Zend_Tool
  * @group Zend_Tool_Framework
  * @group Zend_Tool_Framework_Loader
@@ -45,7 +45,7 @@ class Zend_Tool_Framework_Loader_IncludePathLoaderTest extends PHPUnit_Framework
      * @var Zend_Tool_Framework_Registry
      */
     protected $_registry = null;
-    
+
     public function setUp()
     {
 
@@ -55,10 +55,10 @@ class Zend_Tool_Framework_Loader_IncludePathLoaderTest extends PHPUnit_Framework
     {
         Zend_Tool_Framework_Registry::resetInstance();
     }
-    
+
     /** running these tests need to happen in separate process */
     /**
-    
+
 
     public function testLoaderFindsIncludePathFilesAreFound()
     {
@@ -70,7 +70,7 @@ class Zend_Tool_Framework_Loader_IncludePathLoaderTest extends PHPUnit_Framework
         }
         $this->assertContains('Zend/Tool/Framework/System/Manifest.php', $files);
     }
-    
+
     public function testLoaderFindsIncludePathFilesAreLoaded()
     {
         $loader = new Zend_Tool_Framework_Loader_IncludePathLoader();
@@ -80,5 +80,5 @@ class Zend_Tool_Framework_Loader_IncludePathLoaderTest extends PHPUnit_Framework
     }
 
     */
-    
+
 }

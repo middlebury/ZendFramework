@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AutoCompleteTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: AutoCompleteTest.php 22234 2010-05-21 22:18:53Z dragonbe $
  */
 
 // Call Zend_Controller_Action_Helper_AutoCompleteTest::main() if this source file is executed directly.
@@ -46,13 +46,13 @@ require_once 'Zend/Layout.php';
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Controller
  * @group      Zend_Controller_Action
  * @group      Zend_Controller_Action_Helper
  */
-class Zend_Controller_Action_Helper_AutoCompleteTest extends PHPUnit_Framework_TestCase 
+class Zend_Controller_Action_Helper_AutoCompleteTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -185,6 +185,24 @@ class Zend_Controller_Action_Helper_AutoCompleteTest extends PHPUnit_Framework_T
         $encoded = $dojo->direct($data, false, true);
         $this->assertTrue($this->layout->isEnabled());
         $this->assertFalse($this->viewRenderer->getNoRender());
+    }
+    /**
+     * @group   ZF-9126
+     */
+    public function testDojoHelperEncodesUnicodeChars()
+    {
+        $dojo = new Zend_Controller_Action_Helper_AutoCompleteDojo();
+        $dojo->suppressExit = true;
+        $data = array ('garçon', 'schließen', 'Helgi Þormar Þorbjörnsson');
+        $encoded = $dojo->direct($data);
+        $body = $this->response->getBody();
+        $decoded = Zend_Json::decode($encoded);
+        $test = array ();
+        foreach ($decoded['items'] as $item) {
+            $test[] = $item['name'];
+        }
+        $this->assertSame($data, $test);
+        $this->assertSame($encoded, $body);
     }
 
     public function testScriptaculousHelperThrowsExceptionOnInvalidDataFormat()

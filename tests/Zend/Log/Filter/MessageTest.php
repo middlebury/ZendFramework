@@ -15,13 +15,12 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: MessageTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: MessageTest.php 20982 2010-02-08 15:51:36Z matthew $
  */
 
-/** PHPUnit_Framework_TestCase */
-require_once 'PHPUnit/Framework/TestCase.php';
+require_once dirname(__FILE__) . '/../../../TestHelper.php';
 
 /** Zend_Log */
 require_once 'Zend/Log.php';
@@ -33,7 +32,7 @@ require_once 'Zend/Log/Filter/Message.php';
  * @category   Zend
  * @package    Zend_Log
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Log
  */
@@ -49,12 +48,40 @@ class Zend_Log_Filter_MessageTest extends PHPUnit_Framework_TestCase
             $this->assertRegexp('/invalid reg/i', $e->getMessage());
         }
     }
-    
+
     public function testMessageFilter()
     {
         $filter = new Zend_Log_Filter_Message('/accept/');
         $this->assertTrue($filter->accept(array('message' => 'foo accept bar')));
         $this->assertFalse($filter->accept(array('message' => 'foo reject bar')));
     }
+    
+    public function testFactory()
+    {
+        $cfg = array('log' => array('memory' => array(
+            'writerName'   => "Mock", 
+            'filterName'   => "Message", 
+            'filterParams' => array(
+                'regexp'   => "/42/" 
+             ),        
+        )));
 
+        $logger = Zend_Log::factory($cfg['log']);
+        $this->assertTrue($logger instanceof Zend_Log);
+    }
+
+    public function testFactoryWithConfig()
+    {
+        require_once 'Zend/Config.php';
+        $config = new Zend_Config(array('log' => array('memory' => array(
+            'writerName'   => "Mock", 
+            'filterName'   => "Message", 
+            'filterParams' => array(
+                'regexp'   => "/42/" 
+             ),        
+        ))));
+
+        $filter = Zend_Log_Filter_Message::factory($config->log->memory->filterParams);
+        $this->assertTrue($filter instanceof Zend_Log_Filter_Message);
+    }
 }

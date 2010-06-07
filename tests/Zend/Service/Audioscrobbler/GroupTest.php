@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Service_Audioscrobbler
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: GroupTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: GroupTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 
@@ -38,7 +38,7 @@ require_once "AudioscrobblerTestCase.php";
  * @category   Zend
  * @package    Zend_Service_Audioscrobbler
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Service
  * @group      Zend_Service_Audioscrobbler
@@ -292,7 +292,7 @@ class Zend_Service_Audioscrobbler_GroupTest extends Zend_Service_Audioscrobbler_
         $from = 1114965332;
         $to = 1115570132;
         $response = $as->groupGetWeeklyChartList($from, $to);
-        
+
         $this->assertNotNull(count($response));
         $this->assertEquals((string)$response['group'], 'Jazz Club');
         $this->assertEquals((int)$response['from'], $from);

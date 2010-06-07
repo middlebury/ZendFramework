@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Validate_File
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ExistsTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: ExistsTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_Validate_File_ExistsTest::main() if this source file is executed directly.
@@ -41,7 +41,7 @@ require_once 'Zend/Validate/File/Exists.php';
  * @category   Zend
  * @package    Zend_Validate_File
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Validate
  */
@@ -169,11 +169,11 @@ class Zend_Validate_File_ExistsTest extends PHPUnit_Framework_TestCase
         $validator->setDirectory('gif');
         $this->assertEquals('gif', $validator->getDirectory());
         $this->assertEquals(array('gif'), $validator->getDirectory(true));
-        
+
         $validator->setDirectory('jpg, temp');
         $this->assertEquals('jpg,temp', $validator->getDirectory());
         $this->assertEquals(array('jpg', 'temp'), $validator->getDirectory(true));
-        
+
         $validator->setDirectory(array('zip', 'ti'));
         $this->assertEquals('zip,ti', $validator->getDirectory());
         $this->assertEquals(array('zip', 'ti'), $validator->getDirectory(true));

@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Dojo
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ComboBoxTest.php 18549 2009-10-15 17:00:16Z matthew $
+ * @version    $Id: ComboBoxTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_Dojo_Form_Element_ComboBoxTest::main() if this source file is executed directly.
@@ -45,12 +45,12 @@ require_once 'Zend/Dojo/View/Helper/Dojo.php';
  * @category   Zend
  * @package    Zend_Dojo
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Dojo
  * @group      Zend_Dojo_Form
  */
-class Zend_Dojo_Form_Element_ComboBoxTest extends PHPUnit_Framework_TestCase 
+class Zend_Dojo_Form_Element_ComboBoxTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -172,6 +172,7 @@ class Zend_Dojo_Form_Element_ComboBoxTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group ZF-7134
+     * @group ZF-7266
      */
     public function testComboBoxInSubFormShouldCreateJsonStoreBasedOnQualifiedId()
     {
@@ -187,7 +188,7 @@ class Zend_Dojo_Form_Element_ComboBoxTest extends PHPUnit_Framework_TestCase
         $subform->addElement($this->element);
         $html = $this->element->render();
         $dojo = $this->view->dojo()->__toString();
-        $this->assertContains('dijit.byId("bar-foo")', $dojo, $dojo);
+        $this->assertContains('"store":"foo"', $dojo, $dojo);
     }
 }
 

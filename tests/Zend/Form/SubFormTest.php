@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Form
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: SubFormTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: SubFormTest.php 22129 2010-05-06 11:20:39Z alab $
  */
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
@@ -37,7 +37,7 @@ require_once 'Zend/View.php';
  * @category   Zend
  * @package    Zend_Form
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Form
  */
@@ -130,7 +130,7 @@ class Zend_Form_SubFormTest extends PHPUnit_Framework_TestCase
         $form->addSubForm($subForm, 'foobar')
              ->setView(new Zend_View);
         $html = $form->render();
-        $this->assertContains('<dt>&nbsp;</dt>', $html);
+        $this->assertContains('<dt>&#160;</dt>', $html);
     }
 }
 

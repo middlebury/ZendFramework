@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Soap
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AutoDiscoverTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: AutoDiscoverTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 require_once dirname(__FILE__)."/../../TestHelper.php";
@@ -43,7 +43,7 @@ require_once "_files/commontypes.php";
  * @category   Zend
  * @package    Zend_Soap
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Soap
  */
@@ -72,7 +72,7 @@ class Zend_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     function testSetClass()
     {
         $scriptUri = 'http://localhost/my_script.php';
-        
+
         $server = new Zend_Soap_AutoDiscover();
         $server->setClass('Zend_Soap_AutoDiscover_Test');
         $dom = new DOMDocument();
@@ -198,7 +198,7 @@ class Zend_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
               .                 '<xsd:element name="who" type="xsd:string"/>'
               .               '</xsd:sequence>'
               .             '</xsd:complexType>'
-              .           '</xsd:element>'           
+              .           '</xsd:element>'
               .           '<xsd:element name="testFunc2Response">'
               .             '<xsd:complexType>'
               .               '<xsd:sequence>'
@@ -213,7 +213,7 @@ class Zend_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
               .                 '<xsd:element name="when" type="xsd:int"/>'
               .               '</xsd:sequence>'
               .             '</xsd:complexType>'
-              .           '</xsd:element>'           
+              .           '</xsd:element>'
               .           '<xsd:element name="testFunc3Response">'
               .             '<xsd:complexType>'
               .               '<xsd:sequence>'
@@ -561,7 +561,7 @@ class Zend_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($wsdl, $this->sanitizeWsdlXmlOutputForOsCompability($dom->saveXML()), "Generated WSDL did not match expected XML");
         $this->assertTrue($dom->schemaValidate(dirname(__FILE__) .'/schemas/wsdl.xsd'), "WSDL Did not validate");
 
-        
+
 
         unlink(dirname(__FILE__).'/_files/addfunction2.wsdl');
     }
@@ -688,7 +688,7 @@ class Zend_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
             $server->setPersistence("bogus");
             $this->fail();
         } catch(Zend_Soap_AutoDiscover_Exception $e) {
-            
+
         }
 
         try {

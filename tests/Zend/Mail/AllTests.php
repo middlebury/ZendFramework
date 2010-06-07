@@ -15,32 +15,18 @@
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AllTests.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: AllTests.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
+
+require_once dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'TestHelper.php';
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'Zend_Mail_AllTests::main');
 }
 
-/**
- * Test helper
- */
-require_once dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'TestHelper.php';
-
-
-if (!defined('TESTS_ZEND_MAIL_POP3_ENABLED')) {
-    if (is_readable('TestConfiguration.php')) {
-        require_once 'TestConfiguration.php';
-    } else {
-        require_once 'TestConfiguration.php.dist';
-    }
-}
-
-require_once 'PHPUnit/Framework/TestSuite.php';
-require_once 'PHPUnit/TextUI/TestRunner.php';
-
+require_once 'Zend/Mail/MailTest.php';
 require_once 'Zend/Mail/MboxTest.php';
 require_once 'Zend/Mail/MboxMessageOldTest.php';
 require_once 'Zend/Mail/MboxFolderTest.php';
@@ -58,7 +44,7 @@ require_once 'Zend/Mail/SmtpTest.php';
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Mail
  */
@@ -73,6 +59,7 @@ class Zend_Mail_AllTests
     {
         $suite = new PHPUnit_Framework_TestSuite('Zend Framework - Zend_Mail');
 
+        $suite->addTestSuite('Zend_Mail_MailTest');
         $suite->addTestSuite('Zend_Mail_MessageTest');
         $suite->addTestSuite('Zend_Mail_InterfaceTest');
         $suite->addTestSuite('Zend_Mail_MboxTest');

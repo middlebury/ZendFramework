@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Auth
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: OnlineTest.php 17787 2009-08-24 14:41:49Z sgehrig $
+ * @version    $Id: OnlineTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -39,7 +39,7 @@ require_once 'Zend/Auth/Adapter/Ldap.php';
  * @category   Zend
  * @package    Zend_Auth
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Auth
  */
@@ -193,5 +193,20 @@ class Zend_Auth_Adapter_Ldap_OnlineTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($result->isValid());
         $this->assertType('stdClass', $account);
         $this->assertEquals(TESTS_ZEND_LDAP_ALT_DN, $account->dn);
+    }
+
+    public function testAccountObjectRetrievalWithOmittedAttributes()
+    {
+        $adapter = new Zend_Auth_Adapter_Ldap(
+            array($this->_options),
+            TESTS_ZEND_LDAP_ALT_USERNAME,
+            TESTS_ZEND_LDAP_ALT_PASSWORD
+        );
+
+        $result = $adapter->authenticate();
+        $account = $adapter->getAccountObject(array(), array('userPassword'));
+
+        $this->assertType('stdClass', $account);
+        $this->assertFalse(isset($account->userpassword));
     }
 }

@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: FormLabelTest.php 18547 2009-10-15 15:51:24Z matthew $
+ * @version    $Id: FormLabelTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_View_Helper_FormLabelTest::main() if this source file is executed directly.
@@ -39,7 +39,7 @@ require_once 'Zend/View/Helper/FormLabel.php';
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_View
  * @group      Zend_View_Helper
@@ -114,7 +114,7 @@ class Zend_View_Helper_FormLabelTest extends PHPUnit_Framework_TestCase
         $label = $this->helper->formLabel('name', 'value', array('id' => 'id'));
         $this->assertEquals('<label for="id">value</label>', $label);
     }
-    
+
     /**
      * @group ZF-2473
      */
@@ -135,6 +135,15 @@ class Zend_View_Helper_FormLabelTest extends PHPUnit_Framework_TestCase
     {
         $label = $this->helper->formLabel('foo', 'bar', array('disableFor' => true));
         $this->assertNotContains('for="foo"', $label);
+    }
+
+    /**
+     * @group ZF-8265
+     */
+    public function testShouldNotRenderDisableForAttributeIfForIsSuppressed()
+    {
+        $label = $this->helper->formLabel('foo', 'bar', array('disableFor' => true));
+        $this->assertNotContains('disableFor=', $label, 'Output contains disableFor attribute!');
     }
 }
 

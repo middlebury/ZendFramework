@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Translate
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: IniTest.php 18707 2009-10-26 13:17:54Z thomas $
+ * @version    $Id: IniTest.php 22282 2010-05-25 14:21:53Z matthew $
  */
 
 /**
@@ -34,7 +34,7 @@ require_once 'PHPUnit/Framework/TestCase.php';
  * @category   Zend
  * @package    Zend_Translate
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Translate
  */
@@ -53,10 +53,6 @@ class Zend_Translate_Adapter_IniTest extends PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
-            $this->markTestSkipped('PHP 5.3 behaves different on parse_ini_file than previous PHP releases');
-        }
-
         $adapter = new Zend_Translate_Adapter_Ini(dirname(__FILE__) . '/_files/translation_en.ini');
         $this->assertTrue($adapter instanceof Zend_Translate_Adapter_Ini);
 
@@ -127,18 +123,26 @@ class Zend_Translate_Adapter_IniTest extends PHPUnit_Framework_TestCase
     {
         $adapter = new Zend_Translate_Adapter_Ini(dirname(__FILE__) . '/_files/translation_en.ini', 'en');
         $adapter->setOptions(array('testoption' => 'testkey'));
-        $this->assertEquals(
-            array(
-                'testoption' => 'testkey',
-                'clear' => false,
-                'scan' => null,
-                'locale' => 'en',
-                'ignore' => '.',
-                'disableNotices' => false,
-                'log'             => false,
-                'logMessage'      => 'Untranslated message within \'%locale%\': %message%',
-                'logUntranslated' => false),
-            $adapter->getOptions());
+        $expected = array(
+            'testoption'      => 'testkey',
+            'clear'           => false,
+            'content'         => dirname(__FILE__) . '/_files/translation_en.ini',
+            'scan'            => null,
+            'locale'          => 'en',
+            'ignore'          => '.',
+            'disableNotices'  => false,
+            'log'             => false,
+            'logMessage'      => 'Untranslated message within \'%locale%\': %message%',
+            'logUntranslated' => false,
+            'reload'          => false,
+        );
+        $options = $adapter->getOptions();
+
+        foreach ($expected as $key => $value) {
+            $this->assertArrayHasKey($key, $options);
+            $this->assertEquals($value, $options[$key]);
+        }
+
         $this->assertEquals('testkey', $adapter->getOptions('testoption'));
         $this->assertTrue(is_null($adapter->getOptions('nooption')));
     }

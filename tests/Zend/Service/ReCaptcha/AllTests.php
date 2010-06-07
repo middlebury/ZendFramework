@@ -15,39 +15,26 @@
  * @category   Zend
  * @package    Zend_Service_ReCaptcha
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AllTests.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: AllTests.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
+
+require_once dirname(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR . 'TestHelper.php';
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'Zend_Service_ReCaptcha_AllTests::main');
 }
 
-/**
- * Test helper
- */
-require_once dirname(__FILE__) . '/../../../TestHelper.php';
-
-/**
- * Exclude from code coverage report
- */
-PHPUnit_Util_Filter::addFileToFilter(__FILE__);
-
-/** @see Zend_Service_ReCaptcha_ReCaptchaTest */
 require_once 'Zend/Service/ReCaptcha/ReCaptchaTest.php';
-
-/** @see Zend_Service_ReCaptcha_ResponseTest */
 require_once 'Zend/Service/ReCaptcha/ResponseTest.php';
-
-/** @see Zend_Service_ReCaptcha_MailHideTest */
 require_once 'Zend/Service/ReCaptcha/MailHideTest.php';
 
 /**
  * @category   Zend
  * @package    Zend_Service_ReCaptcha
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Service
  * @group      Zend_Service_ReCaptcha

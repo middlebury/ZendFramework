@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Tool
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: $
+ * @version    $Id: ManifestGoodOne.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 require_once 'Zend/Tool/Framework/Manifest/ActionManifestable.php';
@@ -33,34 +33,34 @@ require_once 'ActionOne.php';
  * @category   Zend
  * @package    Zend_Tool
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Framework_Manifest_ManifestGoodOne 
-    implements Zend_Tool_Framework_Manifest_ActionManifestable, 
+class Zend_Tool_Framework_Manifest_ManifestGoodOne
+    implements Zend_Tool_Framework_Manifest_ActionManifestable,
         Zend_Tool_Framework_Manifest_ProviderManifestable,
         Zend_Tool_Framework_Manifest_MetadataManifestable,
         Zend_Tool_Framework_Manifest_Indexable
 {
-    
+
     public function getIndex()
     {
         return 5;
     }
-    
+
     public function getProviders()
     {
         return new Zend_Tool_Framework_Manifest_ProviderOne();
     }
-    
+
     public function getActions()
     {
         return new Zend_Tool_Framework_Manifest_ActionOne();
     }
-    
+
     public function getMetadata()
     {
         return new Zend_Tool_Framework_Metadata_Basic(array('name' => 'FooOne', 'value' => 'Bar'));
     }
-    
+
 }

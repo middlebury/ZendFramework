@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Console_Getop
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: GetoptTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: GetoptTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -39,7 +39,7 @@ require_once 'PHPUnit/Framework/TestCase.php';
  * @category   Zend
  * @package    Zend_Console_Getopt
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Console_Getopt
  */
@@ -278,6 +278,34 @@ class Zend_Console_GetoptTest extends PHPUnit_Framework_TestCase
         unset($opts->a);
         $this->assertFalse(isset($opts->a));
     }
+    
+    /**
+     * @group ZF-5948
+     */
+    public function testGetoptAddSetNonArrayArguments()
+    {
+        $opts = new Zend_Console_GetOpt('abp:', array('-foo'));
+        try {
+            $opts->setArguments('-a');
+            $this->fail('Expected to catch a Zend_Console_Getopt_Exception');
+        } catch(Zend_Exception $e) {
+            $this->assertType('Zend_Console_Getopt_Exception', $e,
+                'Expected Zend_Console_Getopt_Exception, got '. get_class($e));
+            $this->assertEquals("Parameter #1 to setArguments should be an array",
+                $e->getMessage());
+        }
+        
+        try {
+            $opts->addArguments('-b');
+            $this->fail('Expected to catch a Zend_Console_Getopt_Exception');
+        } catch(Zend_Exception $e) {
+            $this->assertType('Zend_Console_Getopt_Exception', $e,
+                'Expected Zend_Console_Getopt_Exception, got '. get_class($e));
+            $this->assertEquals("Parameter #1 to addArguments should be an array",
+                $e->getMessage());
+        }
+        
+    }
 
     public function testGetoptAddArguments()
     {
@@ -358,7 +386,7 @@ class Zend_Console_GetoptTest extends PHPUnit_Framework_TestCase
 
     public function testGetoptSetAliasesIgnoreCase()
     {
-        $opts = new Zend_Console_Getopt('abp:', array('--apple'), 
+        $opts = new Zend_Console_Getopt('abp:', array('--apple'),
             array(Zend_Console_Getopt::CONFIG_IGNORECASE => true));
         $opts->setAliases(array('a' => 'APPLE'));
         $this->assertTrue($opts->apple);
@@ -404,7 +432,7 @@ class Zend_Console_GetoptTest extends PHPUnit_Framework_TestCase
             'Usage: <progname> [ options ]',
             $opts->getUsageMessage());
         $message = preg_replace('/ /', '_', $message);
-        $this->assertEquals($message, 
+        $this->assertEquals($message,
             "Usage:_<progname>_[_options_]\n-a___________________apple\n-b___________________banana\n-p_<string>__________pear\n");
 
     }
@@ -421,7 +449,7 @@ class Zend_Console_GetoptTest extends PHPUnit_Framework_TestCase
             'Usage: <progname> [ options ]',
             $opts->getUsageMessage());
         $message = preg_replace('/ /', '_', $message);
-        $this->assertEquals($message, 
+        $this->assertEquals($message,
             "Usage:_<progname>_[_options_]\n-a___________________apple\n-b___________________banana\n-p_<string>__________pear\n");
     }
 
@@ -496,10 +524,10 @@ class Zend_Console_GetoptTest extends PHPUnit_Framework_TestCase
 
         $_SERVER['argv'] = $argv;
     }
-    
+
     /**
      * Test to ensure that dashed long names will parse correctly
-     * 
+     *
      * @group ZF-4763
      */
     public function testDashWithinLongOptionGetsParsed()
@@ -515,7 +543,7 @@ class Zend_Console_GetoptTest extends PHPUnit_Framework_TestCase
                 'foobar'
                 )
             );
-        
+
         $opts->parse();
         $this->assertEquals('foobar', $opts->getOption('man-bear'));
         $this->assertEquals('mbp', $opts->getOption('man-bear-pig'));
@@ -560,7 +588,7 @@ class Zend_Console_GetoptTest extends PHPUnit_Framework_TestCase
             $this->assertTrue($e instanceof Zend_Console_Getopt_Exception);
         }
     }
-    
+
     /**
      * @group ZF-5624
      */

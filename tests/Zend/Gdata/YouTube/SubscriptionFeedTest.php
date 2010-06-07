@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_Gdata_YouTube
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id $
  */
@@ -32,7 +32,7 @@ require_once 'Zend/Gdata/YouTube.php';
  * @category   Zend
  * @package    Zend_Gdata_YouTube
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Gdata
  * @group      Zend_Gdata_YouTube
@@ -46,7 +46,7 @@ class Zend_Gdata_YouTube_SubscriptionFeedTest extends PHPUnit_Framework_TestCase
                 true);
         $this->V2feedText = file_get_contents(
                 'Zend/Gdata/YouTube/_files/SubscriptionFeedDataSampleV2.xml',
-                true);        
+                true);
         $this->feed = new Zend_Gdata_YouTube_SubscriptionFeed();
     }
 
@@ -88,12 +88,12 @@ class Zend_Gdata_YouTube_SubscriptionFeedTest extends PHPUnit_Framework_TestCase
             $subscriptionFeed->author[0]->uri->text);
         // fail because of opensearch issue TODO jhartman -> fix once trevor commits his fix
         //$this->assertEquals(3, $subscriptionFeed->totalResults->text);
-        
+
         $this->assertEquals('self', $subscriptionFeed->getLink('self')->rel);
         $this->assertEquals('application/atom+xml',
             $subscriptionFeed->getLink('self')->type);
         $this->assertEquals(
-            'http://gdata.youtube.com/feeds/api/users/zfgdata/subscriptions' . 
+            'http://gdata.youtube.com/feeds/api/users/zfgdata/subscriptions' .
             '?start-index=1&max-results=25&v=2',
             $subscriptionFeed->getLink('self')->href);
         $this->assertEquals('related', $subscriptionFeed->getLink('related')->rel);
@@ -116,7 +116,7 @@ class Zend_Gdata_YouTube_SubscriptionFeedTest extends PHPUnit_Framework_TestCase
             'alt=atom-service&v=2',
             $subscriptionFeed->getLink('service')->href);
 
-    }    
+    }
 
     public function testEmptyEntryShouldHaveNoExtensionElements() {
         $this->assertTrue(is_array($this->feed->extensionElements));

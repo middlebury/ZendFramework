@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DoctypeTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: DoctypeTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_View_Helper_DoctypeTest::main() if this source file is executed directly.
@@ -41,12 +41,12 @@ require_once 'Zend/Registry.php';
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_View
  * @group      Zend_View_Helper
  */
-class Zend_View_Helper_DoctypeTest extends PHPUnit_Framework_TestCase 
+class Zend_View_Helper_DoctypeTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Zend_View_Helper_Doctype
@@ -122,7 +122,7 @@ class Zend_View_Helper_DoctypeTest extends PHPUnit_Framework_TestCase
 
     public function testIsXhtmlReturnsTrueForXhtmlDoctypes()
     {
-        foreach (array('XHTML1_STRICT', 'XHTML1_TRANSITIONAL', 'XHTML1_FRAMESET') as $type) {
+        foreach (array('XHTML1_STRICT', 'XHTML1_TRANSITIONAL', 'XHTML1_FRAMESET', 'XHTML5') as $type) {
             $doctype = $this->helper->doctype($type);
             $this->assertEquals($type, $doctype->getDoctype());
             $this->assertTrue($doctype->isXhtml());
@@ -145,6 +145,26 @@ class Zend_View_Helper_DoctypeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('CUSTOM', $doctype->getDoctype());
         $this->assertFalse($doctype->isXhtml());
     }
+
+	public function testIsHtml5() {
+		foreach (array('HTML5', 'XHTML5') as $type) {
+            $doctype = $this->helper->doctype($type);
+            $this->assertEquals($type, $doctype->getDoctype());
+            $this->assertTrue($doctype->isHtml5());
+        }
+
+		foreach (array('HTML4_STRICT', 'HTML4_LOOSE', 'HTML4_FRAMESET', 'XHTML1_STRICT', 'XHTML1_TRANSITIONAL', 'XHTML1_FRAMESET') as $type) {
+			$doctype = $this->helper->doctype($type);
+            $this->assertEquals($type, $doctype->getDoctype());
+            $this->assertFalse($doctype->isHtml5());
+		}
+	}
+	
+	public function testCanRegisterCustomHtml5Doctype() {
+		$doctype = $this->helper->doctype('<!DOCTYPE html>');
+        $this->assertEquals('CUSTOM', $doctype->getDoctype());
+        $this->assertTrue($doctype->isHtml5());
+	}
 
     public function testCanRegisterCustomXhtmlDoctype()
     {

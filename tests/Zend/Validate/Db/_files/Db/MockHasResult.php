@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_Validate
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id $
  */
@@ -31,7 +31,7 @@ require_once 'Zend/Db/Adapter/Abstract.php';
  * @category   Zend
  * @package    Zend_Validate
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Db_MockHasResult extends Zend_Db_Adapter_Abstract
@@ -48,7 +48,7 @@ class Db_MockHasResult extends Zend_Db_Adapter_Abstract
     {
         return array('one' => 'one');
     }
-    
+
     /**
      * Override for the constructor
      * @param array $config
@@ -57,9 +57,9 @@ class Db_MockHasResult extends Zend_Db_Adapter_Abstract
     {
         // Do Nothing.
     }
-    
+
     /**
-     * The below methods are un-needed, but need to be implemented for this to 
+     * The below methods are un-needed, but need to be implemented for this to
      * be a concrete class
      */
     public function listTables()

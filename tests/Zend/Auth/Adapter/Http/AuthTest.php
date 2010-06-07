@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Auth
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AuthTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: AuthTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 
@@ -55,7 +55,7 @@ require_once 'Zend/Controller/Response/Http.php';
  * @category   Zend
  * @package    Zend_Auth
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Auth
  */
@@ -194,7 +194,7 @@ class Zend_Auth_Adapter_Http_AuthTest extends PHPUnit_Framework_TestCase
 
     public function testBasicAuthBadCreds()
     {
-        // Ensure that credentials containing invalid characters are treated as 
+        // Ensure that credentials containing invalid characters are treated as
         // a bad username or password.
 
         // The expected Basic Www-Authenticate header value
@@ -206,7 +206,7 @@ class Zend_Auth_Adapter_Http_AuthTest extends PHPUnit_Framework_TestCase
 
     public function testBasicAuthBadUser()
     {
-        // Attempt Basic Authentication with a nonexistant username and 
+        // Attempt Basic Authentication with a nonexistant username and
         // password
 
         // The expected Basic Www-Authenticate header value
@@ -218,7 +218,7 @@ class Zend_Auth_Adapter_Http_AuthTest extends PHPUnit_Framework_TestCase
 
     public function testBasicAuthBadPassword()
     {
-        // Attempt Basic Authentication with a valid username, but invalid 
+        // Attempt Basic Authentication with a valid username, but invalid
         // password
 
         // The expected Basic Www-Authenticate header value
@@ -238,7 +238,7 @@ class Zend_Auth_Adapter_Http_AuthTest extends PHPUnit_Framework_TestCase
 
     public function testDigestAuthDefaultAlgo()
     {
-        // If the client omits the aglorithm argument, it should default to MD5, 
+        // If the client omits the aglorithm argument, it should default to MD5,
         // and work just as above
 
         $cauth = $this->_digestReply('Bryce', 'ThisIsNotMyPassword');
@@ -250,7 +250,7 @@ class Zend_Auth_Adapter_Http_AuthTest extends PHPUnit_Framework_TestCase
 
     public function testDigestAuthQuotedNC()
     {
-        // The nonce count isn't supposed to be quoted, but apparently some 
+        // The nonce count isn't supposed to be quoted, but apparently some
         // clients do anyway.
 
         $cauth = $this->_digestReply('Bryce', 'ThisIsNotMyPassword');
@@ -273,7 +273,7 @@ class Zend_Auth_Adapter_Http_AuthTest extends PHPUnit_Framework_TestCase
 
     public function testDigestAuthBadCreds2()
     {
-        // Formerly, a username with invalid characters would result in a 400 
+        // Formerly, a username with invalid characters would result in a 400
         // response, but now should result in 401 response.
 
         // The expected Digest Www-Authenticate header value

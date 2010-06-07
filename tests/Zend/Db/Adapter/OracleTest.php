@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id $
  */
@@ -36,7 +36,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__);
  * @category   Zend
  * @package    Zend_Db
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Db
  * @group      Zend_Db_Adapter
@@ -182,7 +182,7 @@ class Zend_Db_Adapter_OracleTest extends Zend_Db_Adapter_TestCommon
         $this->assertEquals(3, $result[1]);
     }
 
-	/**
+    /**
      * Test the Adapter's fetchOne() method.
      */
     public function testAdapterFetchOne()
@@ -215,7 +215,7 @@ class Zend_Db_Adapter_OracleTest extends Zend_Db_Adapter_TestCommon
         $this->assertEquals($prod, $result);
     }
 
-	/**
+    /**
      * Test the Adapter's fetchPairs() method.
      */
     public function testAdapterFetchPairs()
@@ -519,9 +519,16 @@ class Zend_Db_Adapter_OracleTest extends Zend_Db_Adapter_TestCommon
         $this->_testAdapterAlternateStatement('Test_OracleStatement');
     }
 
+    /**
+     * @group ZF-8399
+     */
+    public function testLongQueryWithTextField()
+    {
+        $this->markTestSkipped($this->getDriver() . ' does not have TEXT field type');
+    }
+
     public function getDriver()
     {
         return 'Oracle';
     }
-
 }

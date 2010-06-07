@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Application
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ApplicationTest.php 18282 2009-09-18 20:10:50Z matthew $
+ * @version    $Id: ApplicationTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
@@ -39,7 +39,7 @@ require_once 'Zend/Application.php';
  * @category   Zend
  * @package    Zend_Application
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Application
  */
@@ -296,10 +296,14 @@ class Zend_Application_ApplicationTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($application->hasOption('bar'));
     }
 
-    public function testPassingArrayOptionsWithConfigKeyShouldLoadOptionsAndOverride()
+    /**
+     * This was changed to have the passed in array always overwrite the config file.
+     * @group ZF-6811
+     */
+    public function testPassingArrayOptionsWithConfigKeyShouldLoadOptionsAndNotOverride()
     {
         $application = new Zend_Application('testing', array('foo' => 'baz', 'config' => dirname(__FILE__) . '/_files/appconfig.inc'));
-        $this->assertEquals('bar', $application->getOption('foo'));
+        $this->assertNotEquals('bar', $application->getOption('foo'));
     }
 
     /**
@@ -388,11 +392,11 @@ class Zend_Application_ApplicationTest extends PHPUnit_Framework_TestCase
     public function testSetOptionsShouldProperlyMergeTwoConfigFileOptions()
     {
         $application = new Zend_Application(
-            'production', dirname(__FILE__) . 
+            'production', dirname(__FILE__) .
             '/_files/zf-6679-1.inc'
         );
         $options = $application->getOptions();
-        $this->assertEquals(array('config', 'includePaths'), array_keys($options));
+        $this->assertEquals(array('includePaths', 'config'), array_keys($options));
     }
 
     public function testPassingZfVersionAutoloaderInformationConfiguresAutoloader()
@@ -440,7 +444,8 @@ class Zend_Application_ApplicationTest extends PHPUnit_Framework_TestCase
     /**
      * @group ZF-6618
      */
-    public function testCanExecuteBoostrapResourceViaApplicationInstanceBootstrapMethod() {
+    public function testCanExecuteBoostrapResourceViaApplicationInstanceBootstrapMethod()
+    {
         $application = new Zend_Application('testing', array(
             'bootstrap' => array(
                 'path' => dirname(__FILE__) . '/_files/ZfAppBootstrap.php',
@@ -452,6 +457,19 @@ class Zend_Application_ApplicationTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(1, $application->getBootstrap()->fooExecuted);
         $this->assertEquals(0, $application->getBootstrap()->barExecuted);
+    }
+    
+    public function testOptionsCanHandleMuiltipleConigFiles()
+    {
+        $application = new Zend_Application('testing', array(
+            'config' => array(
+                dirname(__FILE__) . '/_files/Zf-6719-1.ini',
+                dirname(__FILE__) . '/_files/Zf-6719-2.ini'
+                )
+            )
+        );
+        
+        $this->assertEquals('baz', $application->getOption('foo'));
     }
 }
 

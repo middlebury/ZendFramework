@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: HeadMetaTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: HeadMetaTest.php 20376 2010-01-18 12:31:52Z mabe $
  */
 
 // Call Zend_View_Helper_HeadMetaTest::main() if this source file is executed directly.
@@ -45,7 +45,7 @@ require_once 'Zend/View.php';
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_View
  * @group      Zend_View_Helper
@@ -307,9 +307,9 @@ class Zend_View_Helper_HeadMetaTest extends PHPUnit_Framework_TestCase
         $this->assertNotContains('unused', $string);
         $this->assertContains('name="title" content="boo bah"', $string);
     }
-    
+
     /**
-     * @group #ZF-6637
+     * @group ZF-6637
      */
     public function testToStringWhenInvalidKeyProvidedShouldConvertThrownException()
     {
@@ -428,13 +428,46 @@ class Zend_View_Helper_HeadMetaTest extends PHPUnit_Framework_TestCase
 
         $test = $this->helper->toString();
 
-        $expected = '<meta name="keywords" content="foo" />
-<meta http-equiv="Cache-control" content="baz" />
-<meta name="description" content="foo" />
-<meta http-equiv="pragma" content="baz" />';
+        $expected = '<meta name="keywords" content="foo" />' . PHP_EOL
+                  . '<meta http-equiv="Cache-control" content="baz" />' . PHP_EOL
+                  . '<meta name="description" content="foo" />' . PHP_EOL
+                  . '<meta http-equiv="pragma" content="baz" />';
 
         $this->assertEquals($expected, $test);
     }
+
+	/**
+	 * @issue ZF-7722
+	 */
+	public function testCharsetValidateFail()
+	{
+		$view = new Zend_View();
+		$view->doctype('HTML4_STRICT');
+
+		try {
+			$view->headMeta()->setCharset('utf-8');
+			$this->fail('Should not be able to set charset for a HTML4 doctype');
+		} catch (Zend_View_Exception $e) {}
+	}
+
+	/**
+	 * @issue ZF-7722
+	 */
+	public function testCharset() {
+		$view = new Zend_View();
+		$view->doctype('HTML5');
+
+		$view->headMeta()->setCharset('utf-8');
+		$this->assertEquals(
+			'<meta charset="utf-8">',
+			$view->headMeta()->toString());
+
+		$view->doctype('XHTML5');
+
+		$this->assertEquals(
+			'<meta charset="utf-8"/>',
+			$view->headMeta()->toString());
+	}
 
 }
 

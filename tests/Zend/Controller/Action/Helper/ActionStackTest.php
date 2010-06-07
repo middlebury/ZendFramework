@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ActionStackTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: ActionStackTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_Controller_Action_Helper_ActionStackTest::main() if this source file is executed directly.
@@ -39,25 +39,25 @@ require_once 'Zend/Controller/Request/Simple.php';
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Controller
  * @group      Zend_Controller_Action
  * @group      Zend_Controller_Action_Helper
  */
-class Zend_Controller_Action_Helper_ActionStackTest extends PHPUnit_Framework_TestCase 
+class Zend_Controller_Action_Helper_ActionStackTest extends PHPUnit_Framework_TestCase
 {
-    
+
     /**
      * @var Zend_Controller_Front
      */
     public $front;
-    
+
     /**
      * @var Zend_Controller_Request_Http
      */
     public $request;
-    
+
     /**
      * Runs the test methods of this class.
      *
@@ -82,7 +82,7 @@ class Zend_Controller_Action_Helper_ActionStackTest extends PHPUnit_Framework_Te
     {
         $this->front = Zend_Controller_Front::getInstance();
         $this->front->resetInstance();
-        
+
         $this->request = new Zend_Controller_Request_Http();
         $this->front->setRequest($this->request);
     }
@@ -138,7 +138,7 @@ class Zend_Controller_Action_Helper_ActionStackTest extends PHPUnit_Framework_Te
     {
         $helper = new Zend_Controller_Action_Helper_ActionStack();
         $plugin = $this->front->getPlugin('Zend_Controller_Plugin_ActionStack');
-        
+
         $helper->actionToStack('baz', 'bar', 'foo');
         $next = $plugin->popStack();
         $this->assertTrue($next instanceof Zend_Controller_Request_Abstract);
@@ -182,12 +182,12 @@ class Zend_Controller_Action_Helper_ActionStackTest extends PHPUnit_Framework_Te
                    'Zend_Controller_Action_Exception expected, '.get_class($e).' caught');
         }
     }
-    
+
      public function testCannotStackActionIfNoRequestAvailable()
     {
         $helper = new Zend_Controller_Action_Helper_ActionStack();
         $plugin = $this->front->getPlugin('Zend_Controller_Plugin_ActionStack');
-        
+
         $helper->direct('baz', 'bar', 'foo');
         $next = $plugin->popStack();
         $this->assertTrue($next instanceof Zend_Controller_Request_Abstract);

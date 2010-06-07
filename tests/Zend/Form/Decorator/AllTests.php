@@ -15,20 +15,16 @@
  * @category   Zend
  * @package    Zend_Form
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AllTests.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: AllTests.php 22232 2010-05-21 22:04:05Z alab $
  */
+
+require_once dirname(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR . 'TestHelper.php';
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'Zend_Form_Decorator_AllTests::main');
 }
-
-require_once dirname(__FILE__) . '/../../../TestHelper.php';
-require_once 'PHPUnit/Framework/TestSuite.php';
-require_once 'PHPUnit/TextUI/TestRunner.php';
-
-// error_reporting(E_ALL);
 
 require_once 'Zend/Form/Decorator/AbstractTest.php';
 require_once 'Zend/Form/Decorator/CallbackTest.php';
@@ -36,6 +32,7 @@ require_once 'Zend/Form/Decorator/DescriptionTest.php';
 require_once 'Zend/Form/Decorator/ErrorsTest.php';
 require_once 'Zend/Form/Decorator/FieldsetTest.php';
 require_once 'Zend/Form/Decorator/FileTest.php';
+require_once 'Zend/Form/Decorator/FormErrorsTest.php';
 require_once 'Zend/Form/Decorator/FormTest.php';
 require_once 'Zend/Form/Decorator/HtmlTagTest.php';
 require_once 'Zend/Form/Decorator/ImageTest.php';
@@ -47,7 +44,7 @@ require_once 'Zend/Form/Decorator/ViewScriptTest.php';
  * @category   Zend
  * @package    Zend_Form
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Form
  */
@@ -68,6 +65,7 @@ class Zend_Form_Decorator_AllTests
         $suite->addTestSuite('Zend_Form_Decorator_ErrorsTest');
         $suite->addTestSuite('Zend_Form_Decorator_FieldsetTest');
         $suite->addTestSuite('Zend_Form_Decorator_FileTest');
+        $suite->addTestSuite('Zend_Form_Decorator_FormErrorsTest');
         $suite->addTestSuite('Zend_Form_Decorator_FormTest');
         $suite->addTestSuite('Zend_Form_Decorator_HtmlTagTest');
         $suite->addTestSuite('Zend_Form_Decorator_ImageTest');

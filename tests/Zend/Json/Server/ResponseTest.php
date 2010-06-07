@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Json_Server
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ResponseTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: ResponseTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_Json_Server_ResponseTest::main() if this source file is executed directly.
@@ -37,12 +37,12 @@ require_once 'Zend/Json.php';
  * @category   Zend
  * @package    Zend_Json_Server
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Json
  * @group      Zend_Json_Server
  */
-class Zend_Json_Server_ResponseTest extends PHPUnit_Framework_TestCase 
+class Zend_Json_Server_ResponseTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -146,7 +146,7 @@ class Zend_Json_Server_ResponseTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue(is_array($test));
         $this->assertTrue(array_key_exists('result', $test));
-        $this->assertFalse(array_key_exists('error', $test));
+        $this->assertTrue(array_key_exists('error', $test));
         $this->assertTrue(array_key_exists('id', $test));
         $this->assertTrue(array_key_exists('jsonrpc', $test));
 
@@ -167,7 +167,7 @@ class Zend_Json_Server_ResponseTest extends PHPUnit_Framework_TestCase
         $test = Zend_Json::decode($json);
 
         $this->assertTrue(is_array($test));
-        $this->assertFalse(array_key_exists('result', $test));
+        $this->assertTrue(array_key_exists('result', $test));
         $this->assertTrue(array_key_exists('id', $test));
         $this->assertFalse(array_key_exists('jsonrpc', $test));
 
@@ -185,7 +185,7 @@ class Zend_Json_Server_ResponseTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue(is_array($test));
         $this->assertTrue(array_key_exists('result', $test));
-        $this->assertFalse(array_key_exists('error', $test));
+        $this->assertTrue(array_key_exists('error', $test));
         $this->assertTrue(array_key_exists('id', $test));
         $this->assertFalse(array_key_exists('jsonrpc', $test));
 

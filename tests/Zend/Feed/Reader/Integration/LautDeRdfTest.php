@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Feed
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id:$
+ * @version    $Id: LautDeRdfTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 require_once 'PHPUnit/Framework/TestCase.php';
@@ -27,7 +27,7 @@ require_once 'Zend/Feed/Reader.php';
  * @category   Zend
  * @package    Zend_Feed
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Feed
  * @group      Zend_Feed_Reader
@@ -39,7 +39,20 @@ class Zend_Feed_Reader_Integration_LautDeRdfTest extends PHPUnit_Framework_TestC
 
     public function setup()
     {
+        Zend_Feed_Reader::reset();
         $this->_feedSamplePath = dirname(__FILE__) . '/_files/laut.de-rdf.xml';
+        $this->_options = Zend_Date::setOptions();
+        foreach($this->_options as $k=>$v) {
+            if (is_null($v)) {
+                unset($this->_options[$k]);
+            }
+        }
+        Zend_Date::setOptions(array('format_type'=>'iso'));
+    }
+    
+    public function teardown()
+    {
+        Zend_Date::setOptions($this->_options);
     }
 
     /**
@@ -59,7 +72,7 @@ class Zend_Feed_Reader_Integration_LautDeRdfTest extends PHPUnit_Framework_TestC
         $feed = Zend_Feed_Reader::importString(
             file_get_contents($this->_feedSamplePath)
         );
-        $this->assertEquals(array('laut.de'), $feed->getAuthors());
+        $this->assertEquals(array(array('name'=>'laut.de')), (array) $feed->getAuthors());
     }
 
     public function testGetsSingleAuthor()
@@ -67,7 +80,7 @@ class Zend_Feed_Reader_Integration_LautDeRdfTest extends PHPUnit_Framework_TestC
         $feed = Zend_Feed_Reader::importString(
             file_get_contents($this->_feedSamplePath)
         );
-        $this->assertEquals('laut.de', $feed->getAuthor());
+        $this->assertEquals(array('name'=>'laut.de'), $feed->getAuthor());
     }
 
     public function testGetsCopyright()
@@ -140,7 +153,7 @@ class Zend_Feed_Reader_Integration_LautDeRdfTest extends PHPUnit_Framework_TestC
             file_get_contents($this->_feedSamplePath)
         );
         $entry = $feed->current();
-        $this->assertEquals(array('laut.de'), $entry->getAuthors());
+        $this->assertEquals(array(array('name'=>'laut.de')), (array) $entry->getAuthors());
     }
 
     public function testGetsEntrySingleAuthor()
@@ -149,7 +162,7 @@ class Zend_Feed_Reader_Integration_LautDeRdfTest extends PHPUnit_Framework_TestC
             file_get_contents($this->_feedSamplePath)
         );
         $entry = $feed->current();
-        $this->assertEquals('laut.de', $entry->getAuthor());
+        $this->assertEquals(array('name'=>'laut.de'), $entry->getAuthor());
     }
 
     // Technically, the next two tests should not pass. However the source feed has an encoding

@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Json
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: JsonTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: JsonTest.php 20616 2010-01-25 19:56:04Z matthew $
  */
 
 /**
@@ -49,13 +49,13 @@ require_once 'Zend/Json/Decoder.php';
  * @category   Zend
  * @package    Zend_Json
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Json
  */
 class Zend_JsonTest extends PHPUnit_Framework_TestCase
 {
-	private $_originalUseBuiltinEncoderDecoderValue;
+    private $_originalUseBuiltinEncoderDecoderValue;
 
     public function setUp()
     {
@@ -443,11 +443,11 @@ class Zend_JsonTest extends PHPUnit_Framework_TestCase
 
     public function testToJsonSerialization()
     {
-    	$toJsonObject = new ToJsonClass();
+        $toJsonObject = new ToJsonClass();
 
-    	$result = Zend_Json::encode($toJsonObject);
+        $result = Zend_Json::encode($toJsonObject);
 
-    	$this->assertEquals('{"firstName":"John","lastName":"Doe","email":"john@doe.com"}', $result);
+        $this->assertEquals('{"firstName":"John","lastName":"Doe","email":"john@doe.com"}', $result);
     }
 
      /**
@@ -719,6 +719,41 @@ class Zend_JsonTest extends PHPUnit_Framework_TestCase
     public function testEncodeObjectImplementingIterator()
     {
         $this->markTestIncomplete('Test is not yet finished.');
+    }
+    
+    /**
+     * @group ZF-8663
+     */
+    public function testNativeJsonEncoderWillProperlyEncodeSolidusInStringValues()
+    {
+        $source = "</foo><foo>bar</foo>";
+        $target = '"<\\/foo><foo>bar<\\/foo>"';
+        
+        // first test ext/json
+        Zend_Json::$useBuiltinEncoderDecoder = false;
+        $this->assertEquals($target, Zend_Json::encode($source));
+    }
+    
+    /**
+     * @group ZF-8663
+     */
+    public function testBuiltinJsonEncoderWillProperlyEncodeSolidusInStringValues()
+    {
+        $source = "</foo><foo>bar</foo>";
+        $target = '"<\\/foo><foo>bar<\\/foo>"';
+        
+        // first test ext/json
+        Zend_Json::$useBuiltinEncoderDecoder = true;
+        $this->assertEquals($target, Zend_Json::encode($source));
+    }
+    
+    /**
+     * @group ZF-8918
+     * @expectedException Zend_Json_Exception
+     */
+    public function testDecodingInvalidJsonShouldRaiseAnException()
+    {
+        Zend_Json::decode(' some string ');
     }
 }
 

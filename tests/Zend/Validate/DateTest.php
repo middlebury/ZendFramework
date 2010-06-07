@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Validate
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DateTest.php 17696 2009-08-20 20:12:33Z thomas $
+ * @version    $Id: DateTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -34,7 +34,7 @@ require_once 'Zend/Validate/Date.php';
  * @category   Zend
  * @package    Zend_Validate
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Validate
  */
@@ -201,8 +201,11 @@ class Zend_Validate_DateTest extends PHPUnit_Framework_TestCase
      */
     public function testLocaleContructor()
     {
+        set_error_handler(array($this, 'errorHandlerIgnore'));
         $valid = new Zend_Validate_Date('dd.MM.YYYY', 'de');
         $this->assertTrue($valid->isValid('10.April.2008'));
+
+        restore_error_handler();
     }
 
     /**

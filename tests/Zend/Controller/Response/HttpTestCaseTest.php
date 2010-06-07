@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: HttpTestCaseTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: HttpTestCaseTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_Controller_Response_HttpTestCaseTest::main() if this source file is executed directly.
@@ -36,12 +36,12 @@ require_once 'Zend/Controller/Response/HttpTestCase.php';
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Controller
  * @group      Zend_Controller_Response
  */
-class Zend_Controller_Response_HttpTestCaseTest extends PHPUnit_Framework_TestCase 
+class Zend_Controller_Response_HttpTestCaseTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Runs the test methods of this class.

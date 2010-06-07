@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: SimpleTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: SimpleTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_Controller_Request_SimpleTest::main() if this source file is executed directly.
@@ -37,12 +37,12 @@ require_once 'Zend/Controller/Request/Simple.php';
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Controller
  * @group      Zend_Controller_Request
  */
-class Zend_Controller_Request_SimpleTest extends PHPUnit_Framework_TestCase 
+class Zend_Controller_Request_SimpleTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -63,7 +63,7 @@ class Zend_Controller_Request_SimpleTest extends PHPUnit_Framework_TestCase
         $request = new Zend_Controller_Request_Simple();
         $this->assertTrue($request instanceof Zend_Controller_Request_Abstract);
     }
-    
+
     public function testSimpleReqestRetainsValuesPassedFromConstructor()
     {
         $request = new Zend_Controller_Request_Simple('test1', 'test2', 'test3', array('test4' => 'test5'));
@@ -72,7 +72,7 @@ class Zend_Controller_Request_SimpleTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($request->getModuleName(), 'test3');
         $this->assertEquals($request->getParam('test4'), 'test5');
     }
-    
+
 }
 
 // Call Zend_Controller_Request_SimpleTest::main() if this source file is executed directly.

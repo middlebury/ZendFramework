@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_Uri
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id $
  */
@@ -35,10 +35,15 @@ require_once dirname(__FILE__) . '/../TestHelper.php';
 require_once 'Zend/Uri.php';
 
 /**
+ * Zend_Config
+ */
+require_once 'Zend/Config.php';
+
+/**
  * @category   Zend
  * @package    Zend_Uri
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Uri
  */
@@ -82,18 +87,50 @@ class Zend_UriTest extends PHPUnit_Framework_TestCase
 
     public function testSchemeHttp()
     {
-    	$this->_testValidUri('http');
+        $this->_testValidUri('http');
     }
 
     public function testSchemeHttps()
     {
-    	$this->_testValidUri('https');
+        $this->_testValidUri('https');
     }
 
     public function testSchemeMailto()
     {
         $this->markTestIncomplete('Zend_Uri_Mailto is not implemented yet');
-    	$this->_testValidUri('mailto');
+        $this->_testValidUri('mailto');
+    }
+
+    /**
+     * Tests that Zend_Uri::setConfig() allows Zend_Config
+     *
+     * @group ZF-5578
+     */
+    public function testSetConfigWithArray()
+    {
+        Zend_Uri::setConfig(array('allow_unwise' => true));
+    }
+
+    /**
+     * Tests that Zend_Uri::setConfig() allows Array
+     *
+     * @group ZF-5578
+     */
+    public function testSetConfigWithZendConfig()
+    {
+        Zend_Uri::setConfig(new Zend_Config(array('allow_unwise' => true)));
+    }
+
+    /**
+     * Tests that Zend_Uri::setConfig() throws Zend_Uri_Exception if no array
+     * nor Zend_Config is given as first parameter
+     *
+     * @group ZF-5578
+     * @expectedException Zend_Uri_Exception
+     */
+    public function testSetConfigInvalid()
+    {
+        Zend_Uri::setConfig('This should cause an exception');
     }
 
     /**
@@ -120,12 +157,40 @@ class Zend_UriTest extends PHPUnit_Framework_TestCase
      *
      * @param string $uri
      */
-    protected function _testValidUri($uri)
+    protected function _testValidUri($uri, $className = null)
     {
-        $uri = Zend_Uri::factory($uri);
+        $uri = Zend_Uri::factory($uri, $className);
         $this->assertTrue($uri instanceof Zend_Uri, 'Zend_Uri object not returned.');
+        return $uri;
     }
 
+    public function testFactoryWithUnExistingClassThrowException()
+    {
+        $this->setExpectedException('Zend_Uri_Exception', '"This_Is_An_Unknown_Class" not found');
+        Zend_Uri::factory('http://example.net', 'This_Is_An_Unknown_Class');
+    }
+
+    public function testFactoryWithExistingClassButNotImplementingZendUriThrowException()
+    {
+        $this->setExpectedException('Zend_Uri_Exception', '"Fake_Zend_Uri" is not an instance of Zend_Uri');
+        Zend_Uri::factory('http://example.net', 'Fake_Zend_Uri');
+    }
+
+    public function testFactoryWithExistingClassReturnObject()
+    {
+        $uri = $this->_testValidUri('http://example.net', 'Zend_Uri_Mock');
+        $this->assertTrue($uri instanceof Zend_Uri_Mock, 'Zend_Uri_Mock object not returned.');
+    }
+
+}
+class Zend_Uri_Mock extends Zend_Uri
+{
+    protected function __construct($scheme, $schemeSpecific = '') { }
+    public function getUri() { }
+    public function valid() { }
+}
+class Fake_Zend_Uri
+{
 }
 
 // Call Zend_UriTest::main() if this source file is executed directly.

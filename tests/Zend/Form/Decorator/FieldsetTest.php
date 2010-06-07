@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Form
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: FieldsetTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: FieldsetTest.php 21967 2010-04-21 23:22:00Z alab $
  */
 
 // Call Zend_Form_Decorator_FieldsetTest::main() if this source file is executed directly.
@@ -41,11 +41,11 @@ require_once 'Zend/View.php';
  * @category   Zend
  * @package    Zend_Form
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Form
  */
-class Zend_Form_Decorator_FieldsetTest extends PHPUnit_Framework_TestCase 
+class Zend_Form_Decorator_FieldsetTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -129,6 +129,20 @@ class Zend_Form_Decorator_FieldsetTest extends PHPUnit_Framework_TestCase
         $this->testLegendInitiallyNull();
         $this->decorator->setLegend('this is a legend');
         $this->assertEquals('this is a legend', $this->decorator->getLegend());
+    }
+
+    /**
+     * @see ZF-7054
+     */
+    public function testCustomIdSupersedesElementId()
+    {
+        $form = new Zend_Form_SubForm();
+        $form->setName('bar')
+             ->setView($this->getView());
+        $html = $this->decorator->setElement($form)
+                                ->setOption('id', 'foo-id')
+                                ->render('content');
+        $this->assertContains('foo-id', $html);
     }
 
     /**

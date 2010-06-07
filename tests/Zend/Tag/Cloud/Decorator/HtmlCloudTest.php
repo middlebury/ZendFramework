@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Tag
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: HtmlCloudTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: HtmlCloudTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
@@ -36,7 +36,7 @@ require_once 'Zend/Tag/Cloud/Decorator/HtmlCloud.php';
  * @category   Zend
  * @package    Zend_Tag
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Tag
  * @group      Zend_Tag_Cloud
@@ -48,56 +48,56 @@ class Zend_Tag_Cloud_Decorator_HtmlCloudTest extends PHPUnit_Framework_TestCase
         $suite  = new PHPUnit_Framework_TestSuite(__CLASS__);
         $result = PHPUnit_TextUI_TestRunner::run($suite);
     }
-    
+
     public function testDefaultOutput()
     {
         $decorator = new Zend_Tag_Cloud_Decorator_HtmlCloud();
-        
+
         $this->assertEquals('<ul class="Zend_Tag_Cloud">foo bar</ul>', $decorator->render(array('foo', 'bar')));
     }
-    
+
     public function testNestedTags()
     {
         $decorator = new Zend_Tag_Cloud_Decorator_HtmlCloud();
         $decorator->setHtmlTags(array('span', 'div' => array('id' => 'tag-cloud')));
-        
+
         $this->assertEquals('<div id="tag-cloud"><span>foo bar</span></div>', $decorator->render(array('foo', 'bar')));
     }
-    
+
     public function testSeparator()
     {
         $decorator = new Zend_Tag_Cloud_Decorator_HtmlCloud();
         $decorator->setSeparator('-');
-        
+
         $this->assertEquals('<ul class="Zend_Tag_Cloud">foo-bar</ul>', $decorator->render(array('foo', 'bar')));
     }
-    
+
     public function testConstructorWithArray()
     {
         $decorator = new Zend_Tag_Cloud_Decorator_HtmlCloud(array('htmlTags' => array('div'), 'separator' => ' '));
-        
+
         $this->assertEquals('<div>foo bar</div>', $decorator->render(array('foo', 'bar')));
     }
-    
+
     public function testConstructorWithConfig()
     {
         $decorator = new Zend_Tag_Cloud_Decorator_HtmlCloud(new Zend_Config(array('htmlTags' => array('div'), 'separator' => ' ')));
-        
+
         $this->assertEquals('<div>foo bar</div>', $decorator->render(array('foo', 'bar')));
     }
-    
+
     public function testSetOptions()
     {
         $decorator = new Zend_Tag_Cloud_Decorator_HtmlCloud();
         $decorator->setOptions(array('htmlTags' => array('div'), 'separator' => ' '));
-        
+
         $this->assertEquals('<div>foo bar</div>', $decorator->render(array('foo', 'bar')));
     }
-    
+
     public function testSkipOptions()
     {
         $decorator = new Zend_Tag_Cloud_Decorator_HtmlCloud(array('options' => 'foobar'));
-        // In case would fail due to an error           
+        // In case would fail due to an error
     }
 }
 
@@ -105,5 +105,5 @@ if (PHPUnit_MAIN_METHOD == 'Zend_Tag_Cloud_Decorator_HtmlCloudTest::main') {
     Zend_Tag_Cloud_Decorator_HtmlCloudTest::main();
 }
 /**
- *  
+ *
  */

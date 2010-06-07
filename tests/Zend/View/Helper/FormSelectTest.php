@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: FormSelectTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: FormSelectTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_View_Helper_FormSelectTest::main() if this source file is executed directly.
@@ -36,12 +36,12 @@ require_once 'Zend/View.php';
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_View
  * @group      Zend_View_Helper
  */
-class Zend_View_Helper_FormSelectTest extends PHPUnit_Framework_TestCase 
+class Zend_View_Helper_FormSelectTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -132,11 +132,11 @@ class Zend_View_Helper_FormSelectTest extends PHPUnit_Framework_TestCase
     public function testCanDisableEntireSelect()
     {
         $html = $this->helper->formSelect(array(
-            'name'    => 'baz', 
+            'name'    => 'baz',
             'options' => array(
-                'foo' => 'Foo', 
+                'foo' => 'Foo',
                 'bar' => 'Bar'
-            ), 
+            ),
             'attribs' => array(
                'disable' => true
             ),
@@ -151,11 +151,11 @@ class Zend_View_Helper_FormSelectTest extends PHPUnit_Framework_TestCase
     public function testCanDisableIndividualSelectOptionsOnly()
     {
         $html = $this->helper->formSelect(array(
-            'name'    => 'baz', 
+            'name'    => 'baz',
             'options' => array(
-                'foo' => 'Foo', 
+                'foo' => 'Foo',
                 'bar' => 'Bar'
-            ), 
+            ),
             'attribs' => array(
                'disable' => array('bar')
             ),
@@ -164,13 +164,13 @@ class Zend_View_Helper_FormSelectTest extends PHPUnit_Framework_TestCase
         $this->assertRegexp('/<option value="bar"[^>]*?disabled="disabled"/', $html, $html);
 
         $html = $this->helper->formSelect(
-            'baz', 
+            'baz',
             'foo',
             array(
                'disable' => array('bar')
             ),
             array(
-                'foo' => 'Foo', 
+                'foo' => 'Foo',
                 'bar' => 'Bar'
             )
         );
@@ -184,12 +184,12 @@ class Zend_View_Helper_FormSelectTest extends PHPUnit_Framework_TestCase
     public function testCanDisableMultipleSelectOptions()
     {
         $html = $this->helper->formSelect(array(
-            'name'    => 'baz', 
+            'name'    => 'baz',
             'options' => array(
-                'foo' => 'Foo', 
+                'foo' => 'Foo',
                 'bar' => 'Bar',
                 'baz' => 'Baz,'
-            ), 
+            ),
             'attribs' => array(
                'disable' => array('foo', 'baz')
             ),
@@ -205,15 +205,15 @@ class Zend_View_Helper_FormSelectTest extends PHPUnit_Framework_TestCase
     public function testCanDisableOptGroups()
     {
         $html = $this->helper->formSelect(array(
-            'name'    => 'baz', 
+            'name'    => 'baz',
             'options' => array(
-                'foo' => 'Foo', 
+                'foo' => 'Foo',
                 'bar' => array(
                     '1' => 'one',
                     '2' => 'two'
                 ),
                 'baz' => 'Baz,'
-            ), 
+            ),
             'attribs' => array(
                'disable' => array('bar')
             ),
@@ -230,15 +230,15 @@ class Zend_View_Helper_FormSelectTest extends PHPUnit_Framework_TestCase
     public function testCanDisableOptGroupOptions()
     {
         $html = $this->helper->formSelect(array(
-            'name'    => 'baz', 
+            'name'    => 'baz',
             'options' => array(
-                'foo' => 'Foo', 
+                'foo' => 'Foo',
                 'bar' => array(
                     '1' => 'one',
                     '2' => 'two'
                 ),
                 'baz' => 'Baz,'
-            ), 
+            ),
             'attribs' => array(
                'disable' => array('2')
             ),
@@ -252,12 +252,12 @@ class Zend_View_Helper_FormSelectTest extends PHPUnit_Framework_TestCase
     public function testCanSpecifySelectMultipleThroughAttribute()
     {
         $html = $this->helper->formSelect(array(
-            'name'    => 'baz', 
+            'name'    => 'baz',
             'options' => array(
-                'foo' => 'Foo', 
+                'foo' => 'Foo',
                 'bar' => 'Bar',
                 'baz' => 'Baz,'
-            ), 
+            ),
             'attribs' => array(
                'multiple' => true
             ),
@@ -268,12 +268,12 @@ class Zend_View_Helper_FormSelectTest extends PHPUnit_Framework_TestCase
     public function testSpecifyingSelectMultipleThroughAttributeAppendsNameWithBrackets()
     {
         $html = $this->helper->formSelect(array(
-            'name'    => 'baz', 
+            'name'    => 'baz',
             'options' => array(
-                'foo' => 'Foo', 
+                'foo' => 'Foo',
                 'bar' => 'Bar',
                 'baz' => 'Baz,'
-            ), 
+            ),
             'attribs' => array(
                'multiple' => true
             ),
@@ -284,12 +284,12 @@ class Zend_View_Helper_FormSelectTest extends PHPUnit_Framework_TestCase
     public function testCanSpecifySelectMultipleThroughName()
     {
         $html = $this->helper->formSelect(array(
-            'name'    => 'baz[]', 
+            'name'    => 'baz[]',
             'options' => array(
-                'foo' => 'Foo', 
+                'foo' => 'Foo',
                 'bar' => 'Bar',
                 'baz' => 'Baz,'
-            ), 
+            ),
         ));
         $this->assertRegexp('/<select[^>]*?(multiple="multiple")/', $html, $html);
     }
@@ -300,12 +300,12 @@ class Zend_View_Helper_FormSelectTest extends PHPUnit_Framework_TestCase
     public function testNameCanContainBracketsButNotBeMultiple()
     {
         $html = $this->helper->formSelect(array(
-            'name'    => 'baz[]', 
+            'name'    => 'baz[]',
             'options' => array(
-                'foo' => 'Foo', 
+                'foo' => 'Foo',
                 'bar' => 'Bar',
                 'baz' => 'Baz,'
-            ), 
+            ),
             'attribs' => array(
                'multiple' => false
             ),

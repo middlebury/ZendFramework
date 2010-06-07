@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Service_Delicious
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: PublicDataTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: PublicDataTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 
@@ -36,7 +36,7 @@ require_once 'Zend/Service/Delicious.php';
  * @category   Zend_Service
  * @package    Zend_Service_Delicious
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Service
  * @group      Zend_Service_Delicious
@@ -146,7 +146,7 @@ class Zend_Service_Delicious_PublicDataTest extends PHPUnit_Framework_TestCase
             $this->assertContains('zfSite', $post->getTags());
         }
     }
-    
+
     /**
      * Try to get details of some URL
      *
@@ -154,13 +154,13 @@ class Zend_Service_Delicious_PublicDataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetUrlDetails() {
         $details = $this->_delicious->getUrlDetails(self::TEST_URL);
-        
+
         $this->assertType('array', $details);
         $this->assertArrayHasKey('hash', $details);
         $this->assertArrayHasKey('top_tags', $details);
         $this->assertArrayHasKey('url', $details);
         $this->assertArrayHasKey('total_posts', $details);
-        
+
         $this->assertEquals(self::TEST_URL, $details['url']);
         $this->assertType('array', $details['top_tags']);
     }

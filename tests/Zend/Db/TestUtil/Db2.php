@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id $
  */
@@ -28,7 +28,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__);
  * @category   Zend
  * @package    Zend_Db
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Db_TestUtil_Db2 extends Zend_Db_TestUtil_Common
@@ -54,7 +54,7 @@ class Zend_Db_TestUtil_Db2 extends Zend_Db_TestUtil_Common
         $params = parent::getParams($constants);
 
         if (isset($GLOBALS['TESTS_ZEND_DB_ADAPTER_DB2_DRIVER_OPTIONS'])) {
-        	$params['driver_options'] = $GLOBALS['TESTS_ZEND_DB_ADAPTER_DB2_DRIVER_OPTIONS'];
+            $params['driver_options'] = $GLOBALS['TESTS_ZEND_DB_ADAPTER_DB2_DRIVER_OPTIONS'];
         }
 
         return $params;
@@ -115,15 +115,15 @@ class Zend_Db_TestUtil_Db2 extends Zend_Db_TestUtil_Common
 
     protected function _getSqlCreateTable($tableName)
     {
-    	if ($this->_db->isI5()) {
+        if ($this->_db->isI5()) {
             $tableList = $this->_db->fetchCol('SELECT UPPER(T.TABLE_NAME) FROM QSYS2.TABLES T '
                 . $this->_db->quoteInto(' WHERE UPPER(T.TABLE_NAME) = UPPER(?)', $tableName)
             );
-    	} else {
+        } else {
             $tableList = $this->_db->fetchCol('SELECT UPPER(T.TABLE_NAME) FROM SYSIBM.TABLES T '
                 . $this->_db->quoteInto(' WHERE UPPER(T.TABLE_NAME) = UPPER(?)', $tableName)
             );
-    	}
+        }
 
         if (in_array(strtoupper($tableName), $tableList)) {
             return null;
@@ -137,11 +137,11 @@ class Zend_Db_TestUtil_Db2 extends Zend_Db_TestUtil_Common
             $tableList = $this->_db->fetchCol('SELECT UPPER(T.TABLE_NAME) FROM QSYS2.TABLES T '
                 . $this->_db->quoteInto(' WHERE UPPER(T.TABLE_NAME) = UPPER(?)', $tableName)
             );
-    	} else {
+        } else {
             $tableList = $this->_db->fetchCol('SELECT UPPER(T.TABLE_NAME) FROM SYSIBM.TABLES T '
                 . $this->_db->quoteInto(' WHERE UPPER(T.TABLE_NAME) = UPPER(?)', $tableName)
             );
-    	}
+        }
 
         if (in_array(strtoupper($tableName), $tableList)) {
             return 'DROP TABLE ' . $this->_db->quoteIdentifier($tableName, true);

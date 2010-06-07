@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Filter
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: CamelCaseToUnderscoreTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: CamelCaseToUnderscoreTest.php 21089 2010-02-19 06:49:15Z thomas $
  */
 
 // Call Zend_Filter_CamelCaseToUnderscoreTest::main() if this source file is executed directly.
@@ -37,11 +37,11 @@ require_once 'Zend/Filter/Word/CamelCaseToUnderscore.php';
  * @category   Zend
  * @package    Zend_Filter
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Filter
  */
-class Zend_Filter_Word_CamelCaseToUnderscoreTest extends PHPUnit_Framework_TestCase 
+class Zend_Filter_Word_CamelCaseToUnderscoreTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -64,6 +64,30 @@ class Zend_Filter_Word_CamelCaseToUnderscoreTest extends PHPUnit_Framework_TestC
 
         $this->assertNotEquals($string, $filtered);
         $this->assertEquals('Camel_Cased_Words', $filtered);
+    }
+
+    public function testFilterSeperatingNumbersToUnterscore()
+    {
+        $string = 'PaTitle';
+        $filter   = new Zend_Filter_Word_CamelCaseToUnderscore();
+        $filtered = $filter->filter($string);
+
+        $this->assertNotEquals($string, $filtered);
+        $this->assertEquals('Pa_Title', $filtered);
+
+        $string = 'Pa2Title';
+        $filter   = new Zend_Filter_Word_CamelCaseToUnderscore();
+        $filtered = $filter->filter($string);
+
+        $this->assertNotEquals($string, $filtered);
+        $this->assertEquals('Pa2_Title', $filtered);
+
+        $string = 'Pa2aTitle';
+        $filter   = new Zend_Filter_Word_CamelCaseToUnderscore();
+        $filtered = $filter->filter($string);
+
+        $this->assertNotEquals($string, $filtered);
+        $this->assertEquals('Pa2a_Title', $filtered);
     }
 }
 

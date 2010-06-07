@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Format
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: FormatTest.php 18512 2009-10-12 15:39:05Z matthew $
+ * @version    $Id: FormatTest.php 21493 2010-03-14 12:01:43Z thomas $
  */
 
 require_once dirname(__FILE__) . '/../../TestHelper.php';
@@ -31,7 +31,7 @@ require_once 'Zend/Locale/Format.php';
  * @category   Zend
  * @package    Zend_Locale
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Locale
  */
@@ -98,8 +98,8 @@ class Zend_Locale_FormatTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(          '0,1234567', Zend_Locale_Format::toNumber(       0.1234567,$options));
         $this->assertEquals( '-1.234.567,12345',   Zend_Locale_Format::toNumber(-1234567.12345,  $options));
         $this->assertEquals(  '1.234.567,12345',   Zend_Locale_Format::toNumber( 1234567.12345,  $options));
-        $this->assertEquals(    '1234567٫12345',   Zend_Locale_Format::toNumber( 1234567.12345,  array('locale' => 'ar_QA')));
-        $this->assertEquals(    '1234567٫12345-',  Zend_Locale_Format::toNumber(-1234567.12345,  array('locale' => 'ar_QA')));
+        $this->assertEquals(    '1234567,12345',   Zend_Locale_Format::toNumber( 1234567.12345,  array('locale' => 'ar_QA')));
+        $this->assertEquals(    '1234567,12345-',  Zend_Locale_Format::toNumber(-1234567.12345,  array('locale' => 'ar_QA')));
         $this->assertEquals(  '12,34,567.12345',   Zend_Locale_Format::toNumber( 1234567.12345,  array('locale' => 'dz_BT')));
         $this->assertEquals(  '-1.234.567,12345',  Zend_Locale_Format::toNumber(-1234567.12345,  array('locale' => 'mk_MK')));
         $this->assertEquals(        '452.25',      Zend_Locale_Format::toNumber(     452.25,     array('locale' => 'en_US')));
@@ -201,8 +201,8 @@ class Zend_Locale_FormatTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( '1.234.567,12345',   Zend_Locale_Format::toFloat( 1234567.12345,   $options));
 
         $options = array('locale' => 'ar_QA');
-        $this->assertEquals(    '1234567٫12345',  Zend_Locale_Format::toFloat( 1234567.12345, $options                  ));
-        $this->assertEquals(    '1234567٫12345-', Zend_Locale_Format::toFloat(-1234567.12345, $options                  ));
+        $this->assertEquals(    '1234567,12345',  Zend_Locale_Format::toFloat( 1234567.12345, $options                  ));
+        $this->assertEquals(    '1234567,12345-', Zend_Locale_Format::toFloat(-1234567.12345, $options                  ));
         $this->assertEquals(  '12,34,567.12345',  Zend_Locale_Format::toFloat( 1234567.12345, array('locale' => 'dz_BT')));
         $this->assertEquals(  '-1.234.567,12345', Zend_Locale_Format::toFloat(-1234567.12345, array('locale' => 'mk_MK')));
 
@@ -732,7 +732,7 @@ class Zend_Locale_FormatTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( '1.234.567,00',      Zend_Locale_Format::toNumber( 1234567,         array('number_format' => '#,##0.00', 'locale' => 'de_AT')));
         $this->assertEquals( '1.234.567,12',      Zend_Locale_Format::toNumber( 1234567.123,     array('precision' => 2,              'locale' => 'de_AT')));
         $this->assertEquals(   '1234567,12-',     Zend_Locale_Format::toNumber(-1234567.123,     array('number_format' => '#0.00-',   'locale' => 'de_AT')));
-        $this->assertEquals(   '-12.345',         Zend_Locale_Format::toNumber(  -12345.67,      array('precision' => 0,              'locale' => 'de_AT')));
+        $this->assertEquals(   '-12.346',         Zend_Locale_Format::toNumber(  -12345.67,      array('precision' => 0,              'locale' => 'de_AT')));
     }
 
     /**
@@ -885,9 +885,9 @@ class Zend_Locale_FormatTest extends PHPUnit_Framework_TestCase
         $this->assertSame('EE',   Zend_Locale_Format::convertPhpToIsoFormat('D'));
         $this->assertSame('d',    Zend_Locale_Format::convertPhpToIsoFormat('j'));
         $this->assertSame('EEEE', Zend_Locale_Format::convertPhpToIsoFormat('l'));
-        $this->assertSame('e',    Zend_Locale_Format::convertPhpToIsoFormat('N'));
+        $this->assertSame('eee',  Zend_Locale_Format::convertPhpToIsoFormat('N'));
         $this->assertSame('SS',   Zend_Locale_Format::convertPhpToIsoFormat('S'));
-        $this->assertSame('eee',  Zend_Locale_Format::convertPhpToIsoFormat('w'));
+        $this->assertSame('e',    Zend_Locale_Format::convertPhpToIsoFormat('w'));
         $this->assertSame('D',    Zend_Locale_Format::convertPhpToIsoFormat('z'));
         $this->assertSame('ww',   Zend_Locale_Format::convertPhpToIsoFormat('W'));
         $this->assertSame('MMMM', Zend_Locale_Format::convertPhpToIsoFormat('F'));
@@ -1025,12 +1025,74 @@ class Zend_Locale_FormatTest extends PHPUnit_Framework_TestCase
      */
     public function testScientificNumbers()
     {
-        $this->assertEquals(   '0,0', Zend_Locale_Format::toNumber(  1E-2, array('precision' => 1, 'locale' => 'de_AT')));
-        $this->assertEquals(   '0,0100', Zend_Locale_Format::toNumber(  1E-2, array('precision' => 4, 'locale' => 'de_AT')));
-        $this->assertEquals(   '100,0', Zend_Locale_Format::toNumber(  1E+2, array('precision' => 1, 'locale' => 'de_AT')));
-        $this->assertEquals(   '100,0000', Zend_Locale_Format::toNumber(  1E+2, array('precision' => 4, 'locale' => 'de_AT')));
-        $this->assertEquals(   '0', Zend_Locale_Format::toNumber(  1E-5, array('precision' => 0, 'locale' => 'de_AT')));
-        $this->assertEquals(   '0,00001', Zend_Locale_Format::toNumber(  1.3E-5, array('precision' => 5, 'locale' => 'de_AT')));
-        $this->assertEquals(   '0,000013', Zend_Locale_Format::toNumber(  1.3E-5, array('precision' => 6, 'locale' => 'de_AT')));
+        $this->assertEquals('0,0', Zend_Locale_Format::toNumber(  1E-2, array('precision' => 1, 'locale' => 'de_AT')));
+        $this->assertEquals('0,0100', Zend_Locale_Format::toNumber(  1E-2, array('precision' => 4, 'locale' => 'de_AT')));
+        $this->assertEquals('100,0', Zend_Locale_Format::toNumber(  1E+2, array('precision' => 1, 'locale' => 'de_AT')));
+        $this->assertEquals('100,0000', Zend_Locale_Format::toNumber(  1E+2, array('precision' => 4, 'locale' => 'de_AT')));
+        $this->assertEquals('0', Zend_Locale_Format::toNumber(  1E-5, array('precision' => 0, 'locale' => 'de_AT')));
+        $this->assertEquals('0,00001', Zend_Locale_Format::toNumber(  1.3E-5, array('precision' => 5, 'locale' => 'de_AT')));
+        $this->assertEquals('0,000013', Zend_Locale_Format::toNumber(  1.3E-5, array('precision' => 6, 'locale' => 'de_AT')));
+    }
+
+    public function testShortNotation()
+    {
+        $this->assertEquals(.12345, Zend_Locale_Format::getNumber(.12345));
+        $options = array('locale' => 'de');
+        $this->assertEquals(.12345, Zend_Locale_Format::getNumber(',12345', $options));
+        $options = array('locale' => 'de_AT');
+        $this->assertEquals(.12345, Zend_Locale_Format::getNumber(',12345', $options));
+
+        $this->assertEquals('0,75', Zend_Locale_Format::toNumber(.75, array('locale' => 'de_DE', 'precision' => 2)));
+
+        $this->assertTrue(Zend_Locale_Format::isNumber(',12345',  array('locale' => 'de_AT')));
+
+        $this->assertEquals(.12345, Zend_Locale_Format::getFloat(.12345));
+        $options = array('locale' => 'de');
+        $this->assertEquals(.12345, Zend_Locale_Format::getFloat(',12345', $options));
+        $options = array('locale' => 'de_AT');
+        $this->assertEquals(.12345, Zend_Locale_Format::getFloat(',12345', $options));
+
+        $options = array('locale' => 'de_AT');
+        $this->assertEquals('0,12345', Zend_Locale_Format::toFloat(.12345, $options));
+        $options = array('locale' => 'ar_QA');
+        $this->assertEquals('0,12345',  Zend_Locale_Format::toFloat(.12345, $options));
+
+        $this->assertTrue(Zend_Locale_Format::isFloat(',12345',  array('locale' => 'de_AT')));
+
+        $this->assertEquals(0, Zend_Locale_Format::getInteger(.1234567));
+        $options = array('locale' => 'de');
+        $this->assertEquals(0, Zend_Locale_Format::getInteger(',12345', $options));
+        $options = array('locale' => 'de_AT');
+        $this->assertEquals(0, Zend_Locale_Format::getInteger(',12345', $options));
+
+        $this->assertEquals('0', Zend_Locale_Format::toInteger(.123, array('locale' => 'de')));
+        $options = array('locale' => 'de_AT');
+        $this->assertEquals('0',  Zend_Locale_Format::toInteger(.12345, $options));
+
+        $this->assertFalse(Zend_Locale_Format::isInteger(',12345', array('locale' => 'de_AT')));
+
+        $options = array('locale' => 'de_AT');
+        $this->assertEquals('0,567', Zend_Locale_Format::toNumber(.567, $options));
+    }
+
+    /**
+     * @group ZF-9160
+     */
+    public function testGetNumberWithZeroPrecision()
+    {
+        $this->assertEquals(1234, Zend_Locale_Format::getNumber('1234.567', array('locale' => 'en_US', 'precision' => 0)));
+    }
+
+    /**
+     * @group ZF-9319
+     */
+    public function testToNumberWithoutFormatWithPrecision()
+    {
+        $options = array('locale' => 'de_AT', 'precision' => 2);
+        $this->assertEquals('3,99', Zend_Locale_Format::toNumber(3.99, $options));
+        $this->assertEquals('3,99', Zend_Locale_Format::toNumber(3.994, $options));
+        $this->assertEquals('4,00', Zend_Locale_Format::toNumber(3.995, $options));
+        $this->assertEquals('4,00', Zend_Locale_Format::toNumber(3.999, $options));
+        $this->assertEquals('4,00', Zend_Locale_Format::toNumber(4, $options));
     }
 }

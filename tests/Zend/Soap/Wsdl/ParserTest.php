@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Soap
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: ParserTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 require_once dirname(__FILE__)."/../../../TestHelper.php";
@@ -29,7 +29,7 @@ require_once "Zend/Soap/Wsdl/Parser/Result.php";
  * @category   Zend
  * @package    Zend_Soap
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Soap
  * @group      Zend_Soap_Wsdl
@@ -89,7 +89,7 @@ class Zend_Soap_Wsdl_ParserTest extends PHPUnit_Framework_TestCase
             $parser = Zend_Soap_Wsdl_Parser::factory(null);
             $this->fail();
         } catch(Zend_Soap_Wsdl_Exception $e) {
-            
+
         }
     }
 

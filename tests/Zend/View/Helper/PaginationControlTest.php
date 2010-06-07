@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: PaginationControlTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: PaginationControlTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_View_Helper_PaginationControlTest::main() if this source file is executed directly.
@@ -35,12 +35,12 @@ require_once 'Zend/View/Helper/PaginationControl.php';
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_View
  * @group      Zend_View_Helper
  */
-class Zend_View_Helper_PaginationControlTest extends PHPUnit_Framework_TestCase 
+class Zend_View_Helper_PaginationControlTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Zend_View_Helper_PaginationControl
@@ -48,7 +48,7 @@ class Zend_View_Helper_PaginationControlTest extends PHPUnit_Framework_TestCase
     private $_viewHelper;
 
     private $_paginator;
-    
+
     /**
      * Runs the test methods of this class.
      *
@@ -73,7 +73,7 @@ class Zend_View_Helper_PaginationControlTest extends PHPUnit_Framework_TestCase
     {
         $view = new Zend_View();
         $view->addBasePath(dirname(__FILE__) . '/_files');
-        
+
         Zend_View_Helper_PaginationControl::setDefaultViewPartial(null);
         $this->_viewHelper = new Zend_View_Helper_PaginationControl();
         $this->_viewHelper->setView($view);
@@ -85,7 +85,7 @@ class Zend_View_Helper_PaginationControlTest extends PHPUnit_Framework_TestCase
         unset($this->_viewHelper);
         unset($this->_paginator);
     }
-    
+
     public function testGetsAndSetsView()
     {
         $view   = new Zend_View();
@@ -94,7 +94,7 @@ class Zend_View_Helper_PaginationControlTest extends PHPUnit_Framework_TestCase
         $helper->setView($view);
         $this->assertType('Zend_View_Interface', $helper->view);
     }
-    
+
     public function testGetsAndSetsDefaultViewPartial()
     {
         $this->assertNull(Zend_View_Helper_PaginationControl::getDefaultViewPartial());
@@ -131,11 +131,11 @@ class Zend_View_Helper_PaginationControlTest extends PHPUnit_Framework_TestCase
         $this->assertContains('page count (11) equals pages in range (11)', $output, $output);
 
         Zend_Paginator::setDefaultScrollingStyle('All');
-        $output = $this->_viewHelper->paginationControl($this->_paginator, null, 'testPagination.phtml');        
+        $output = $this->_viewHelper->paginationControl($this->_paginator, null, 'testPagination.phtml');
         $this->assertContains('page count (11) equals pages in range (11)', $output, $output);
-        
+
         Zend_View_Helper_PaginationControl::setDefaultViewPartial('testPagination.phtml');
-        $output = $this->_viewHelper->paginationControl($this->_paginator);        
+        $output = $this->_viewHelper->paginationControl($this->_paginator);
         $this->assertContains('page count (11) equals pages in range (11)', $output, $output);
     }
 

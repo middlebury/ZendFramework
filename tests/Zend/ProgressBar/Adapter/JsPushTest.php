@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_ProgressBar
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ConsoleTest.php 12226 2008-10-31 21:01:44Z dasprid $
+ * @version    $Id: JsPushTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_ProgressBar_Adapter_jsPushTest::main() if this source file is executed directly.
@@ -39,7 +39,7 @@ require_once 'Zend/ProgressBar/Adapter/JsPush.php';
  * @category   Zend
  * @package    Zend_ProgressBar
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_ProgressBar
  */
@@ -59,23 +59,23 @@ class Zend_ProgressBar_Adapter_jsPushTest extends PHPUnit_Framework_TestCase
     public function testJson()
     {
         $result = array();
-        
-        $adapter = new Zend_ProgressBar_Adapter_jsPush_Stub(array('finishMethodName' => 'Zend_ProgressBar_Finish'));      
+
+        $adapter = new Zend_ProgressBar_Adapter_jsPush_Stub(array('finishMethodName' => 'Zend_ProgressBar_Finish'));
         $adapter->notify(0, 2, 0.5, 1, 1, 'status');
         $output = $adapter->getLastOutput();
 
         $matches = preg_match('#<script type="text/javascript">parent.Zend_ProgressBar_Update\((.*?)\);</script>#', $output, $result);
         $this->assertEquals(1, $matches);
-        
+
         $data = json_decode($result[1], true);
-        
+
         $this->assertEquals(0, $data['current']);
         $this->assertEquals(2, $data['max']);
         $this->assertEquals(50, $data['percent']);
         $this->assertEquals(1, $data['timeTaken']);
         $this->assertEquals(1, $data['timeRemaining']);
         $this->assertEquals('status', $data['text']);
-        
+
         $adapter->finish();
         $output = $adapter->getLastOutput();
 

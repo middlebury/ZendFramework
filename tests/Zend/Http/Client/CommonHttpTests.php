@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: CommonHttpTests.php 17843 2009-08-27 14:40:35Z cogo $
+ * @version    $Id: CommonHttpTests.php 21778 2010-04-06 11:19:35Z shahar $
  */
 
 // Read local configuration
@@ -50,7 +50,7 @@ require_once 'Zend/Uri/Http.php';
  * @category   Zend
  * @package    Zend_Http_Client
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Http
  * @group      Zend_Http_Client
@@ -237,9 +237,12 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit_Framework_TestCa
             'specialChars' => '<>$+ &?=[]^%',
             'array' => array('firstItem', 'secondItem', '3rdItem')
         );
-
+        
+        $headers = array("X-Foo" => "bar");
+        
         $this->client->setParameterPost($params);
         $this->client->setParameterGet($params);
+        $this->client->setHeaders($headers);
 
         $res = $this->client->request('POST');
 
@@ -251,6 +254,10 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit_Framework_TestCa
 
         $this->assertNotContains(serialize($params), $res->getBody(),
             "returned body contains GET or POST parameters (it shouldn't!)");
+        $this->assertContains($headers["X-Foo"], $this->client->getHeader("X-Foo"), "Header not preserved by reset");
+
+        $this->client->resetParameters(true);
+        $this->assertNull($this->client->getHeader("X-Foo"), "Header preserved by reset(true)");
     }
 
     /**
@@ -499,7 +506,7 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit_Framework_TestCa
 
         // Set the new expected URI
         $uri = clone $this->client->getUri();
-        $uri->setPath(dirname($uri->getPath()) . '/path/to/fake/file.ext');
+        $uri->setPath(rtrim(dirname($uri->getPath()), '/') . '/path/to/fake/file.ext');
         $uri = $uri->__toString();
 
         $res = $this->client->request('GET');
@@ -538,6 +545,32 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit_Framework_TestCa
     }
 
     /**
+     * Test that we can properly use Basic HTTP authentication by specifying username and password
+     * in the URI
+     *
+     */
+    public function testHttpAuthBasicWithCredentialsInUri()
+    {
+        $uri = str_replace('http://', 'http://%s:%s@', $this->baseuri) . 'testHttpAuth.php';
+
+        $this->client->setParameterGet(array(
+            'user'   => 'alice',
+            'pass'   => 'secret',
+            'method' => 'Basic'
+        ));
+
+        // First - fail password
+        $this->client->setUri(sprintf($uri, 'alice', 'wrong'));
+        $res = $this->client->request();
+        $this->assertEquals(401, $res->getStatus(), 'Expected HTTP 401 response was not recieved');
+
+        // Now use good password
+        $this->client->setUri(sprintf($uri, 'alice', 'secret'));
+        $res = $this->client->request();
+        $this->assertEquals(200, $res->getStatus(), 'Expected HTTP 200 response was not recieved');
+    }
+
+    /**
      * Test we can unset HTTP authentication
      *
      */
@@ -547,6 +580,24 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit_Framework_TestCa
 
         // Set auth and cancel it
         $this->client->setAuth('alice', 'secret');
+        $this->client->setAuth(false);
+        $res = $this->client->request();
+
+        $this->assertEquals(401, $res->getStatus(), 'Expected HTTP 401 response was not recieved');
+        $this->assertNotContains('alice', $res->getBody(), "Body contains the user name, but it shouldn't");
+        $this->assertNotContains('secret', $res->getBody(), "Body contains the password, but it shouldn't");
+    }
+
+    /**
+     * Test that we can unset HTTP authentication when credentials is specified in the URI
+     *
+     */
+    public function testCancelAuthWithCredentialsInUri()
+    {
+        $uri = str_replace('http://', 'http://%s:%s@', $this->baseuri) . 'testHttpAuth.php';
+
+        // Set auth and cancel it
+        $this->client->setUri(sprintf($uri, 'alice', 'secret'));
         $this->client->setAuth(false);
         $res = $this->client->request();
 
@@ -793,7 +844,7 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit_Framework_TestCa
      * Test that lines that might be evaluated as boolean false do not break
      * the reading prematurely.
      *
-     * @see http://framework.zend.com/issues/browse/ZF-4238
+     * @link http://framework.zend.com/issues/browse/ZF-4238
      */
     public function testZF4238FalseLinesInResponse()
     {
@@ -803,7 +854,113 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit_Framework_TestCa
         $expected = $this->_getTestFileContents('ZF4238-zerolineresponse.txt');
         $this->assertEquals($expected, $got);
     }
+    
+    public function testStreamResponse()
+    {
+        if(!($this->client->getAdapter() instanceof Zend_Http_Client_Adapter_Stream)) {
+              $this->markTestSkipped('Current adapter does not support streaming');
+              return;   
+        }
+        $this->client->setUri($this->baseuri . 'staticFile.jpg');
+        $this->client->setStream();
 
+        $response = $this->client->request();
+        
+        $this->assertTrue($response instanceof Zend_Http_Response_Stream, 'Request did not return stream response!');
+        $this->assertTrue(is_resource($response->getStream()), 'Request does not contain stream!');
+        
+        $stream_name = $response->getStreamName();
+     
+        $stream_read = stream_get_contents($response->getStream());
+        $file_read = file_get_contents($stream_name);
+        
+        $expected = $this->_getTestFileContents('staticFile.jpg');
+
+        $this->assertEquals($expected, $stream_read, 'Downloaded stream does not seem to match!');
+        $this->assertEquals($expected, $file_read, 'Downloaded file does not seem to match!');
+    }
+    
+    public function testStreamResponseBody()
+    {
+        if(!($this->client->getAdapter() instanceof Zend_Http_Client_Adapter_Stream)) {
+              $this->markTestSkipped('Current adapter does not support streaming');
+              return;   
+        }
+        $this->client->setUri($this->baseuri . 'staticFile.jpg');
+        $this->client->setStream();
+
+        $response = $this->client->request();
+        
+        $this->assertTrue($response instanceof Zend_Http_Response_Stream, 'Request did not return stream response!');
+        $this->assertTrue(is_resource($response->getStream()), 'Request does not contain stream!');
+        
+        $body = $response->getBody();
+        
+        $expected = $this->_getTestFileContents('staticFile.jpg');
+        $this->assertEquals($expected, $body, 'Downloaded stream does not seem to match!');
+    }
+    
+    public function testStreamResponseNamed()
+    {
+        if(!($this->client->getAdapter() instanceof Zend_Http_Client_Adapter_Stream)) {
+              $this->markTestSkipped('Current adapter does not support streaming');
+              return;   
+        }
+        $this->client->setUri($this->baseuri . 'staticFile.jpg');
+        $outfile = tempnam(sys_get_temp_dir(), "outstream");
+        $this->client->setStream($outfile);
+
+        $response = $this->client->request();
+        
+        $this->assertTrue($response instanceof Zend_Http_Response_Stream, 'Request did not return stream response!');
+        $this->assertTrue(is_resource($response->getStream()), 'Request does not contain stream!');
+        
+        $this->assertEquals($outfile, $response->getStreamName());
+     
+        $stream_read = stream_get_contents($response->getStream());
+        $file_read = file_get_contents($outfile);
+        
+        $expected = $this->_getTestFileContents('staticFile.jpg');
+
+        $this->assertEquals($expected, $stream_read, 'Downloaded stream does not seem to match!');
+        $this->assertEquals($expected, $file_read, 'Downloaded file does not seem to match!');
+    }
+       
+    public function testStreamRequest()
+    {
+        if(!($this->client->getAdapter() instanceof Zend_Http_Client_Adapter_Stream)) {
+              $this->markTestSkipped('Current adapter does not support streaming');
+              return;   
+        }
+        $data = fopen(dirname(realpath(__FILE__)) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'staticFile.jpg', "r"); 
+        $res = $this->client->setRawData($data, 'image/jpeg')->request('PUT');
+        $expected = $this->_getTestFileContents('staticFile.jpg');
+        $this->assertEquals($expected, $res->getBody(), 'Response body does not contain the expected data');
+    }
+    
+    /**
+     * Test that we can deal with double Content-Length headers
+     * 
+     * @link http://framework.zend.com/issues/browse/ZF-9404
+     */
+    public function testZF9404DoubleContentLengthHeader()
+    {
+        $this->client->setUri($this->baseuri . 'ZF9404-doubleContentLength.php');
+        $expect = filesize(dirname(realpath(__FILE__)) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'ZF9404-doubleContentLength.php');
+        
+        $response = $this->client->request();
+        if (! $response->isSuccessful()) {
+            throw new ErrorException("Error requesting test URL");
+        }
+        
+        $clen = $response->getHeader('content-length');
+        if (! (is_array($clen))) {
+            $this->markTestSkipped("Didn't get multiple Content-length headers");
+        }
+        
+        $this->assertEquals($expect, strlen($response->getBody()));
+    }
+    
     /**
      * Internal helpder function to get the contents of test files
      *
@@ -872,4 +1029,5 @@ abstract class Zend_Http_Client_CommonHttpTests extends PHPUnit_Framework_TestCa
             array(55)
         );
     }
+
 }

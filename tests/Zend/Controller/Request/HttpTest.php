@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: HttpTest.php 18269 2009-09-18 18:55:25Z matthew $
+ * @version    $Id: HttpTest.php 20984 2010-02-08 16:25:08Z matthew $
  */
 
 // Call Zend_Controller_Request_HttpTest::main() if this source file is executed directly.
@@ -32,7 +32,7 @@ require_once 'Zend/Controller/Request/Http.php';
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Controller
  * @group      Zend_Controller_Request
@@ -253,6 +253,29 @@ class Zend_Controller_Request_HttpTest extends PHPUnit_Framework_TestCase
         $expected = $params + $_GET + $_POST;
         $received = $this->_request->getParams();
         $this->assertSame($params, array_intersect_assoc($params, $received));
+    }
+
+    /**
+     * @group ZF-3750
+     */
+    public function testGetParamsWithGetOrPost()
+    {
+        $_GET = array(
+            'get' => true
+        );
+        $_POST = array(
+            'post' => true
+        );
+
+        $this->_request->setParamSources(array('_GET'));
+        $params = $this->_request->getParams();
+        $this->assertArrayHasKey('get', $params);
+        $this->assertArrayNotHasKey('post', $params);
+
+        $this->_request->setParamSources(array('_POST'));
+        $params = $this->_request->getParams();
+        $this->assertArrayHasKey('post', $params);
+        $this->assertArrayNotHasKey('get', $params);
     }
 
     public function testConstructSetsRequestUri()
@@ -504,6 +527,19 @@ class Zend_Controller_Request_HttpTest extends PHPUnit_Framework_TestCase
         $request = new Zend_Controller_Request_Http();
 
         $this->assertEquals('/index.php', $request->getBaseUrl());
+    }
+    /**
+     * @group ZF-7824
+     */
+    public function testSetBaseUrlWithScriptNameAsGetParam()
+    {
+        $request = new Zend_Controller_Request_Http;
+
+        $_SERVER['REQUEST_URI']     = '/article/archive?foo=index.php';
+        $_SERVER['QUERY_STRING']    = 'foo=index.php';
+        $_SERVER['SCRIPT_FILENAME'] = '/var/www/zftests/index.php';
+
+        $this->assertEquals('/article/archive', $request->getPathInfo());
     }
 
     public function testGetSetBasePath()
@@ -790,6 +826,18 @@ class Zend_Controller_Request_HttpTest extends PHPUnit_Framework_TestCase
         $this->_request->setParamSources(array('_POST'));
         $params = $this->_request->getParams();
         $this->assertEquals(array('foo' => 'baz'), $params);
+    }
+
+    /**
+     * @group ZF-9091
+     */
+    public function testSetPathInfoShouldNotStripBaseUrlIfBaseUrlNotInRequestUri()
+    {
+        $request = new Zend_Controller_Request_Http();
+        $request->setBaseUrl('/app');
+        $_SERVER['REQUEST_URI'] = '/index/index';
+        $pathInfo = $request->getPathInfo();
+        $this->assertEquals('/index/index', $pathInfo);
     }
 }
 

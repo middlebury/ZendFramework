@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Pop3Test.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: Pop3Test.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -44,7 +44,7 @@ require_once 'PHPUnit/Framework/TestCase.php';
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Mail
  */
@@ -431,7 +431,7 @@ class Zend_Mail_Pop3Test extends PHPUnit_Framework_TestCase
         unset($mail[2]);
         $this->assertEquals($mail->countMessages(), --$count);
     }
-    
+
     public function testDotMessage()
     {
         $mail = new Zend_Mail_Storage_Pop3($this->_params);

@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Reflection
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: MethodTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -34,7 +34,7 @@ require_once 'Zend/Reflection/Method.php';
  * @category   Zend
  * @package    Zend_Reflection
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Reflection
  * @group      Zend_Reflection_Method
@@ -43,7 +43,7 @@ class Zend_Reflection_MethodTest extends PHPUnit_Framework_TestCase
 {
 
     static protected $_sampleClassFileRequired = false;
-    
+
     public function setup()
     {
         if (self::$_sampleClassFileRequired === false) {
@@ -52,13 +52,13 @@ class Zend_Reflection_MethodTest extends PHPUnit_Framework_TestCase
             self::$_sampleClassFileRequired = true;
         }
     }
-    
+
     public function testDeclaringClassReturn()
     {
         $method = new Zend_Reflection_Method('Zend_Reflection_TestSampleClass2', 'getProp1');
         $this->assertEquals(get_class($method->getDeclaringClass()), 'Zend_Reflection_Class');
     }
-    
+
     public function testParemeterReturn()
     {
         $method = new Zend_Reflection_Method('Zend_Reflection_TestSampleClass2', 'getProp2');
@@ -66,15 +66,15 @@ class Zend_Reflection_MethodTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(count($parameters), 2);
         $this->assertEquals(get_class(array_shift($parameters)), 'Zend_Reflection_Parameter');
     }
-    
+
     public function testStartLine()
     {
         $reflectionMethod = new Zend_Reflection_Method('Zend_Reflection_TestSampleClass5', 'doSomething');
-        
+
         $this->assertEquals($reflectionMethod->getStartLine(), 106);
         $this->assertEquals($reflectionMethod->getStartLine(true), 90);
     }
-    
+
     public function testGetBodyReturnsCorrectBody()
     {
         $body = '        //we need a multi-line method body.
@@ -84,12 +84,12 @@ class Zend_Reflection_MethodTest extends PHPUnit_Framework_TestCase
         $reflectionMethod = new Zend_Reflection_Method('Zend_Reflection_TestSampleClass6', 'doSomething');
         $this->assertEquals($body, $reflectionMethod->getBody());
     }
-    
+
     public function testGetContentsReturnsCorrectContent()
     {
-		$reflectionMethod = new Zend_Reflection_Method('Zend_Reflection_TestSampleClass5', 'doSomething');
+        $reflectionMethod = new Zend_Reflection_Method('Zend_Reflection_TestSampleClass5', 'doSomething');
         $this->assertEquals("    {\n\n        return 'mixedValue';\n\n    }\n", $reflectionMethod->getContents(false));
     }
-    
+
 }
 

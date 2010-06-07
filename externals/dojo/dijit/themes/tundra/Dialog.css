@@ -82,13 +82,11 @@
 	*/
 	background: #ffffff url("images/popupMenuBg.gif") repeat-x bottom left;
 	border: 1px solid #7eabcd;
-	padding: 0.45em;	
+	padding: 0.45em;
 	-webkit-border-radius: 3px;
-}
-.dj_ff3 .tundra .dijitTooltipContainer {
-	/* only do this for FF3, because FF2 has problems with glitches */
 	-moz-border-radius: 3px;
-}	
+}
+
 .tundra .dijitTooltipConnector {
 	/* the arrow piece */
 	border:0px;
@@ -110,7 +108,7 @@
 	height:14px;
 }
 
-.dj_ie6 .tundra .dijitTooltipBelow .dijitTooltipConnector {
+.dj_ie .tundra .dijitTooltipBelow .dijitTooltipConnector {
 	/* use gif for IE7 too, due to png rendering problems on fade-in (see http://trac.dojotoolkit.org/ticket/6555) */
 	background-image: url("images/tooltipConnectorUp.gif");
 }
@@ -123,7 +121,7 @@
 	width:16px;
 	height:14px;
 }
-.dj_ie6 .tundra .dijitTooltipAbove .dijitTooltipConnector {
+.dj_ie .tundra .dijitTooltipAbove .dijitTooltipConnector {
 	background-image: url("images/tooltipConnectorDown.gif");
 }
 .dj_ie6 .tundra .dijitTooltipAbove .dijitTooltipConnector {
@@ -144,7 +142,7 @@
 	width:16px;
 	height:14px;
 }
-.dj_ie6 .tundra .dijitTooltipLeft .dijitTooltipConnector {
+.dj_ie .tundra .dijitTooltipLeft .dijitTooltipConnector {
 	background-image: url("images/tooltipConnectorRight.gif");
 }
 
@@ -159,7 +157,7 @@
 	width:16px;
 	height:14px;
 }
-.dj_ie6 .tundra .dijitTooltipRight .dijitTooltipConnector {
+.dj_ie .tundra .dijitTooltipRight .dijitTooltipConnector {
 	background-image: url("images/tooltipConnectorLeft.gif");
 }
 

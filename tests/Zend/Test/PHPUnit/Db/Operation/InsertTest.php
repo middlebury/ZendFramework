@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Test
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: InsertTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: InsertTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 require_once dirname(__FILE__)."/../../../../../TestHelper.php";
@@ -32,7 +32,7 @@ require_once "PHPUnit/Extensions/Database/DataSet/FlatXmlDataSet.php";
  * @category   Zend
  * @package    Zend_Test
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Test
  */
@@ -84,7 +84,7 @@ class Zend_Test_PHPUnit_Db_Operation_InsertTest extends PHPUnit_Framework_TestCa
 
         $dataSet = $this->getMock('PHPUnit_Extensions_Database_DataSet_IDataSet');
         $connection = $this->getMock('PHPUnit_Extensions_Database_DB_IDatabaseConnection');
-        
+
         $this->operation->execute($connection, $dataSet);
     }
 }

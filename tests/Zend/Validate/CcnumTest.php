@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Validate
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: CcnumTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: CcnumTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 
@@ -36,7 +36,7 @@ require_once 'Zend/Validate/Ccnum.php';
  * @category   Zend
  * @package    Zend_Validate
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Validate
  */
@@ -56,6 +56,7 @@ class Zend_Validate_CcnumTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        set_error_handler(array($this, 'errorHandlerIgnore'));
         $this->_validator = new Zend_Validate_Ccnum();
     }
 
@@ -76,6 +77,7 @@ class Zend_Validate_CcnumTest extends PHPUnit_Framework_TestCase
         foreach ($valuesExpected as $input => $result) {
             $this->assertEquals($result, $this->_validator->isValid($input));
         }
+        restore_error_handler();
     }
 
     /**
@@ -86,5 +88,21 @@ class Zend_Validate_CcnumTest extends PHPUnit_Framework_TestCase
     public function testGetMessages()
     {
         $this->assertEquals(array(), $this->_validator->getMessages());
+        restore_error_handler();
+    }
+
+    /**
+     * Ignores a raised PHP error when in effect, but throws a flag to indicate an error occurred
+     *
+     * @param  integer $errno
+     * @param  string  $errstr
+     * @param  string  $errfile
+     * @param  integer $errline
+     * @param  array   $errcontext
+     * @return void
+     */
+    public function errorHandlerIgnore($errno, $errstr, $errfile, $errline, array $errcontext)
+    {
+        $this->_errorOccured = true;
     }
 }

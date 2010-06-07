@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Validate_File
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Sha1Test.php 17667 2009-08-18 21:40:09Z mikaelkael $
+ * @version    $Id: Sha1Test.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_Validate_File_Sha1Test::main() if this source file is executed directly.
@@ -41,7 +41,7 @@ require_once 'Zend/Validate/File/Sha1.php';
  * @category   Zend
  * @package    Zend_Validate_File
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Validate
  */
@@ -156,7 +156,7 @@ class Zend_Validate_File_Sha1Test extends PHPUnit_Framework_TestCase
         $validator = new Zend_Validate_File_Sha1('12345');
         $validator->setSha1('12333');
         $this->assertEquals(array('12333' => 'sha1'), $validator->getSha1());
-        
+
         $validator->setSha1(array('12321', '12121'));
         $this->assertEquals(array('12321' => 'sha1', '12121' => 'sha1'), $validator->getSha1());
     }
@@ -171,7 +171,7 @@ class Zend_Validate_File_Sha1Test extends PHPUnit_Framework_TestCase
         $validator = new Zend_Validate_File_Sha1('12345');
         $validator->setHash('12333');
         $this->assertEquals(array('12333' => 'sha1'), $validator->getSha1());
-        
+
         $validator->setHash(array('12321', '12121'));
         $this->assertEquals(array('12321' => 'sha1', '12121' => 'sha1'), $validator->getSha1());
     }

@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: XmlTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: XmlTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 require_once dirname(__FILE__)."/../../../TestHelper.php";
@@ -32,7 +32,7 @@ require_once 'Zend/Log/Formatter/Xml.php';
  * @category   Zend
  * @package    Zend_Log
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Log
  */
@@ -46,22 +46,22 @@ class Zend_Log_Formatter_XmlTest extends PHPUnit_Framework_TestCase
         $this->assertContains('foo', $line);
         $this->assertContains((string)42, $line);
     }
-    
+
     public function testConfiguringElementMapping()
     {
         $f = new Zend_Log_Formatter_Xml('log', array('foo' => 'bar'));
         $line = $f->format(array('bar' => 'baz'));
         $this->assertContains('<log><foo>baz</foo></log>', $line);
     }
-    
+
     public function testXmlDeclarationIsStripped()
     {
         $f = new Zend_Log_Formatter_Xml();
         $line = $f->format(array('message' => 'foo', 'priority' => 42));
-        
+
         $this->assertNotContains('<\?xml version=', $line);
     }
-    
+
     public function testXmlValidates()
     {
         $f = new Zend_Log_Formatter_Xml();

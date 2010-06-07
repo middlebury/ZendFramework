@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: StaticTest.php 18347 2009-09-21 16:51:34Z ralph $
+ * @version    $Id: StaticTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 
@@ -34,7 +34,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__);
  * @category   Zend
  * @package    Zend_Db
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Db
  * @group      Zend_Db_Select
@@ -653,19 +653,19 @@ class Zend_Db_Select_StaticTest extends Zend_Db_Select_TestCommon
         $sql = preg_replace('/\\s+/', ' ', $select->__toString());
         $this->assertEquals('SELECT "bug_id" AS "id", "bug_status" AS "name" FROM "zfbugs" UNION SELECT "product_id" AS "id", "product_name" AS "name" FROM "zfproducts" ORDER BY "id" ASC', $sql);
     }
-    
+
     public function testSelectOrderByPosition()
     {
-        $select = $this->_selectOrderByPosition(); 
-        
+        $select = $this->_selectOrderByPosition();
+
         $sql = preg_replace('/\\s+/', ' ', $select->__toString());
         $this->assertEquals('SELECT "zfproducts".* FROM "zfproducts" ORDER BY 2 ASC', $sql);
     }
 
     public function testSelectOrderByPositionAsc()
     {
-        $select = $this->_selectOrderByPositionAsc(); 
-        
+        $select = $this->_selectOrderByPositionAsc();
+
         $sql = preg_replace('/\\s+/', ' ', $select->__toString());
         $this->assertEquals('SELECT "zfproducts".* FROM "zfproducts" ORDER BY 2 ASC', $sql);
     }
@@ -685,11 +685,36 @@ class Zend_Db_Select_StaticTest extends Zend_Db_Select_TestCommon
         $sql = preg_replace('/\\s+/', ' ', $select->__toString());
         $this->assertEquals('SELECT "zfproducts".* FROM "zfproducts" ORDER BY 2 DESC, 1 DESC', $sql);
     }
-    
+
+    /**
+     * @group ZF-7491
+     */
+    public function testPhp53Assembly()
+    {
+        if (version_compare(PHP_VERSION, 5.3) == -1 ) {
+            $this->markTestSkipped('This test needs at least PHP 5.3');
+        }
+        $select = $this->_db->select();
+        $select->from('table1', '*');
+        $select->joinLeft(array('table2'), 'table1.id=table2.id');
+        $target = 'SELECT "table1".*, "table2".* FROM "table1"'
+                . "\n" . ' LEFT JOIN "table2" ON table1.id=table2.id';
+        $this->assertEquals($target, $select->assemble());
+    }
+
+    /**
+     * @group ZF-7223
+     */
+    public function testMaxIntegerValueWithLimit()
+    {
+        $select = $this->_db->select();
+        $select->from('table1')->limit(0, 5);
+        $target = 'SELECT "table1".* FROM "table1" LIMIT ' . PHP_INT_MAX . ' OFFSET 5';
+        $this->assertEquals($target, $select->assemble());
+    }
 
     public function getDriver()
     {
         return 'Static';
     }
-
 }

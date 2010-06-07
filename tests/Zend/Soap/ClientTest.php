@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Soap
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ClientTest.php 18570 2009-10-16 12:41:35Z sgehrig $
+ * @version    $Id: ClientTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
@@ -41,7 +41,7 @@ require_once 'Zend/Config.php';
  * @category   Zend
  * @package    Zend_Soap
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Soap
  */
@@ -67,43 +67,43 @@ class Zend_Soap_ClientTest extends PHPUnit_Framework_TestCase
 
     public function testSetOptions()
     {
-    	/*************************************************************
-    	 * ------ Test WSDL mode options -----------------------------
-    	 *************************************************************/
-    	$client = new Zend_Soap_Client();
+        /*************************************************************
+         * ------ Test WSDL mode options -----------------------------
+         *************************************************************/
+        $client = new Zend_Soap_Client();
 
-    	$this->assertTrue($client->getOptions() == array('encoding' => 'UTF-8', 'soap_version' => SOAP_1_2));
+        $this->assertTrue($client->getOptions() == array('encoding' => 'UTF-8', 'soap_version' => SOAP_1_2));
 
         $ctx = stream_context_create();
 
-    	$nonWsdlOptions = array('soap_version'   => SOAP_1_1,
-		                        'classmap'       => array('TestData1' => 'Zend_Soap_Client_TestData1',
-		                                            'TestData2' => 'Zend_Soap_Client_TestData2',),
-		                        'encoding'       => 'ISO-8859-1',
-		                        'uri'            => 'http://framework.zend.com/Zend_Soap_ServerTest.php',
-		                        'location'       => 'http://framework.zend.com/Zend_Soap_ServerTest.php',
-		                        'use'            => SOAP_ENCODED,
-		                        'style'          => SOAP_RPC,
+        $nonWsdlOptions = array('soap_version'   => SOAP_1_1,
+                                'classmap'       => array('TestData1' => 'Zend_Soap_Client_TestData1',
+                                                    'TestData2' => 'Zend_Soap_Client_TestData2',),
+                                'encoding'       => 'ISO-8859-1',
+                                'uri'            => 'http://framework.zend.com/Zend_Soap_ServerTest.php',
+                                'location'       => 'http://framework.zend.com/Zend_Soap_ServerTest.php',
+                                'use'            => SOAP_ENCODED,
+                                'style'          => SOAP_RPC,
 
-		                        'login'          => 'http_login',
-		                        'password'       => 'http_password',
+                                'login'          => 'http_login',
+                                'password'       => 'http_password',
 
-		                        'proxy_host'     => 'proxy.somehost.com',
-    	                        'proxy_port'     => 8080,
-    	                        'proxy_login'    => 'proxy_login',
-    	                        'proxy_password' => 'proxy_password',
+                                'proxy_host'     => 'proxy.somehost.com',
+                                'proxy_port'     => 8080,
+                                'proxy_login'    => 'proxy_login',
+                                'proxy_password' => 'proxy_password',
 
-		                        'local_cert'     => dirname(__FILE__).'/_files/cert_file',
-		                        'passphrase'     => 'some pass phrase',
+                                'local_cert'     => dirname(__FILE__).'/_files/cert_file',
+                                'passphrase'     => 'some pass phrase',
 
                                 'stream_context' => $ctx,
                                 'cache_wsdl'     => 8,
                                 'features'       => 4,
 
-		                        'compression'    => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | 5);
+                                'compression'    => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | 5);
 
-    	$client->setOptions($nonWsdlOptions);
-    	$this->assertTrue($client->getOptions() == $nonWsdlOptions);
+        $client->setOptions($nonWsdlOptions);
+        $this->assertTrue($client->getOptions() == $nonWsdlOptions);
 
 
         /*************************************************************
@@ -140,7 +140,7 @@ class Zend_Soap_ClientTest extends PHPUnit_Framework_TestCase
 
     public function testGetOptions()
     {
-    	$client = new Zend_Soap_Client();
+        $client = new Zend_Soap_Client();
 
         $this->assertTrue($client->getOptions() == array('encoding' => 'UTF-8', 'soap_version' => SOAP_1_2));
 
@@ -202,6 +202,27 @@ class Zend_Soap_ClientTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('agent4', $options['user_agent']);
     }
 
+    /**
+     * @group ZF-6954
+     */
+    public function testUserAgentAllowsEmptyString()
+    {
+        $client = new Zend_Soap_Client();
+        $this->assertNull($client->getUserAgent());
+        $options = $client->getOptions();
+        $this->assertArrayNotHasKey('user_agent', $options);
+
+        $client->setUserAgent('');
+        $this->assertEquals('', $client->getUserAgent());
+        $options = $client->getOptions();
+        $this->assertEquals('', $options['user_agent']);
+
+        $client->setUserAgent(null);
+        $this->assertNull($client->getUserAgent());
+        $options = $client->getOptions();
+        $this->assertArrayNotHasKey('user_agent', $options);
+    }
+
     public function testGetFunctions()
     {
         $server = new Zend_Soap_Server(dirname(__FILE__) . '/_files/wsdl_example.wsdl');
@@ -220,7 +241,7 @@ class Zend_Soap_ClientTest extends PHPUnit_Framework_TestCase
      */
     public function testGetTypes()
     {
-    	// Remove the following line when you implement this test.
+        // Remove the following line when you implement this test.
         $this->markTestIncomplete(
           "This test has not been implemented yet."
         );
@@ -233,7 +254,7 @@ class Zend_Soap_ClientTest extends PHPUnit_Framework_TestCase
             return;
         }
 
-    	$server = new Zend_Soap_Server(dirname(__FILE__) . '/_files/wsdl_example.wsdl');
+        $server = new Zend_Soap_Server(dirname(__FILE__) . '/_files/wsdl_example.wsdl');
         $server->setClass('Zend_Soap_Client_TestClass');
 
         $client = new Zend_Soap_Client_Local($server, dirname(__FILE__) . '/_files/wsdl_example.wsdl');
@@ -263,7 +284,7 @@ class Zend_Soap_ClientTest extends PHPUnit_Framework_TestCase
             return;
         }
 
-    	$server = new Zend_Soap_Server(dirname(__FILE__) . '/_files/wsdl_example.wsdl');
+        $server = new Zend_Soap_Server(dirname(__FILE__) . '/_files/wsdl_example.wsdl');
         $server->setClass('Zend_Soap_Client_TestClass');
 
         $client = new Zend_Soap_Client_Local($server, dirname(__FILE__) . '/_files/wsdl_example.wsdl');
@@ -294,7 +315,7 @@ class Zend_Soap_ClientTest extends PHPUnit_Framework_TestCase
             return;
         }
 
-    	$server = new Zend_Soap_Server(dirname(__FILE__) . '/_files/wsdl_example.wsdl');
+        $server = new Zend_Soap_Server(dirname(__FILE__) . '/_files/wsdl_example.wsdl');
         $server->setClass('Zend_Soap_Client_TestClass');
 
         $client = new Zend_Soap_Client_Local($server, dirname(__FILE__) . '/_files/wsdl_example.wsdl');
@@ -306,29 +327,29 @@ class Zend_Soap_ClientTest extends PHPUnit_Framework_TestCase
     {
         $ctx = stream_context_create();
 
-    	$nonWsdlOptions = array('soap_version'   => SOAP_1_1,
-		                        'classmap'       => array('TestData1' => 'Zend_Soap_Client_TestData1',
-		                                            'TestData2' => 'Zend_Soap_Client_TestData2',),
-		                        'encoding'       => 'ISO-8859-1',
-		                        'uri'            => 'http://framework.zend.com/Zend_Soap_ServerTest.php',
-		                        'location'       => 'http://framework.zend.com/Zend_Soap_ServerTest.php',
-		                        'use'            => SOAP_ENCODED,
-		                        'style'          => SOAP_RPC,
+        $nonWsdlOptions = array('soap_version'   => SOAP_1_1,
+                                'classmap'       => array('TestData1' => 'Zend_Soap_Client_TestData1',
+                                                    'TestData2' => 'Zend_Soap_Client_TestData2',),
+                                'encoding'       => 'ISO-8859-1',
+                                'uri'            => 'http://framework.zend.com/Zend_Soap_ServerTest.php',
+                                'location'       => 'http://framework.zend.com/Zend_Soap_ServerTest.php',
+                                'use'            => SOAP_ENCODED,
+                                'style'          => SOAP_RPC,
 
-		                        'login'          => 'http_login',
-		                        'password'       => 'http_password',
+                                'login'          => 'http_login',
+                                'password'       => 'http_password',
 
-		                        'proxy_host'     => 'proxy.somehost.com',
-    	                        'proxy_port'     => 8080,
-    	                        'proxy_login'    => 'proxy_login',
-    	                        'proxy_password' => 'proxy_password',
+                                'proxy_host'     => 'proxy.somehost.com',
+                                'proxy_port'     => 8080,
+                                'proxy_login'    => 'proxy_login',
+                                'proxy_password' => 'proxy_password',
 
-		                        'local_cert'     => dirname(__FILE__).'/_files/cert_file',
-		                        'passphrase'     => 'some pass phrase',
+                                'local_cert'     => dirname(__FILE__).'/_files/cert_file',
+                                'passphrase'     => 'some pass phrase',
 
                                 'stream_context' => $ctx,
 
-		                        'compression'    => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | 5
+                                'compression'    => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | 5
         );
 
         $config = new Zend_Config($nonWsdlOptions);

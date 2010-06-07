@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Translate
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ArrayTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: ArrayTest.php 22282 2010-05-25 14:21:53Z matthew $
  */
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
@@ -35,7 +35,7 @@ require_once 'Zend/Translate/Adapter/Array.php';
  * @category   Zend
  * @package    Zend_Translate
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Translate
  */
@@ -62,6 +62,15 @@ class Zend_Translate_Adapter_ArrayTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         if (Zend_Translate_Adapter_Array::hasCache()) {
+            Zend_Translate_Adapter_Array::clearCache();
+            Zend_Translate_Adapter_Array::removeCache();
+        }
+    }
+
+    public function tearDown()
+    {
+        if (Zend_Translate_Adapter_Array::hasCache()) {
+            Zend_Translate_Adapter_Array::clearCache();
             Zend_Translate_Adapter_Array::removeCache();
         }
     }
@@ -90,7 +99,7 @@ class Zend_Translate_Adapter_ArrayTest extends PHPUnit_Framework_TestCase
 
     public function testToString()
     {
-        $adapter = new Zend_Translate_Adapter_Array(array('msg1' => 'Message 1 (en)', 'msg2' => 'Message 2 (en)', 'msg3' => 'Message 3 (en)'));
+        $adapter = new Zend_Translate_Adapter_Array(array('msg1' => 'Message 1 (en)', 'msg2' => 'Message 2 (en)', 'msg3' => 'Message 3 (en)'), 'en');
         $this->assertEquals('Array', $adapter->toString());
     }
 
@@ -143,18 +152,27 @@ class Zend_Translate_Adapter_ArrayTest extends PHPUnit_Framework_TestCase
     {
         $adapter = new Zend_Translate_Adapter_Array(dirname(__FILE__) . '/_files/translation_en.php', 'en');
         $adapter->setOptions(array('testoption' => 'testkey'));
-        $this->assertEquals(
-            array(
-                'testoption' => 'testkey',
-                'clear' => false,
-                'scan' => null,
-                'locale' => 'en',
-                'ignore' => '.',
-                'disableNotices' => false,
-                'log'             => false,
-                'logMessage'      => 'Untranslated message within \'%locale%\': %message%',
-                'logUntranslated' => false),
-            $adapter->getOptions());
+        $expected = array(
+            'testoption'      => 'testkey',
+            'clear'           => false,
+            'content'         => dirname(__FILE__) . '/_files/translation_en.php',
+            'scan'            => null,
+            'locale'          => 'en',
+            'ignore'          => '.',
+            'disableNotices'  => false,
+            'log'             => false,
+            'logMessage'      => 'Untranslated message within \'%locale%\': %message%',
+            'logUntranslated' => false,
+            'reload'          => false,
+        );
+
+        $options = $adapter->getOptions();
+
+        foreach ($expected as $key => $value) {
+            $this->assertArrayHasKey($key, $options);
+            $this->assertEquals($value, $options[$key]);
+        }
+
         $this->assertEquals('testkey', $adapter->getOptions('testoption'));
         $this->assertTrue(is_null($adapter->getOptions('nooption')));
     }
@@ -206,7 +224,7 @@ class Zend_Translate_Adapter_ArrayTest extends PHPUnit_Framework_TestCase
     {
         require_once 'Zend/Translate.php';
         $adapter = new Zend_Translate_Adapter_Array(dirname(__FILE__) . '/_files/testarray', 'de_AT', array('scan' => Zend_Translate::LOCALE_DIRECTORY));
-        $this->assertEquals(array('de_AT' => 'de_AT', 'en_GB' => 'en_GB'), $adapter->getList());
+        $this->assertEquals(array('de_AT' => 'de_AT', 'en_GB' => 'en_GB', 'ja' => 'ja'), $adapter->getList());
         $this->assertEquals('Nachricht 8', $adapter->translate('Message 8'));
     }
 
@@ -214,7 +232,7 @@ class Zend_Translate_Adapter_ArrayTest extends PHPUnit_Framework_TestCase
     {
         require_once 'Zend/Translate.php';
         $adapter = new Zend_Translate_Adapter_Array(dirname(__FILE__) . '/_files/testarray', 'de_DE', array('scan' => Zend_Translate::LOCALE_FILENAME));
-        $this->assertEquals(array('de_DE' => 'de_DE', 'en_US' => 'en_US'), $adapter->getList());
+        $this->assertEquals(array('de_DE' => 'de_DE', 'en_US' => 'en_US', 'ja' => 'ja'), $adapter->getList());
         $this->assertEquals('Nachricht 8', $adapter->translate('Message 8'));
     }
 
@@ -293,6 +311,26 @@ class Zend_Translate_Adapter_ArrayTest extends PHPUnit_Framework_TestCase
         Zend_Translate_Adapter_Array::removeCache();
         $temp = $cache->load('testid');
         $this->assertEquals('testdata', $temp);
+    }
+
+    public function testLoadingFilesIntoCacheAfterwards()
+    {
+        require_once 'Zend/Cache.php';
+        $cache = Zend_Cache::factory('Core', 'File',
+            array('lifetime' => 120, 'automatic_serialization' => true),
+            array('cache_dir' => dirname(__FILE__) . '/_files/'));
+
+        $this->assertFalse(Zend_Translate_Adapter_Array::hasCache());
+        Zend_Translate_Adapter_Array::setCache($cache);
+        $this->assertTrue(Zend_Translate_Adapter_Array::hasCache());
+
+        $adapter = new Zend_Translate_Adapter_Array(dirname(__FILE__) . '/_files/translation_en.php', 'en');
+        $cache   = Zend_Translate_Adapter_Array::getCache();
+        $this->assertTrue($cache instanceof Zend_Cache_Core);
+
+        $adapter->addTranslation(dirname(__FILE__) . '/_files/translation_en.php', 'ru', array('reload' => true));
+        $test = $adapter->getMessages('all');
+        $this->assertEquals(6, count($test['ru']));
     }
 
     /**

@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: TranslateTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: TranslateTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_View_Helper_TranslateTest::main() if this source file is executed directly.
@@ -43,7 +43,7 @@ require_once 'Zend/Translate/Adapter/Array.php';
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_View
  * @group      Zend_View_Helper
@@ -254,6 +254,15 @@ class Zend_View_Helper_TranslateTest extends PHPUnit_Framework_TestCase
         $this->helper->setTranslator($trans);
         $this->assertEquals("four%", $this->helper->translate("vier%ig"));
         $this->assertEquals("zwei 100", $this->helper->translate("two %1\$s", "100"));
+    }
+
+    /**
+     * ZF-7937
+     */
+    public function testTranslationWithoutTranslator()
+    {
+        $result = $this->helper->translate("test %1\$s", "100");
+        $this->assertEquals('test 100', $result);
     }
 }
 

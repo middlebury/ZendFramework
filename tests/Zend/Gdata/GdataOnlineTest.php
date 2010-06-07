@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id $
  */
@@ -33,7 +33,7 @@ require_once 'Zend/Gdata/App/InvalidArgumentException.php';
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Gdata
  */
@@ -235,7 +235,7 @@ class Zend_Gdata_GdataOnlineTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('My New Test Photo',
                 $createdPhotoMultipart->title->text);
 
-        // cleanup and remove the album 
+        // cleanup and remove the album
         // first we wait 5 seconds
         sleep(5);
         try {

@@ -26,7 +26,7 @@ dojo.provide("dojox.html.metrics");
 		ds.top="0";
 		ds.width="30px";
 		ds.height="1000em";
-		ds.border="0";
+		ds.borderWidth="0";
 		ds.margin="0";
 		ds.padding="0";
 		ds.outline="0";
@@ -60,15 +60,15 @@ dojo.provide("dojox.html.metrics");
 		if(!measuringNode){
 			m = measuringNode = dojo.doc.createElement("div");
 			m.style.position = "absolute";
-			m.style.left = "-10000px";
-			m.style.top = "0";
+			m.style.left = "0px";
+			m.style.top = "-10000px";
 			dojo.body().appendChild(m);
 		}else{
 			m = measuringNode;
 		}
 		// reset styles
 		m.className = "";
-		m.style.border = "0";
+		m.style.borderWidth = "0";
 		m.style.margin = "0";
 		m.style.padding = "0";
 		m.style.outline = "0";

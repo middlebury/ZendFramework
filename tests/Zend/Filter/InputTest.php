@@ -15,11 +15,10 @@
  * @category   Zend
  * @package    Zend_Filter
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: InputTest.php 18186 2009-09-17 18:57:00Z matthew $
+ * @version    $Id: InputTest.php 21166 2010-02-23 19:42:35Z thomas $
  */
-
 
 /**
  * Test helper
@@ -41,7 +40,7 @@ require_once 'Zend/Loader.php';
  * @category   Zend
  * @package    Zend_Filter
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Filter
  */
@@ -202,7 +201,7 @@ class Zend_Filter_InputTest extends PHPUnit_Framework_TestCase
         $this->assertType('array', $messages);
         $this->assertEquals(array('month'), array_keys($messages));
         $this->assertType('array', $messages['month']);
-        $this->assertEquals("'6abc ' contains not only digit characters", current($messages['month']));
+        $this->assertEquals("'6abc ' contains characters which are not digits; but only digits are allowed", current($messages['month']));
 
         $errors = $input->getErrors();
         $this->assertType('array', $errors);
@@ -291,7 +290,7 @@ class Zend_Filter_InputTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array('field2', 'field3'), array_keys($messages));
         $this->assertType('array', $messages['field2']);
         $this->assertType('array', $messages['field3']);
-        $this->assertEquals("'abc123' contains not only digit characters",
+        $this->assertEquals("'abc123' contains characters which are not digits; but only digits are allowed",
             current($messages['field2']));
         $this->assertEquals("'150' is not between '1' and '100', inclusively",
             current($messages['field3']));
@@ -325,7 +324,7 @@ class Zend_Filter_InputTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array('field2a', 'field2b'), array_keys($messages));
         $this->assertType('array', $messages['field2a']);
         $this->assertType('array', $messages['field2b']);
-        $this->assertEquals("'abc123' contains not only digit characters",
+        $this->assertEquals("'abc123' contains characters which are not digits; but only digits are allowed",
             current($messages['field2a']));
         $this->assertEquals("'abc123' is not between '1' and '100', inclusively",
             current($messages['field2b']));
@@ -372,7 +371,7 @@ class Zend_Filter_InputTest extends PHPUnit_Framework_TestCase
         $messages = $input->getMessages();
         $this->assertType('array', $messages);
         $this->assertEquals(array('field2'), array_keys($messages));
-        $this->assertEquals("'123' has not only alphabetic characters",
+        $this->assertEquals("'123' contains non alphabetic characters",
             current($messages['field2']));
     }
 
@@ -904,7 +903,7 @@ class Zend_Filter_InputTest extends PHPUnit_Framework_TestCase
         $this->assertType('array', $messages);
         $this->assertEquals(array('month'), array_keys($messages));
         $this->assertEquals(2, count($messages['month']));
-        $this->assertEquals("'13abc' contains not only digit characters", current($messages['month']));
+        $this->assertEquals("'13abc' contains characters which are not digits; but only digits are allowed", current($messages['month']));
         /**
          * @todo $this->assertEquals($betweenMesg, next($messages['month']));
          */
@@ -1188,9 +1187,6 @@ class Zend_Filter_InputTest extends PHPUnit_Framework_TestCase
             'field2' => 'MyDigits',
             'field3' => 'digits'
         );
-        $options = array(
-            Zend_Filter_Input::INPUT_NAMESPACE => 'TestNamespace'
-        );
 
         $ip = get_include_path();
         $dir = dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files';
@@ -1212,7 +1208,7 @@ class Zend_Filter_InputTest extends PHPUnit_Framework_TestCase
         $messages = $input->getMessages();
         $this->assertType('array', $messages);
         $this->assertThat($messages, $this->arrayHasKey('field1'));
-        $this->assertEquals("'abc' contains not only digit characters", current($messages['field1']));
+        $this->assertEquals("'abc' contains characters which are not digits; but only digits are allowed", current($messages['field1']));
     }
 
     public function testGetPluginLoader()
@@ -1308,9 +1304,6 @@ class Zend_Filter_InputTest extends PHPUnit_Framework_TestCase
     {
         $data = array(
             'field1' => ' ab&c '
-        );
-        $options = array(
-            Zend_Filter_Input::ESCAPE_FILTER => 'StringTrim'
         );
         $input = new Zend_Filter_Input(null, null, $data);
         $input->setDefaultEscapeFilter('StringTrim');
@@ -1440,7 +1433,7 @@ class Zend_Filter_InputTest extends PHPUnit_Framework_TestCase
         $messages = $input->getMessages();
         $this->assertType('array', $messages);
         $this->assertThat($messages, $this->arrayHasKey('field1'));
-        $this->assertEquals("'abc' contains not only digit characters", current($messages['field1']));
+        $this->assertEquals("'abc' contains characters which are not digits; but only digits are allowed", current($messages['field1']));
     }
 
     public function testOptionPresence()
@@ -1863,10 +1856,6 @@ class Zend_Filter_InputTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        $data = array(
-            'street' => ''
-        );
-
         $filter = new Zend_Filter_Input($filters, $validators, array('street' => ''));
         $this->assertFalse($filter->isValid());
         $message = $filter->getMessages();
@@ -1912,6 +1901,60 @@ class Zend_Filter_InputTest extends PHPUnit_Framework_TestCase
         $this->assertContains('Please enter your name', $message['name']['isEmpty']);
         $this->assertContains('Please enter a subject', $message['subject']['isEmpty']);
         $this->assertContains('Please enter message contents', $message['content']['isEmpty']);
+    }
+
+    /**
+     * @group ZF-3736
+     */
+    public function testTranslateNotEmptyMessages()
+    {
+        require_once 'Zend/Translate/Adapter/Array.php';
+        $translator = new Zend_Translate_Adapter_Array(array('missingMessage' => 'Still missing'));
+
+        $validators = array(
+            'rule1'   => array('presence' => 'required',
+                               'fields'   => array('field1', 'field2'),
+                               'default'  => array('field1default'))
+        );
+        $data = array();
+        $input = new Zend_Filter_Input(null, $validators, $data);
+        $input->setTranslator($translator);
+
+        $this->assertTrue($input->hasMissing(), 'Expected hasMissing() to return true');
+
+        $missing = $input->getMissing();
+        $this->assertType('array', $missing);
+        $this->assertEquals(array('rule1'), array_keys($missing));
+        $this->assertEquals(array("Still missing"), $missing['rule1']);
+    }
+
+    /**
+     * @group ZF-3736
+     */
+    public function testTranslateNotEmptyMessagesByUsingRegistry()
+    {
+        require_once 'Zend/Translate/Adapter/Array.php';
+        $translator = new Zend_Translate_Adapter_Array(array('missingMessage' => 'Still missing'));
+        require_once 'Zend/Registry.php';
+        Zend_Registry::set('Zend_Translate', $translator);
+
+        $validators = array(
+            'rule1'   => array('presence' => 'required',
+                               'fields'   => array('field1', 'field2'),
+                               'default'  => array('field1default'))
+        );
+        $data = array();
+        $input = new Zend_Filter_Input(null, $validators, $data);
+
+        $this->assertTrue($input->hasMissing(), 'Expected hasMissing() to return true');
+        $this->assertFalse($input->hasInvalid(), 'Expected hasInvalid() to return false');
+        $this->assertFalse($input->hasUnknown(), 'Expected hasUnknown() to return false');
+        $this->assertFalse($input->hasValid(), 'Expected hasValid() to return false');
+
+        $missing = $input->getMissing();
+        $this->assertType('array', $missing);
+        $this->assertEquals(array('rule1'), array_keys($missing));
+        $this->assertEquals(array("Still missing"), $missing['rule1']);
     }
 }
 

@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Date
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DateObjectTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: DateObjectTest.php 20264 2010-01-13 19:33:45Z matthew $
  */
 
 /**
@@ -34,7 +34,7 @@ require_once 'Zend/Date.php';
  * @category   Zend
  * @package    Zend_Date
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Date
  */
@@ -46,15 +46,16 @@ class Zend_Date_DateObjectTest extends PHPUnit_Framework_TestCase
         $this->originalTimezone = date_default_timezone_get();
         date_default_timezone_set('Europe/Paris');
         require_once 'Zend/Cache.php';
-        $cache = Zend_Cache::factory('Core', 'File',
+        $this->_cache = Zend_Cache::factory('Core', 'File',
                  array('lifetime' => 120, 'automatic_serialization' => true),
                  array('cache_dir' => dirname(__FILE__) . '/../_files/'));
-        Zend_Date_DateObjectTestHelper::setOptions(array('cache' => $cache));
+        Zend_Date_DateObjectTestHelper::setOptions(array('cache' => $this->_cache));
     }
 
     public function tearDown()
     {
         date_default_timezone_set($this->originalTimezone);
+        $this->_cache->clean(Zend_Cache::CLEANING_MODE_ALL);
     }
 
     /**
@@ -398,8 +399,8 @@ class Zend_Date_DateObjectTest extends PHPUnit_Framework_TestCase
         $this->assertSame(           '0', $date->date('U',0          ));
         $this->assertSame(           '0', $date->date('U',0,false    ));
         $this->assertSame(           '0', $date->date('U',0,true     ));
-        $this->assertSame(  '6900007200', $date->date('U',6900000000 ));
-        $this->assertSame( '-6999996400', $date->date('U',-7000000000));
+        $this->assertSame(  '6900000000', $date->date('U',6900000000 ));
+        $this->assertSame( '-7000000000', $date->date('U',-7000000000));
         $this->assertSame(          '06', $date->date('d',-7000000000));
         $this->assertSame(         'Wed', $date->date('D',-7000000000));
         $this->assertSame(           '6', $date->date('j',-7000000000));
@@ -434,9 +435,9 @@ class Zend_Date_DateObjectTest extends PHPUnit_Framework_TestCase
         $this->assertSame(      '+01:00', $date->date('P',-7000000000));
         $this->assertSame(         'CET', $date->date('T',-7000000000));
         $this->assertSame(        '3600', $date->date('Z',-7000000000));
-        $this->assertSame(       '1748-03-06T12:33:20+0100', $date->date('c',-7000000000));
+        $this->assertSame('1748-03-06T12:33:20+01:00', $date->date('c',-7000000000));
         $this->assertSame('Wed, 06 Mar 1748 12:33:20 +0100', $date->date('r',-7000000000));
-        $this->assertSame( '-6999996400', $date->date('U'    ,-7000000000 ));
+        $this->assertSame( '-7000000000', $date->date('U'    ,-7000000000 ));
         $this->assertSame(           'H', $date->date('\\H'  ,-7000000000 ));
         $this->assertSame(           '.', $date->date('.'    ,-7000000000 ));
         $this->assertSame(    '12:33:20', $date->date('H:i:s',-7000000000 ));

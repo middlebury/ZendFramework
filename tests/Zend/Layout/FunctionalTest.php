@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Layout
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: FunctionalTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: FunctionalTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_Layout_FunctionalTest::main() if this source file is executed directly.
@@ -34,7 +34,7 @@ require_once 'Zend/Controller/Plugin/ErrorHandler.php';
  * @category   Zend
  * @package    Zend_Layout
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Layout
  */
@@ -78,7 +78,7 @@ class Zend_Layout_FunctionalTest extends Zend_Test_PHPUnit_ControllerTestCase
         $this->dispatch('/zend-layout-functional-test-test/missing-view-script');
         $this->assertEquals(trim($this->response->getBody()), "[DEFAULT_LAYOUT_START]\n(ErrorController::errorAction output)[DEFAULT_LAYOUT_END]");
     }
-    
+
     public function testMissingViewScriptDoesDoubleRender()
     {
         Zend_Controller_Action_HelperBroker::getStack()->offsetSet(-91, new Zend_Controller_Action_Helper_ViewRenderer());
@@ -86,7 +86,7 @@ class Zend_Layout_FunctionalTest extends Zend_Test_PHPUnit_ControllerTestCase
         $this->dispatch('/zend-layout-functional-test-test/missing-view-script');
         $this->assertEquals(trim($this->response->getBody()), "[DEFAULT_LAYOUT_START]\n[DEFAULT_LAYOUT_START]\n[DEFAULT_LAYOUT_END]\n(ErrorController::errorAction output)[DEFAULT_LAYOUT_END]");
     }
-    
+
 }
 
 // Call Zend_Layout_FunctionalTest::main() if this source file is executed directly.

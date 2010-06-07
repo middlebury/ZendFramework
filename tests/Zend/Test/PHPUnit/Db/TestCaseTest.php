@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Test
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: TestCaseTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: TestCaseTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 require_once dirname(__FILE__)."/../../../../TestHelper.php";
@@ -33,7 +33,7 @@ require_once "Zend/Test/DbAdapter.php";
  * @category   Zend
  * @package    Zend_Test
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Test
  */
@@ -41,7 +41,7 @@ class Zend_Test_PHPUnit_Db_TestCaseTest extends Zend_Test_PHPUnit_DatabaseTestCa
 {
     /**
      * Contains a Database Connection
-     * 
+     *
      * @var PHPUnit_Extensions_Database_DB_IDatabaseConnection
      */
     protected $_connectionMock = null;
@@ -105,7 +105,7 @@ class Zend_Test_PHPUnit_Db_TestCaseTest extends Zend_Test_PHPUnit_DatabaseTestCa
     {
         $mock = $this->getMock('Zend_Db_Table_Rowset', array(), array(array()));
         $mock->expects($this->once())->method('toArray')->will($this->returnValue(array("foo" => 1, "bar" => 1)));
-        
+
         $rowset = $this->createDbRowset($mock, "fooTable");
 
         $this->assertTrue($rowset instanceof Zend_Test_PHPUnit_Db_DataSet_DbRowset);

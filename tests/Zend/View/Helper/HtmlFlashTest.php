@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: HtmlFlashTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: HtmlFlashTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_View_Helper_HtmlFlashTest::main() if this source file is executed directly.
@@ -34,12 +34,12 @@ require_once 'Zend/View/Helper/HtmlFlash.php';
  * @category   Zend
  * @package    Zend_View
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_View
  * @group      Zend_View_Helper
  */
-class Zend_View_Helper_HtmlFlashTest extends PHPUnit_Framework_TestCase 
+class Zend_View_Helper_HtmlFlashTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Zend_View_Helper_HtmlFlash
@@ -83,7 +83,7 @@ class Zend_View_Helper_HtmlFlashTest extends PHPUnit_Framework_TestCase
         $htmlFlash = $this->helper->htmlFlash('/path/to/flash.swf');
 
         $objectStartElement = '<object data="/path/to/flash.swf" type="application/x-shockwave-flash">';
-  
+
         $this->assertContains($objectStartElement, $htmlFlash);
         $this->assertContains('</object>', $htmlFlash);
     }

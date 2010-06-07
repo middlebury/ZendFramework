@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Cache
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: OutputFrontendTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: OutputFrontendTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -36,14 +36,14 @@ require_once 'PHPUnit/Framework/TestCase.php';
  * @category   Zend
  * @package    Zend_Cache
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Cache
  */
 class Zend_Cache_OutputFrontendTest extends PHPUnit_Framework_TestCase {
-    
+
     private $_instance;
-    
+
     public function setUp()
     {
         if (!$this->_instance) {
@@ -52,17 +52,17 @@ class Zend_Cache_OutputFrontendTest extends PHPUnit_Framework_TestCase {
             $this->_instance->setBackend($this->_backend);
         }
     }
-    
+
     public function tearDown()
     {
         unset($this->_instance);
     }
-    
+
     public function testConstructorCorrectCall()
     {
-        $test = new Zend_Cache_Frontend_Output(array('lifetime' => 3600, 'caching' => true));      
+        $test = new Zend_Cache_Frontend_Output(array('lifetime' => 3600, 'caching' => true));
     }
-    
+
     public function testStartEndCorrectCall1()
     {
         ob_start();
@@ -76,7 +76,7 @@ class Zend_Cache_OutputFrontendTest extends PHPUnit_Framework_TestCase {
         ob_implicit_flush(true);
         $this->assertEquals('foo', $data);
     }
-    
+
     public function testStartEndCorrectCall2()
     {
         ob_start();

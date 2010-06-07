@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Json_Server
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ServerTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: ServerTest.php 22276 2010-05-24 18:31:59Z andyfowler $
  */
 
 // Call Zend_Json_ServerTest::main() if this source file is executed directly.
@@ -38,12 +38,12 @@ require_once 'Zend/Json.php';
  * @category   Zend
  * @package    Zend_Json_Server
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Json
  * @group      Zend_Json_Server
  */
-class Zend_Json_ServerTest extends PHPUnit_Framework_TestCase 
+class Zend_Json_ServerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -322,6 +322,48 @@ class Zend_Json_ServerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('bar', $result[2]);
     }
 
+    public function testHandleShouldAllowNamedParamsInAnyOrder1()
+    {
+        $this->server->setClass('Zend_Json_ServerTest_Foo')
+                     ->setAutoEmitResponse( false );
+        $request = $this->server->getRequest();
+        $request->setMethod('bar')
+                ->setParams( array( 
+                    'three' => 3,
+                    'two'   => 2,
+                    'one'   => 1
+                ))
+                ->setId( 'foo' );
+        $response = $this->server->handle();
+        $result = $response->getResult();
+
+        $this->assertTrue( is_array( $result ) );
+        $this->assertEquals( 1, $result[0] );
+        $this->assertEquals( 2, $result[1] );
+        $this->assertEquals( 3, $result[2] );
+    }
+
+    public function testHandleShouldAllowNamedParamsInAnyOrder2()
+    {
+        $this->server->setClass('Zend_Json_ServerTest_Foo')
+                     ->setAutoEmitResponse( false );
+        $request = $this->server->getRequest();
+        $request->setMethod('bar')
+                ->setParams( array( 
+                    'three' => 3,
+                    'one'   => 1,
+                    'two'   => 2,
+                ) )
+                ->setId( 'foo' );
+        $response = $this->server->handle();
+        $result = $response->getResult();
+
+        $this->assertTrue( is_array( $result ) );
+        $this->assertEquals( 1, $result[0] );
+        $this->assertEquals( 2, $result[1] );
+        $this->assertEquals( 3, $result[2] );
+    }
+
     public function testHandleRequestWithErrorsShouldReturnErrorResponse()
     {
         $this->server->setClass('Zend_Json_ServerTest_Foo')
@@ -410,10 +452,10 @@ class Zend_Json_ServerTest_Foo
 {
     /**
      * Bar
-     * 
-     * @param  bool $one 
-     * @param  string $two 
-     * @param  mixed $three 
+     *
+     * @param  bool $one
+     * @param  string $two
+     * @param  mixed $three
      * @return array
      */
     public function bar($one, $two = 'two', $three = null)
@@ -423,7 +465,7 @@ class Zend_Json_ServerTest_Foo
 
     /**
      * Baz
-     * 
+     *
      * @return void
      */
     public function baz()
@@ -434,7 +476,7 @@ class Zend_Json_ServerTest_Foo
 
 /**
  * Test function for JSON-RPC server
- * 
+ *
  * @return bool
  */
 function Zend_Json_ServerTest_FooFunc()

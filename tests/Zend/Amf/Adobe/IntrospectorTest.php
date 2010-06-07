@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Amf
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: IntrospectorTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_Controller_Action_Helper_MultiPageFormTest::main() if this source file is executed directly.
@@ -36,7 +36,7 @@ require_once 'Zend/Amf/Adobe/Introspector.php';
  * @category   Zend
  * @package    Zend_Amf
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Amf
  */
@@ -47,7 +47,7 @@ class Zend_Amf_Adobe_IntrospectorTest extends PHPUnit_Framework_TestCase
         $suite  = new PHPUnit_Framework_TestSuite(__CLASS__);
         PHPUnit_TextUI_TestRunner::run($suite);
     }
-    
+
     public function setUp()
     {
         $this->introspector = new Zend_Amf_Adobe_Introspector();
@@ -137,7 +137,7 @@ class com_zend_framework_IntrospectorTest
 {
     /**
      * Constructor
-     * 
+     *
      * @return void
      */
     public function __construct()
@@ -146,8 +146,8 @@ class com_zend_framework_IntrospectorTest
 
     /**
      * Overloading: get properties
-     * 
-     * @param  string $name 
+     *
+     * @param  string $name
      * @return mixed
      */
     public function __get($name)
@@ -161,7 +161,7 @@ class com_zend_framework_IntrospectorTest
 
     /**
      * Foobar
-     * 
+     *
      * @param  string|int $arg
      * @return string|stdClass
      */
@@ -171,7 +171,7 @@ class com_zend_framework_IntrospectorTest
 
     /**
      * Barbaz
-     * 
+     *
      * @param  com_zend_framework_IntrospectorTestCustomType $arg
      * @return boolean
      */
@@ -180,8 +180,8 @@ class com_zend_framework_IntrospectorTest
     }
 
     /**
-     * Bazbat 
-     * 
+     * Bazbat
+     *
      * @return com_zend_framework_IntrospectorTestExplicitType
      */
     public function bazbat()

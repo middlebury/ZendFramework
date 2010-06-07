@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Layout
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: LayoutTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: LayoutTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_Layout_LayoutTest::main() if this source file is executed directly.
@@ -44,11 +44,11 @@ require_once 'Zend/View.php';
  * @category   Zend
  * @package    Zend_Layout
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Layout
  */
-class Zend_Layout_LayoutTest extends PHPUnit_Framework_TestCase 
+class Zend_Layout_LayoutTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -500,7 +500,7 @@ class Zend_Layout_LayoutTest extends PHPUnit_Framework_TestCase
         $layout->setInflectorTarget('php');
         $this->assertEquals($layout->getInflectorTarget(), $inflector->getTarget());
     }
-    
+
     public function testLayoutWithViewBasePath()
     {
         $layout = new Zend_Layout(array(
@@ -510,7 +510,7 @@ class Zend_Layout_LayoutTest extends PHPUnit_Framework_TestCase
         $layout->setLayout('layout2');
         $this->assertEquals('foobar-helper-output', $layout->render());
     }
-    
+
     public function testResettingMvcInstanceUnregistersHelperAndPlugin()
     {
         $this->testGetMvcInstanceReturnsLayoutInstanceWhenStartMvcHasBeenCalled();
@@ -526,7 +526,7 @@ class Zend_Layout_LayoutTest extends PHPUnit_Framework_TestCase
         Zend_Layout::resetMvcInstance();
         $this->assertNull(Zend_Layout::getMvcInstance());
     }
-    
+
     public function testMinimalViewObjectWorks()
     {
         require_once dirname(__FILE__) . '/_files/MinimalCustomView.php';
@@ -536,8 +536,10 @@ class Zend_Layout_LayoutTest extends PHPUnit_Framework_TestCase
             ));
         $layout->render();
     }
-    
-    // #ZF-5152
+
+    /**
+     * @group ZF-5152
+     */
     public function testCallingStartMvcTwiceDoesntGenerateAnyUnexpectedBehavior()
     {
         Zend_Layout::startMvc('/some/path');
@@ -546,7 +548,18 @@ class Zend_Layout_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Zend_Layout::getMvcInstance()->getLayoutPath(),'/some/other/path');
         $this->assertTrue(Zend_Layout::getMvcInstance()->isEnabled());
     }
-    
+
+    /**
+     * @group ZF-5891
+     */
+    public function testSetLayoutWithDisabledFlag()
+    {
+        $layout = new Zend_Layout();
+        $layout->disableLayout();
+        $layout->setLayout('foo', false);
+        $this->assertEquals('foo', $layout->getLayout());
+        $this->assertFalse($layout->isEnabled());
+    }
 }
 
 /**

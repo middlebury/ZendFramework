@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: PutHandlerTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: PutHandlerTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 // Call Zend_Controller_Plugin_PutHandlerTest::main() if this source file is executed directly.
@@ -37,12 +37,12 @@ require_once 'Zend/Controller/Front.php';
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Controller
  * @group      Zend_Controller_Plugin
  */
-class Zend_Controller_Plugin_PutHandlerTest extends PHPUnit_Framework_TestCase 
+class Zend_Controller_Plugin_PutHandlerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Request object
@@ -62,7 +62,7 @@ class Zend_Controller_Plugin_PutHandlerTest extends PHPUnit_Framework_TestCase
      * @access public
      * @static
      */
-    public static function main() 
+    public static function main()
     {
         require_once "PHPUnit/TextUI/TestRunner.php";
 
@@ -76,7 +76,7 @@ class Zend_Controller_Plugin_PutHandlerTest extends PHPUnit_Framework_TestCase
      *
      * @access protected
      */
-    protected function setUp() 
+    protected function setUp()
     {
         Zend_Controller_Front::getInstance()->resetInstance();
         $this->request  = new Zend_Controller_Request_HttpTestCase();
@@ -85,7 +85,7 @@ class Zend_Controller_Plugin_PutHandlerTest extends PHPUnit_Framework_TestCase
         $this->plugin->setRequest($this->request);
     }
 
-    public function test_marshall_PUT_body_as_params() 
+    public function test_marshall_PUT_body_as_params()
     {
         $this->request->setMethod('PUT');
         $this->request->setRawBody('param1=value1&param2=value2');

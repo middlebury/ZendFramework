@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Session
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: SessionTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: SessionTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 
@@ -39,7 +39,7 @@ require_once 'Zend/Session.php';
  * @category   Zend
  * @package    Zend_Session
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Session
  */
@@ -67,7 +67,8 @@ class Zend_SessionTest extends PHPUnit_Framework_TestCase
     public function __construct($name = NULL, array $data = array(), $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
-        $this->_script = 'php -c \'' . php_ini_loaded_file() . '\' '
+        $this->_script = 'php '
+            . '-c ' . escapeshellarg(php_ini_loaded_file()) . ' '
             . escapeshellarg(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'SessionTestHelper.php');
 
         $this->_savePath = ini_get('session.save_path');
@@ -1004,4 +1005,26 @@ class Zend_SessionTest extends PHPUnit_Framework_TestCase
         }
         Zend_Session::start();
     }
+
+    /**
+     * test for method getNamespace()
+     *
+     * @group ZF-1982
+     * @return void
+     */
+    public function testGetNameSpaceMethod()
+    {
+        Zend_Session::$_unitTestEnabled = true;
+        $namespace = array(
+            'FooBar',
+            'Foo_Bar',
+            'Foo-Bar',
+            'Foo1000'
+        );
+        foreach ($namespace as $v) {
+            $s = new Zend_Session_Namespace($v);
+            $this->assertEquals($v, $s->getNamespace());
+        }
+    }
+
 }

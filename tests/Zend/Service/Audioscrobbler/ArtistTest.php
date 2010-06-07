@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Service_Audioscrobbler
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ArtistTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: ArtistTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 
@@ -38,7 +38,7 @@ require_once "AudioscrobblerTestCase.php";
  * @category   Zend
  * @package    Zend_Service_Audioscrobbler
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Service
  * @group      Zend_Service_Audioscrobbler
@@ -135,7 +135,7 @@ class Zend_Service_Audioscrobbler_ArtistTest extends Zend_Service_Audioscrobbler
         $as->set('artist', 'Metallica');
         $response = $as->artistGetTopTracks();
         $track = $response->track[0];
-        
+
         $this->assertEquals((string)$response['artist'], 'Metallica');
         $this->assertEquals((string)$track->name, 'Nothing Else Matters');
         $this->assertEquals((int)$track->reach, 7481);

@@ -15,35 +15,34 @@
  * @category   Zend
  * @package    Zend_Cache
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id $
  */
 
-/**
- * Test helper
- */
 require_once dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'TestHelper.php';
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'Zend_Cache_AllTests::main');
 }
 
-require_once 'Zend/Cache/FactoryTest.php';
-require_once 'Zend/Cache/CoreTest.php';
-require_once 'Zend/Cache/FileBackendTest.php';
-require_once 'Zend/Cache/SqliteBackendTest.php';
-require_once 'Zend/Cache/OutputFrontendTest.php';
-require_once 'Zend/Cache/FunctionFrontendTest.php';
-require_once 'Zend/Cache/ClassFrontendTest.php';
-require_once 'Zend/Cache/FileFrontendTest.php';
 require_once 'Zend/Cache/ApcBackendTest.php';
-require_once 'Zend/Cache/XcacheBackendTest.php';
+require_once 'Zend/Cache/ClassFrontendTest.php';
+require_once 'Zend/Cache/CoreTest.php';
+require_once 'Zend/Cache/FactoryTest.php';
+require_once 'Zend/Cache/FileBackendTest.php';
+require_once 'Zend/Cache/FileFrontendTest.php';
+require_once 'Zend/Cache/FunctionFrontendTest.php';
+require_once 'Zend/Cache/ManagerTest.php';
 require_once 'Zend/Cache/MemcachedBackendTest.php';
+require_once 'Zend/Cache/OutputFrontendTest.php';
 require_once 'Zend/Cache/PageFrontendTest.php';
-require_once 'Zend/Cache/ZendPlatformBackendTest.php';
 require_once 'Zend/Cache/SkipTests.php';
+require_once 'Zend/Cache/SqliteBackendTest.php';
+require_once 'Zend/Cache/StaticBackendTest.php';
 require_once 'Zend/Cache/TwoLevelsBackendTest.php';
+require_once 'Zend/Cache/XcacheBackendTest.php';
+require_once 'Zend/Cache/ZendPlatformBackendTest.php';
 require_once 'Zend/Cache/ZendServerDiskTest.php';
 require_once 'Zend/Cache/ZendServerShMemTest.php';
 
@@ -51,7 +50,7 @@ require_once 'Zend/Cache/ZendServerShMemTest.php';
  * @category   Zend
  * @package    Zend_Cache
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Cache
  */
@@ -69,11 +68,13 @@ class Zend_Cache_AllTests
         $suite->addTestSuite('Zend_Cache_FactoryTest');
         $suite->addTestSuite('Zend_Cache_CoreTest');
         $suite->addTestSuite('Zend_Cache_FileBackendTest');
+        $suite->addTestSuite('Zend_Cache_StaticBackendTest');
         $suite->addTestSuite('Zend_Cache_OutputFrontendTest');
         $suite->addTestSuite('Zend_Cache_FunctionFrontendTest');
         $suite->addTestSuite('Zend_Cache_ClassFrontendTest');
         $suite->addTestSuite('Zend_Cache_FileFrontendTest');
         $suite->addTestSuite('Zend_Cache_PageFrontendTest');
+        $suite->addTestSuite('Zend_Cache_ManagerTest');
 
         /*
          * Check if SQLite tests are enabled, and if extension and driver are available.

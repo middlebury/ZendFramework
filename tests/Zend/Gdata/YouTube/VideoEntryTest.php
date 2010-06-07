@@ -15,9 +15,9 @@
  * @category     Zend
  * @package      Zend_Gdata_YouTube
  * @subpackage   UnitTests
- * @copyright    Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com);
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license      http://framework.zend.com/license/new-bsd     New BSD License
- * @version      $Id: VideoEntryTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version      $Id: VideoEntryTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -33,7 +33,7 @@ require_once 'Zend/Gdata/YouTube.php';
  * @category   Zend
  * @package    Zend_Gdata_YouTube
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Gdata
  * @group      Zend_Gdata_YouTube
@@ -376,7 +376,7 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
     }
 
     public function testGetVersionExceptionOnGetRacy() {
-    	$videoEntry = new Zend_Gdata_YouTube_VideoEntry();
+        $videoEntry = new Zend_Gdata_YouTube_VideoEntry();
         $videoEntry->setMajorProtocolVersion(2);
 
         $exceptionCaught = false;
@@ -460,7 +460,7 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
     }
 
     public function testV2SamplePropertiesAreCorrect() {
-    	$this->entry->transferFromXML($this->v2EntryText);
+        $this->entry->transferFromXML($this->v2EntryText);
         $this->entry->setMajorProtocolVersion(2);
         $this->verifyAllV2SamplePropertiesAreCorrect($this->entry);
     }

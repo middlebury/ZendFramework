@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Service_Amazon_S3
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: OnlineTest.php 8064 2008-02-16 10:58:39Z thomas $
+ * @version    $Id: StreamTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -39,7 +39,7 @@ require_once 'Zend/Http/Client/Adapter/Socket.php';
  * @category   Zend
  * @package    Zend_Service_Amazon_S3
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Service
  * @group      Zend_Service_Amazon
@@ -59,7 +59,7 @@ class Zend_Service_Amazon_S3_StreamTest extends PHPUnit_Framework_TestCase
                                                     );
         $this->_nosuchbucket = "nonexistingbucketnamewhichnobodyshoulduse";
         $this->_httpClientAdapterSocket = new Zend_Http_Client_Adapter_Socket();
-        
+
         $this->_bucket = constant('TESTS_ZEND_SERVICE_AMAZON_S3_BUCKET');
         $this->_bucketName = "s3://".$this->_bucket;
         $this->_fileName = $this->_bucketName."/sample_file.txt";
@@ -81,14 +81,14 @@ class Zend_Service_Amazon_S3_StreamTest extends PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $this->_amazon->unregisterStreamWrapper();
-	$buckets = $this->_amazon->getBuckets();
-	foreach($buckets as $bucket) {
-		if(substr($bucket, 0, strlen($this->_bucket)) != $this->_bucket) {
-			continue;
-		}
-	        $this->_amazon->cleanBucket($bucket);
-		$this->_amazon->removeBucket($bucket);
-	}
+    $buckets = $this->_amazon->getBuckets();
+    foreach($buckets as $bucket) {
+        if(substr($bucket, 0, strlen($this->_bucket)) != $this->_bucket) {
+            continue;
+        }
+            $this->_amazon->cleanBucket($bucket);
+        $this->_amazon->removeBucket($bucket);
+    }
     }
 
     /**
@@ -231,7 +231,7 @@ class Zend_Service_Amazon_S3_StreamTest extends PHPUnit_Framework_TestCase
         $result = mkdir($this->_bucketName);
         $this->assertTrue($result);
 
-	$this->assertTrue(is_dir($this->_bucketName));
+    $this->assertTrue(is_dir($this->_bucketName));
 
         $data = str_repeat('x', 10000);
         $len = strlen($data);
@@ -240,7 +240,7 @@ class Zend_Service_Amazon_S3_StreamTest extends PHPUnit_Framework_TestCase
         $size = file_put_contents($this->_fileName, $data);
         $this->assertEquals($len, $size);
 
-	$this->assertFalse(is_dir($this->_fileName));
+    $this->assertFalse(is_dir($this->_fileName));
 
         // Stat an object
         $info = stat($this->_fileName);
@@ -258,11 +258,11 @@ class Zend_Service_Amazon_S3_StreamTest extends PHPUnit_Framework_TestCase
  * @category   Zend
  * @package    Zend_Service_Amazon_S3
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @group      Zend_Server
- * @group      Zend_Server_Amazon
- * @group      Zend_Server_Amazon_S3
+ * @group      Zend_Service
+ * @group      Zend_Service_Amazon
+ * @group      Zend_Service_Amazon_S3
  */
 class Zend_Service_Amazon_S3_StreamTest_Skip extends PHPUnit_Framework_TestCase
 {

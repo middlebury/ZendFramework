@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Validate
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: NoRecordExistsTest.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 
@@ -62,7 +62,7 @@ require_once dirname(__FILE__) . '/_files/Db/MockHasResult.php';
  * @category   Zend
  * @package    Zend_Validate
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Validate
  */
@@ -73,12 +73,12 @@ class Zend_Validate_Db_NoRecordExistsTest extends PHPUnit_Framework_TestCase
      * @var Zend_Db_Adapter_Abstract
      */
     protected $_adapterHasResult;
-    
+
     /**
      * @var Zend_Db_Adapter_Abstract
      */
     protected $_adapterNoResult;
-    
+
     /**
      * Set up test configuration
      *
@@ -87,7 +87,7 @@ class Zend_Validate_Db_NoRecordExistsTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_adapterHasResult = new Db_MockHasResult();
-        $this->_adapterNoResult = new Db_MockNoResult();        
+        $this->_adapterNoResult = new Db_MockNoResult();
 
     }
 
@@ -160,7 +160,7 @@ class Zend_Validate_Db_NoRecordExistsTest extends PHPUnit_Framework_TestCase
      * @return void
      */
     public function testExcludeWithStringNoRecord()
-    {        
+    {
         Zend_Db_Table_Abstract::setDefaultAdapter($this->_adapterNoResult);
         $validator = new Zend_Validate_Db_NoRecordExists('users', 'field1', 'id != 1');
         $this->assertTrue($validator->isValid('nosuchvalue'));
@@ -182,7 +182,7 @@ class Zend_Validate_Db_NoRecordExistsTest extends PHPUnit_Framework_TestCase
         } catch (Exception $e) {
         }
     }
-    
+
     /**
      * Test that schemas are supported and run without error
      *
@@ -196,7 +196,7 @@ class Zend_Validate_Db_NoRecordExistsTest extends PHPUnit_Framework_TestCase
                                                          'field1');
         $this->assertFalse($validator->isValid('value1'));
     }
-    
+
     /**
      * Test that schemas are supported and run without error
      *
@@ -224,10 +224,10 @@ class Zend_Validate_Db_NoRecordExistsTest extends PHPUnit_Framework_TestCase
             $validator = new Zend_Validate_Db_NoRecordExists('users', 'field1', null, $this->_adapterHasResult);
             $this->assertFalse($validator->isValid('value1'));
         } catch (Exception $e) {
-            $this->markTestFailed('Threw an exception when adapter was provided');
+            $this->markTestSkipped('No database available');
         }
     }
-    
+
     /**
      * Test when adapter is provided
      *
@@ -241,7 +241,7 @@ class Zend_Validate_Db_NoRecordExistsTest extends PHPUnit_Framework_TestCase
             $validator = new Zend_Validate_Db_NoRecordExists('users', 'field1', null, $this->_adapterNoResult);
             $this->assertTrue($validator->isValid('value1'));
         } catch (Exception $e) {
-            $this->markTestFailed('Threw an exception when adapter was provided');
+            $this->markTestSkipped('No database available');
         }
     }
 }
